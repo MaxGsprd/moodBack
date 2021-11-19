@@ -2,16 +2,15 @@ package com.mood.mood.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Invitation {
 
     @Id
@@ -19,36 +18,34 @@ public class Invitation {
     private int id;
 
     @NonNull
-    @Column(nullable = false)
-    private LocalDateTime invitationDate;
-
-    /**
-     * 0:submitted
-     * 1:accepted
-     * 2:refused
-     * 3:cancelled
-     */
-    @NonNull
-    @Column(nullable = false)
-    private int status;
-
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
-    @JoinColumn(name = "establishment_id")
-    private Establishment establishment;
-
-    @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "organizer_id")
     private User organizer;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
+    @NonNull
+    @ManyToMany
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
+    @JoinColumn(name = "user_id")
+    private User receiver;
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
 
     public int getId() {
         return id;
@@ -56,30 +53,6 @@ public class Invitation {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public LocalDateTime getInvitationDate() {
-        return invitationDate;
-    }
-
-    public void setInvitationDate(LocalDateTime invitationDate) {
-        this.invitationDate = invitationDate;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Establishment getEstablishment() {
-        return establishment;
-    }
-
-    public void setEstablishment(Establishment establishment) {
-        this.establishment = establishment;
     }
 
     public User getOrganizer() {

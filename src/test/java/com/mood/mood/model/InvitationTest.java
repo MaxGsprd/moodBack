@@ -10,19 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class InvitationTest {
 
     private Invitation invitationNoArgs;
-    private Invitation invitationAllArgs;
+    private Invitation invitationRequiredArgs;
 
     @BeforeEach
     void setUp() {
         invitationNoArgs = new Invitation();
-        LocalDateTime today = LocalDateTime.now();
-        invitationAllArgs = new Invitation(
-                1,
-                today.plusHours(2),
-                0,
-                new Establishment(),
+        invitationRequiredArgs = new Invitation(
                 new User(),
-                new Group()
+                new Group(),
+                new User()
         );
     }
 
@@ -31,47 +27,34 @@ class InvitationTest {
         assertEquals(invitationNoArgs.getClass().getSimpleName(), "Invitation");
         assertEquals(invitationNoArgs.getId(), 0);
 
-        assertEquals(invitationAllArgs.getClass().getSimpleName(), "Invitation");
-        assertEquals(invitationAllArgs.getId(), 1);
+        assertEquals(invitationRequiredArgs.getClass().getSimpleName(), "Invitation");
+        assertEquals(invitationRequiredArgs.getId(), 0);
     }
 
     @Test
     void setId() {
-        invitationAllArgs.setId(8);
-        assertEquals(invitationAllArgs.getId(), 8);
-    }
-
-    @Test
-    void setInvitationDate() {
-        LocalDateTime invitaionDate = LocalDateTime.now().plusHours(3);
-        invitationAllArgs.setInvitationDate(invitaionDate);
-        assertEquals(invitationAllArgs.getInvitationDate(), invitaionDate);
-    }
-
-    @Test
-    void setStatus() {
-        invitationAllArgs.setStatus(2);
-        assertEquals(invitationAllArgs.getStatus(), 2);
-    }
-
-    @Test
-    void setEstablishment() {
-        Establishment newEstablishment = new Establishment();
-        invitationAllArgs.setEstablishment(newEstablishment);
-        assertEquals(invitationAllArgs.getEstablishment(), newEstablishment);
+        invitationRequiredArgs.setId(8);
+        assertEquals(invitationRequiredArgs.getId(), 8);
     }
 
     @Test
     void setOrganizer() {
         User organizer = new User();
-        invitationAllArgs.setOrganizer(organizer);
-        assertEquals(invitationAllArgs.getOrganizer(), organizer);
+        invitationRequiredArgs.setOrganizer(organizer);
+        assertEquals(invitationRequiredArgs.getOrganizer(), organizer);
     }
 
     @Test
     void setGroup() {
         Group newGroup = new Group();
-        invitationAllArgs.setGroup(newGroup);
-        assertEquals(invitationAllArgs.getGroup(), newGroup);
+        invitationRequiredArgs.setGroup(newGroup);
+        assertEquals(invitationRequiredArgs.getGroup(), newGroup);
+    }
+
+    @Test
+    void setReveiver() {
+        User receiver = new User();
+        invitationRequiredArgs.setReceiver(receiver);
+        assertEquals(invitationRequiredArgs.getReceiver(), receiver);
     }
 }
