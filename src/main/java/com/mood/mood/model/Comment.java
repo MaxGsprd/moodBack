@@ -30,6 +30,10 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
+    /**
+     * 0: default
+     * : signalé
+     */
     @NonNull
     @Column(nullable = false)
     private Boolean status;
