@@ -34,6 +34,11 @@ public class Comment {
     @Column(nullable = false)
     private Boolean status;
 
+    /**
+     * 0:solo
+     * 1:couple
+     * 2:group
+     */
     @NonNull
     @Column(nullable = false)
     private int groupType;
