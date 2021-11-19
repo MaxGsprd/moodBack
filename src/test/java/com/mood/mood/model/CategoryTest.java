@@ -13,7 +13,11 @@ class CategoryTest {
     @BeforeEach
     void setUp() {
         categoryNoArgs = new Category();
-        categoryAllArgs = new Category(1, "title", "test decription");
+        categoryAllArgs = new Category(
+                1,
+                "title",
+                "test decription"
+        );
     }
 
     @Test

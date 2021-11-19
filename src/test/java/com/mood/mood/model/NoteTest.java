@@ -16,7 +16,11 @@ class NoteTest {
 
         User user = new User();
         Establishment establishment = new Establishment();
-        noteAllArgs = new Note(1, 4, establishment, user);
+        noteAllArgs = new Note(
+                1,
+                4,
+                establishment,
+                user);
     }
 
     @Test

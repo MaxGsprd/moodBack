@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -30,7 +30,7 @@ public class User {
 
     @NonNull
     @Column(nullable = false)
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @NonNull
     @Column(nullable = false, length = 255)
@@ -109,11 +109,11 @@ public class User {
         return email;
     }
 
-    public LocalDateTime getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDateTime birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
