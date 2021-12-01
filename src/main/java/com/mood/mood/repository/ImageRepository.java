@@ -1,4 +1,4 @@
-package com.mood.mood.Repository;
+package com.mood.mood.repository;
 
 import com.mood.mood.model.Image;
 import org.springframework.data.jpa.repository.JpaRepository;

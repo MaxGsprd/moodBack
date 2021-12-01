@@ -5,13 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterUser {
+public class UserForm {
     @NotBlank(message = "Veuillez renseigner votre nom.")
     @Size(min = 1, max = 100, message = "Votre nom est trop long. {max} caractères maximum.")
     private String name;
@@ -19,13 +22,6 @@ public class RegisterUser {
     @NotBlank(message = "Veuillez renseigner votre prenom.")
     @Size(min = 1, max = 100, message = "Votre prenom est trop long. {max} caractères maximum.")
     private String firstname;
-
-    @NotBlank(message = "Veuillez renseigner votre mot de passe.")
-    @Size(min = 10, message = "Le mot de passe doit être de dix caractères minimum.")
-    private String password;
-
-    @NotBlank(message = "Veuillez renseigner votre mot de passe.")
-    private String confirmPassword;
 
     @NotBlank(message = "Veuillez renseigner votre date de naissance.")
     private LocalDate birthdate;
@@ -54,16 +50,11 @@ public class RegisterUser {
     @NotBlank(message = "Veuillez renseigner votre n° de téléphone")
     @Pattern(regexp = "[0-9]+", message = "Format du n° de tel : 0102030405 ou 01 02 03 04 05.")
     @Size(min = 10, max = 14, message = "Le n° de téléphone renseigné est trop court ou trop long. " +
-            "Format du n° de tel : 0102030405 ou 01 02 03 04 05.")
+                "Format du n° de tel : 0102030405 ou 01 02 03 04 05.")
     private String phone;
 
     @NotBlank(message = "Veuillez sélectionner votre préférence.")
     private int mood;
 
     private MultipartFile image;
-
-    public boolean checkPassword() {
-        return this.password == this.confirmPassword;
-    }
-
 }
