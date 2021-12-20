@@ -28,7 +28,7 @@ public class Image {
     private byte[] data64;
 
     @NonNull
-    @Column(nullable = false, columnDefinition = "Text")
+    @Column(nullable = false, columnDefinition = "longtext")
     private String dataImage64;
 
     @NonNull
