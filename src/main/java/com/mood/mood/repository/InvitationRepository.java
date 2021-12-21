@@ -11,8 +11,6 @@ import java.util.List;
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Integer> {
     Invitation findByGroup(Group group);
-    Invitation findByUser(User user);
     List<Invitation> findByReceiver(User receiver);
     List<Invitation> findByOrganizer(User organizer);
-    List<Invitation> findByGroups(Group groups);
 }

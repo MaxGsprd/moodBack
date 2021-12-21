@@ -31,13 +31,23 @@ public class Invitation {
     private Group group;
 
     @NonNull
-    @ManyToMany
+    @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id"
     )
     @JoinColumn(name = "user_id")
     private User receiver;
+
+    /**
+     * 0:submitted
+     * 1:accepted
+     * 2:refused
+     * 3:cancelled
+     */
+    @NonNull
+    @Column(nullable = false)
+    private int status;
 
     public User getReceiver() {
         return receiver;
@@ -70,4 +80,8 @@ public class Invitation {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public int getStatus() { return status; }
+
+    public void setStatus(int status) { this.status = status; }
 }
