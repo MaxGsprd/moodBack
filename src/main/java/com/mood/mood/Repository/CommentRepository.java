@@ -11,9 +11,9 @@ import java.util.*;
 
 @Repository
 public interface CommentRepository  extends JpaRepository<Comment, Integer> {
-    List<Comment> findByCreateDate(LocalDateTime date); // filtre from send date to now()
+    List<Comment> findByCreatedDate(LocalDateTime date); // filtre from send date to now()
     List<Comment> findByStatus(Boolean status);
     List<Comment> findByUser(User User);
-    List<Comment> findByEstablishement(Establishment establishment);
+    List<Comment> findByEstablishment(Establishment establishment);
     List<Comment> findByGroupType(Integer type);
 }

@@ -31,7 +31,7 @@ public class Invitation {
     private Group group;
 
     @NonNull
-    @ManyToMany
+    @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id"

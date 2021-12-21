@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LocalisationRepository extends JpaRepository<Localisation, Integer> {
-    Localisation getByAddress(String longitude, String latitude);
+    //Localisation getByAddress(String longitude, String latitude);
 }
