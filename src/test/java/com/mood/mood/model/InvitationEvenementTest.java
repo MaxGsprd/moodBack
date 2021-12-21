@@ -20,8 +20,9 @@ class InvitationEvenementTest {
                 new Group(),
                 new User(),
                 LocalDateTime.now().plusHours(2),
-                0,
-                new Establishment()
+                new Establishment(),
+                0
+
         );
     }
 
@@ -42,15 +43,10 @@ class InvitationEvenementTest {
     }
 
     @Test
-    void setStatus() {
-        invitationRequiredArgs.setStatus(1);
-        assertEquals(invitationRequiredArgs.getStatus(), 1);
-    }
-
-    @Test
     void setEstablishment() {
         Establishment establishment = new Establishment();
         invitationRequiredArgs.setEstablishment(establishment);
         assertEquals(invitationRequiredArgs.getEstablishment(), establishment);
     }
+
 }

@@ -18,16 +18,6 @@ public class InvitationEvenement extends Invitation {
     @Column(nullable = false)
     private LocalDateTime invitationDate;
 
-    /**
-     * 0:submitted
-     * 1:accepted
-     * 2:refused
-     * 3:cancelled
-     */
-    @NonNull
-    @Column(nullable = false)
-    private int status;
-
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -35,10 +25,9 @@ public class InvitationEvenement extends Invitation {
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    public InvitationEvenement(User organizer, Group group, User destinataire, @NonNull LocalDateTime invitationDate, @NonNull int status, Establishment establishment) {
-        super(organizer, group, destinataire);
+    public InvitationEvenement(User organizer, Group group, User destinataire, @NonNull LocalDateTime invitationDate, Establishment establishment, @NonNull Integer status) {
+        super(organizer, group, destinataire, status);
         this.invitationDate = invitationDate;
-        this.status = status;
         this.establishment = establishment;
     }
 
@@ -48,14 +37,6 @@ public class InvitationEvenement extends Invitation {
 
     public void setInvitationDate(LocalDateTime invitationDate) {
         this.invitationDate = invitationDate;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public Establishment getEstablishment() {

@@ -18,7 +18,8 @@ class InvitationTest {
         invitationRequiredArgs = new Invitation(
                 new User(),
                 new Group(),
-                new User()
+                new User(),
+                1
         );
     }
 
@@ -56,5 +57,11 @@ class InvitationTest {
         User receiver = new User();
         invitationRequiredArgs.setReceiver(receiver);
         assertEquals(invitationRequiredArgs.getReceiver(), receiver);
+    }
+
+    @Test
+    void setStatus() {
+        invitationRequiredArgs.setStatus(0);
+        assertEquals(invitationRequiredArgs.getStatus(), 0);
     }
 }
