@@ -9,6 +9,7 @@ import com.mood.mood.repository.CategoryRepository;
 import com.mood.mood.repository.RoleRepository;
 import com.mood.mood.repository.UserRepository;
 import com.mood.mood.util.JwtUtil;
+import com.mood.mood.util.LocalisationUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,9 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import javax.persistence.QueryTimeoutException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.List;
 
 @Service
 public class AuthenticationService implements IAuthenticationService {
@@ -32,6 +31,8 @@ public class AuthenticationService implements IAuthenticationService {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private LocalisationUtil localisationUtil;
 
     @Override
     public String generateToken(AuthenticateUser authenticateUser) throws Exception {
@@ -60,12 +61,16 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         String address = user.getAddressNumber() + " " +user.getAddressName() + " " + user.getPostalCode() + " " + user.getCity();
-        URL url =  new URL("https://api-adresse.data.gouv.fr/search/?q="+address+"&type=housenumber&autocomplete=1");
+        /*URL url =  new URL("https://api-adresse.data.gouv.fr/search/?q="+address+"&type=housenumber&autocomplete=1");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
-        String response = con.getResponseMessage();
+        String response = con.getResponseMessage();*/
+        List<Object> features = localisationUtil.getRegisterAddress(user.getAddressNumber(), user.getAddressName(), user.getPostalCode());
 
-
+        /*Localisation localisation = new Localisation();
+        localisation.setLongitude(coordinates[1]);
+        localisation.setLatitude(coordinates[0]);*/
+        
         User createdUser = new User(
                 user.getName(),
                 user.getFirstname(),
@@ -77,6 +82,7 @@ public class AuthenticationService implements IAuthenticationService {
                 roleRepository.findByTitle("ROLE_USER"),
                 categoryRepository.getById(user.getMood())
         );
+        
 
         userRepository.save(createdUser);
 

@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ImageRepository  extends JpaRepository<Image, Integer> {
     Image findByDataName(String image_name);
-    Optional<Image> findByEstablishment(List<EstablishmentImage> images);
+    // Optional<Image> findByEstablishment(List<EstablishmentImage> images);
 }
