@@ -1,12 +1,8 @@
-package com.mood.mood.Repository;
+package com.mood.mood.repository;
 
 import com.mood.mood.model.Category;
-import com.mood.mood.model.Comment;
 import com.mood.mood.model.Establishment;
-import com.mood.mood.model.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

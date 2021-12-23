@@ -10,15 +10,15 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class LocalisationDetails {
 
-    private String addressNumber;
+    private String housenumber; // addressNumber
     @NonNull
-    private String addressName;
+    private String street; // addressName
     @NonNull
-    private String postalCode;
+    private String postcode; // postalCode
     @NonNull
-    private String ciy;
+    private String city; // town
     @NonNull
-    private String longitude;
+    private String longitude; // coordinates[1]
     @NonNull
-    private String latitude;
+    private String latitude; // coordinates[0]
 }

@@ -3,6 +3,7 @@ package com.mood.mood.model;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private int id;
 
     @NonNull
@@ -28,7 +30,7 @@ public class Image {
     private byte[] data64;
 
     @NonNull
-    @Column(nullable = false, columnDefinition = "Text")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String dataImage64;
 
     @NonNull

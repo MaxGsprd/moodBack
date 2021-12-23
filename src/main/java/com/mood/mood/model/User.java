@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name="users")
 public class User {
 
@@ -44,6 +46,7 @@ public class User {
     @Column(nullable = false, length = 14)
     private String phone;
 
+    @NonNull
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -51,6 +54,7 @@ public class User {
     @JoinColumn(name = "localisation_id")
     private Localisation localisation;
 
+    @NonNull
     @OneToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -58,6 +62,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @NonNull
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
