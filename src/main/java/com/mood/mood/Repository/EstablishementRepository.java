@@ -13,9 +13,12 @@ import java.util.List;
 
 @Repository
 public interface EstablishementRepository extends JpaRepository<Establishment, Integer> {
+
     //@Query("SELECT name FROM Establishment WHERE Establishment.name LIKE %:name%")
     //Establishment findbyName(@Param("name") String name);
 
+    Establishment findById(int id);
+    List<Establishment> findAll();
     Establishment findByNameContaining(String name);
     List<Establishment> findByStatus(Boolean status);
     Establishment findByLocalisation(String address); // a transformer en localisation

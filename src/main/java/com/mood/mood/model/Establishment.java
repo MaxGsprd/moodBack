@@ -14,9 +14,18 @@ import java.util.List;
 @AllArgsConstructor
 public class Establishment {
 
+
     @Id
     @GeneratedValue
     private int id;
+
+    public Establishment(@NonNull String name, String description, @NonNull Boolean status, Localisation localisation, Category category) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.localisation = localisation;
+        this.category = category;
+    }
 
     @NonNull
     @Column(nullable = false, length = 50)
