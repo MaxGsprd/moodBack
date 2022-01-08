@@ -7,5 +7,5 @@ import org.hibernate.QueryTimeoutException;
 import java.util.List;
 
 public interface IEstablishmentService {
-    List<Establishment> getAllEstablishments() throws Exception;
+    List<EstablishmentDetails> getAllEstablishments() throws Exception;
 }
