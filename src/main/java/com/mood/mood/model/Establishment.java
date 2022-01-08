@@ -3,29 +3,23 @@ package com.mood.mood.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Data //  annotation Lombok pas besoin de getters & setters Lombok le fait pour nous
+@Entity // annotation qui indique que la classe correspond à une entité JPA donc une  table de la base de données.
+@Table(name = "establishment") //indique le nom de la table associée.
+@NoArgsConstructor //lombok annotation genetate constructor without arguments
+@AllArgsConstructor //lombok annotation generate constructor with arguments for us
 public class Establishment {
-
 
     @Id
     @GeneratedValue
     private int id;
-
-    public Establishment(@NonNull String name, String description, @NonNull Boolean status, Localisation localisation, Category category) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.localisation = localisation;
-        this.category = category;
-    }
 
     @NonNull
     @Column(nullable = false, length = 50)
@@ -75,7 +69,7 @@ public class Establishment {
             property = "id")
     private List<Comment> comments;
 
-    public int getId() {
+   /* public int getId() {
         return id;
     }
 
@@ -133,7 +127,7 @@ public class Establishment {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
+    }*/
 
     public void addImage(EstablishmentImage image) {
         this.images.add(image);

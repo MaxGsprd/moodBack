@@ -9,5 +9,4 @@ public class MoodApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MoodApplication.class, args);
 	}
-
 }
