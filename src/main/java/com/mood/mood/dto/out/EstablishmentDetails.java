@@ -8,16 +8,20 @@ import lombok.NonNull;
 
 import java.util.List;
 
+/**
+ * Cette classe contient l'affichage des établissement'.
+ * DTO OUT.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EstablishmentDetails {
     @NonNull
     private String name;
-    private String Description;
-    @NonNull
-    private LocalisationDetails address;
-    private List<EstablishmentImage> images;
-    private NotesAverage note;
-    private List<CommentDetails> comments;
+    private String description;
+//    @NonNull
+//    private LocalisationDetails address;
+//    private List<EstablishmentImage> images;
+//    private NotesAverage note;
+//    private List<CommentDetails> comments;
 }

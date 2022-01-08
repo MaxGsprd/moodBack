@@ -11,33 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/establishments")
+//@RequestMapping("/establishments")
 public class EstablishmentController {
     @Autowired
     IEstablishmentService establishmentService;
 
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<List<Establishment>> getAllEstablishments() throws Exception {
+    @GetMapping("/establishments")
+    //@ResponseBody
+    // If we use @RestController annotation, then @ResponseBody is not needed to use. This is because
+    //@RestController = @Controller + @ResponseBody
+    public ResponseEntity<List<EstablishmentDetails>> getAllEstablishments() throws Exception {
         try {
-            List<Establishment> establishments = establishmentService.getAllEstablishments();
+            List<EstablishmentDetails> establishments = establishmentService.getAllEstablishments();
             return ResponseEntity.ok(establishments);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<EstablishmentDetails> getEstablishment(@PathVariable int id) throws Exception {
-        try {
-            EstablishmentDetails establishment = establishmentService.getEstablish(id);
-            if (announcement == null)
-                return ResponseEntity.notFound().build();
-            else
-                return ResponseEntity.ok(announcement);
-        } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
-        }
-    }
+//    @GetMapping("/establishment/{id}")
+//    public ResponseEntity<Establishment> getEstablishment(@PathVariable("id") final int id) throws Exception {
+//        try {
+//            Establishment establishment = establishmentService.getEstablishment(id);
+//            return ResponseEntity.ok(establishment);
+//        } catch (Exception e) {
+//            throw new Exception(e.getMessage(), e.getCause());
+//        }
+//  }
 
 }
