@@ -1,5 +1,6 @@
 package com.mood.mood.Repository;
 
+import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.model.Comment;
 import com.mood.mood.model.Establishment;
 import com.mood.mood.model.User;
