@@ -1,5 +1,6 @@
 package com.mood.mood.dto.out;
 
+import com.mood.mood.model.Category;
 import com.mood.mood.model.EstablishmentImage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +20,10 @@ public class EstablishmentDetails {
     @NonNull
     private String name;
     private String description;
-//    @NonNull
-//    private LocalisationDetails address;
-//    private List<EstablishmentImage> images;
-//    private NotesAverage note;
-//    private List<CommentDetails> comments;
+    private Category category;
+    @NonNull
+    private LocalisationDetails address;
+    private List<EstablishmentImage> images;
+    private NotesAverage note;
+    private List<CommentDetails> comments;
 }
