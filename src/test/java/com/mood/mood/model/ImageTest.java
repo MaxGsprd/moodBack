@@ -17,7 +17,7 @@ class ImageTest {
         imageRequiredArgs = new Image(
                 "data name",
                 "bytes".getBytes(),
-                "dataImage64",
+                20000,
                 "mimeType"
         );
     }
@@ -52,8 +52,8 @@ class ImageTest {
 
     @Test
     void setDataImage64() {
-        imageNoArgs.setDataImage64("new dataImage64");
-        assertEquals(imageNoArgs.getDataImage64(), "new dataImage64");
+        imageNoArgs.setSizeImage(18000);
+        assertEquals(imageNoArgs.getSizeImage(), 20000);
     }
 
     @Test

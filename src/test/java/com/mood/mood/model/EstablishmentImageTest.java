@@ -18,7 +18,7 @@ class EstablishmentImageTest {
         imageRequiredArgs = new EstablishmentImage(
                 "data name",
                 "bytes".getBytes(),
-                "dataImage64",
+                20000,
                 "mimeType",
                 establishment
         );

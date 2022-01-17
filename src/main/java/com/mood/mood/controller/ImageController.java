@@ -25,10 +25,6 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @GetMapping("/test")
-    public String getTest() {
-        return "test2";
-    }
 
     @GetMapping("/")
     public List<Image> get(Model model) {
@@ -51,7 +47,7 @@ public class ImageController {
         return fileResponse;
     }
 
-    @PostMapping("/uploadFiles/{userEmail}")
+    @PostMapping("/uploadUserImage/{userEmail}")
     public ResponseEntity<String> uploadFile(@PathVariable String userEmail, @RequestParam("file") MultipartFile file)
             throws Exception {
         try {
@@ -62,6 +58,29 @@ public class ImageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
         }
+    }
+
+    @PostMapping("/uploadEstablishementImages/{establishementName}")
+    public ResponseEntity<String> uploadFile(@PathVariable String establishementName, @RequestParam("file") MultipartFile[] files)
+            throws Exception {
+        ResponseEntity<String> result = null;
+        try {
+            if (files == null || files.length == 0) {
+                throw new RuntimeException("You must select at least one file for uploading");
+            }
+
+            imageService.saveMultipleFile(establishementName, files);
+            for (MultipartFile file : files) {
+                result =  ResponseEntity.status(HttpStatus.CREATED).body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
+            }
+        } catch (Exception ex) {
+            //throw new Exception(ex.getMessage(), ex.getCause());
+            for (MultipartFile file : files) {
+                result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
+            }
+        }
+        return result;
     }
 
     @GetMapping("/downloadFile/{email}")
