@@ -62,11 +62,13 @@ public class EstablishmentController {
   }
 
   @PostMapping("/newEstablishment")
-  public ResponseEntity<Establishment>  createEstablishment(@Valid @ModelAttribute("establishment") EstablishmentForm establishmentForm) throws Exception {
+  public ResponseEntity<Establishment> createEstablishment(@Valid @RequestBody EstablishmentForm establishmentForm) throws Exception {
         try {
             Establishment createdEstablishment = establishmentService.createEstablishment(establishmentForm);
+            System.out.println("it worked");
             return ResponseEntity.status(HttpStatus.CREATED).body(createdEstablishment);
         } catch (Exception e) {
+            System.out.println("createEstablishment failed in controller");
             throw new Exception(e.getMessage(), e.getCause());
         }
   }

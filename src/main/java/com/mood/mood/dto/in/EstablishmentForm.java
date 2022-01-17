@@ -1,5 +1,6 @@
 package com.mood.mood.dto.in;
 
+import com.mood.mood.model.Category;
 import com.mood.mood.model.Comment;
 import com.mood.mood.model.Note;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -14,6 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EstablishmentForm {
+
     @NotBlank(message = "Veuillez renseigner le nom de l'établissement.")
     @Size(min = 1, max = 100, message = "Le nom de l'établissement est trop long. {max} caractères maximum.")
     private String name;
@@ -38,5 +41,8 @@ public class EstablishmentForm {
 //    @Size(max = 100, message = "Le nom de la ville est trop long")
 //    private String ciy;
 //
-//    private int category;
+    @NotNull(message = "Veuillez sélectionner une catégorie pour l'établissement.")
+    private int category;
+
+
 }

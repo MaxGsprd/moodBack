@@ -31,7 +31,7 @@ public class Establishment {
      * 0:submitted
      * 1:accepted
      */
-//    @NonNull
+    @NonNull
     @Column(nullable = false)
     private Boolean status;
 

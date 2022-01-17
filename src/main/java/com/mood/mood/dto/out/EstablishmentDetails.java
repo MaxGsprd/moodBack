@@ -20,10 +20,9 @@ public class EstablishmentDetails {
     @NonNull
     private String name;
     private String description;
-    private Category category;
-    @NonNull
-    private LocalisationDetails address;
-    private List<EstablishmentImage> images;
-    private NotesAverage note;
-    private List<CommentDetails> comments;
+////    @NonNull
+//    private LocalisationDetails address;
+//    private List<EstablishmentImage> images;
+//    private NotesAverage note;
+//    private List<CommentDetails> comments;
 }
