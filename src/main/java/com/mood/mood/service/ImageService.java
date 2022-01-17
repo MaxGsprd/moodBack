@@ -1,8 +1,8 @@
 package com.mood.mood.service;
 
+import com.mood.mood.Repository.EstablishmentRepository;
 import com.mood.mood.model.*;
 import com.mood.mood.repository.EstablishementImageRepository;
-import com.mood.mood.repository.EstablishementRepository;
 import com.mood.mood.repository.ImageRepository;
 import com.mood.mood.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ImageService implements IImageService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private EstablishementRepository establishementRepository;
+    private EstablishmentRepository establishementRepository;
     @Autowired
     private EstablishementImageRepository establishementImageRepository;
 
