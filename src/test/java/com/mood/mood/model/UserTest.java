@@ -14,6 +14,7 @@ class UserTest {
 
     private User userNoArgs;
     private User userAllArgs;
+    private User userRequiredArgs;
 
     @BeforeEach
     void setUp() {
@@ -43,6 +44,18 @@ class UserTest {
                 notes,
                 comments
         );
+
+        userRequiredArgs = new User(
+                "Doe",
+                "John",
+                birthDate,
+                "john.doe@gmail.com",
+                "password",
+                "01 23 45 67 89",
+                new Localisation(),
+                new Role(),
+                new Category()
+        );
     }
 
     @Test
@@ -52,6 +65,9 @@ class UserTest {
 
         assertEquals(userAllArgs.getClass().getSimpleName(), "User");
         assertEquals(userAllArgs.getId(), 1);
+
+        assertEquals(userRequiredArgs.getClass().getSimpleName(), "User");
+        assertEquals(userRequiredArgs.getId(), 0);
     }
 
     @Test

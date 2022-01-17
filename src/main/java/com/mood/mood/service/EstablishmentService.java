@@ -6,6 +6,7 @@ import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.model.Comment;
 import com.mood.mood.model.Establishment;
+import com.mood.mood.repository.EstablishementImageRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class EstablishmentService implements IEstablishmentService {
 
     @Autowired //used to tell spring this bean requires to be injected
-    private EstablishmentRepository establishmentRepository;
+    private EstablishementRe establishmentRepository;
     @Autowired
     private CommentRepository commentRepository;
     @Autowired

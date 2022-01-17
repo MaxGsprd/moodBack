@@ -18,6 +18,10 @@ public class EstablishmentForm {
     @Size(min = 1, max = 100, message = "Le nom de l'établissement est trop long. {max} caractères maximum.")
     private String name;
 
+    @NotBlank(message = "Veuillez renseigner une description pour l'établissement.")
+    @Size(min = 1, max = 500, message = "La description de l'établissement est trop longue. {max} caractères maximum.")
+    private String description;
+
     @Pattern(regexp = "[0-9]+", message = "Veuillez saisir des chiffres valides.")
     private String addressNumber;
 
