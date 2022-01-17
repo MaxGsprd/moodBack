@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class EstablishmentService implements IEstablishmentService {
 
     @Autowired //used to tell spring this bean requires to be injected
-    private EstablishementRe establishmentRepository;
+    private EstablishmentRepository establishmentRepository;
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
