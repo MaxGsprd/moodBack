@@ -2,12 +2,13 @@ package com.mood.mood.service;
 
 import com.mood.mood.Repository.CommentRepository;
 import com.mood.mood.Repository.EstablishmentRepository;
+import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.dto.out.EstablishmentDetails;
-import com.mood.mood.model.Comment;
 import com.mood.mood.model.Establishment;
-import com.mood.mood.repository.EstablishementImageRepository;
 import lombok.Data;
+import org.hibernate.QueryTimeoutException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class EstablishmentService implements IEstablishmentService {
     private CommentRepository commentRepository;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public EstablishmentDetails getEstablishmentById(final int id) {
         Establishment establishment =  establishmentRepository.findById(id);
@@ -47,28 +50,36 @@ public class EstablishmentService implements IEstablishmentService {
 
     /**
      * Convert Establishment JPA entity to establishmentDetails (DTO out)
-     * */
+     */
     private EstablishmentDetails convertEstablishmentEntityToDto(Establishment establishment) {
-        EstablishmentDetails establishmentDetails = new EstablishmentDetails();
-        establishmentDetails.setName(establishment.getName());
-        establishmentDetails.setDescription(establishment.getDescription());
-        establishmentDetails.setCategory(establishment.getCategory());
-        establishmentDetails.setImages(establishment.getImages());
-
-        List<Comment> comments = commentRepository.findByEstablishment(establishment);
-        List<CommentDetails> commentsOfEstablishment = comments.stream()
-                                                                .map(comment -> commentService.convertCommentEntityToDto(comment))
-                                                                .collect(Collectors.toList());
-        establishmentDetails.setComments(commentsOfEstablishment);
-        return establishmentDetails;
+        return modelMapper.map(establishment, EstablishmentDetails.class);
     }
 
+    /**
+     * Convert EstablishmentForm Dto in to establishment entity
+     */
+    private Establishment dtoToEntity(EstablishmentForm establishmentForm) {
+        return modelMapper.map(establishmentForm, Establishment.class);
+    }
+
+    /**
+     * Find establishment by name with Like query
+     */
     public List<EstablishmentDetails> getEstablishmentByNameLike(String name) {
         return  establishmentRepository.findByNameLikeIgnoreCase(name)
                 .stream()
                 .map(this::convertEstablishmentEntityToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Establishment createEstablishment(EstablishmentForm establishmentForm) throws QueryTimeoutException {
+        Establishment createdEstablishment = dtoToEntity(establishmentForm);
+        establishmentRepository.save(createdEstablishment);
+        return createdEstablishment;
+    }
+
+
 
 //    public void deleteEstablishment(final Long id) {
 //        establishementRepository.deleteById(id);

@@ -2,19 +2,17 @@ package com.mood.mood.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data //  annotation Lombok pas besoin de getters & setters Lombok le fait pour nous
 @Entity // annotation qui indique que la classe correspond à une entité JPA donc une  table de la base de données.
-@Table(name = "establishment") //indique le nom de la table associée.
+@Table(name="establishment") //indique le nom de la table associée.
 @NoArgsConstructor //lombok annotation generate constructor without arguments
 @AllArgsConstructor //lombok annotation generate constructor with arguments for us
+@RequiredArgsConstructor
 public class Establishment {
 
     @Id
@@ -33,7 +31,7 @@ public class Establishment {
      * 0:submitted
      * 1:accepted
      */
-    @NonNull
+//    @NonNull
     @Column(nullable = false)
     private Boolean status;
 
@@ -44,6 +42,7 @@ public class Establishment {
     @JoinColumn(name = "localisation_id")
     private Localisation localisation;
 
+    @NonNull
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,

@@ -1,11 +1,15 @@
 package com.mood.mood.controller;
 
+import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.out.EstablishmentDetails;
+import com.mood.mood.model.Establishment;
 import com.mood.mood.service.IEstablishmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -52,6 +56,16 @@ public class EstablishmentController {
         try {
             EstablishmentDetails establishment = establishmentService.getEstablishmentById(id);
             return ResponseEntity.ok(establishment);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+  }
+
+  @PostMapping("/newEstablishment")
+  public ResponseEntity<Establishment>  createEstablishment(@Valid @ModelAttribute("establishment") EstablishmentForm establishmentForm) throws Exception {
+        try {
+            Establishment createdEstablishment = establishmentService.createEstablishment(establishmentForm);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdEstablishment);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }

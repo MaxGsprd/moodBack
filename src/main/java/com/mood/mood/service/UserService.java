@@ -1,12 +1,12 @@
 package com.mood.mood.service;
 
+import com.mood.mood.Repository.UserRepository;
 import com.mood.mood.dto.out.GroupDetails;
 import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.dto.out.UserDetails;
 import com.mood.mood.model.Group;
 import com.mood.mood.model.User;
-import com.mood.mood.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,7 +1,7 @@
 package com.mood.mood.service;
 
+import com.mood.mood.Repository.UserRepository;
 import com.mood.mood.model.User;
-import com.mood.mood.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
