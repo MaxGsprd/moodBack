@@ -1,9 +1,9 @@
 package com.mood.mood.service;
 
-import com.mood.mood.Repository.EstablishementImageRepository;
-import com.mood.mood.Repository.EstablishmentRepository;
-import com.mood.mood.Repository.ImageRepository;
-import com.mood.mood.Repository.UserRepository;
+import com.mood.mood.repository.EstablishementImageRepository;
+import com.mood.mood.repository.EstablishmentRepository;
+import com.mood.mood.repository.ImageRepository;
+import com.mood.mood.repository.UserRepository;
 import com.mood.mood.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

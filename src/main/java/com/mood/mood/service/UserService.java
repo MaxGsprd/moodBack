@@ -1,6 +1,6 @@
 package com.mood.mood.service;
 
-import com.mood.mood.Repository.UserRepository;
+import com.mood.mood.repository.UserRepository;
 import com.mood.mood.dto.out.GroupDetails;
 import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.dto.out.LocalisationDetails;

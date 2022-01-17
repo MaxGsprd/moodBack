@@ -1,9 +1,8 @@
 package com.mood.mood.service;
 
-import com.mood.mood.Repository.CommentRepository;
-import com.mood.mood.Repository.EstablishmentRepository;
+import com.mood.mood.repository.CommentRepository;
+import com.mood.mood.repository.EstablishmentRepository;
 import com.mood.mood.dto.in.EstablishmentForm;
-import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.model.Establishment;
 import lombok.Data;

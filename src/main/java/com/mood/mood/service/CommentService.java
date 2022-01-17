@@ -1,12 +1,10 @@
 package com.mood.mood.service;
 
-import com.mood.mood.Repository.CommentRepository;
+import com.mood.mood.repository.CommentRepository;
 import com.mood.mood.dto.out.CommentDetails;
-import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.model.Comment;
 import com.mood.mood.model.Establishment;
 import lombok.Data;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

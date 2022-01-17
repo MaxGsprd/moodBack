@@ -1,8 +1,8 @@
 package com.mood.mood.service;
 
-import com.mood.mood.Repository.CategoryRepository;
-import com.mood.mood.Repository.RoleRepository;
-import com.mood.mood.Repository.UserRepository;
+import com.mood.mood.repository.CategoryRepository;
+import com.mood.mood.repository.RoleRepository;
+import com.mood.mood.repository.UserRepository;
 import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
