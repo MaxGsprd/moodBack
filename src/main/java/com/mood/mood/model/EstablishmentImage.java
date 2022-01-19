@@ -15,8 +15,8 @@ public class EstablishmentImage extends Image{
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    public EstablishmentImage(String dataName, byte[] data64, String dataImage64, String mimeType, Establishment establishment) {
-        super(dataName, data64, dataImage64, mimeType);
+    public EstablishmentImage(String dataName, byte[] data64, long sizeImage, String mimeType, Establishment establishment) {
+        super(dataName, data64, sizeImage, mimeType);
         this.establishment = establishment;
     }
 

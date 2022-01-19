@@ -18,7 +18,7 @@ class UserImageTest {
         imageRequiredArgs = new UserImage(
                 "data name",
                 "bytes".getBytes(),
-                "dataImage64",
+                20000,
                 "mimeType",
                 user
         );

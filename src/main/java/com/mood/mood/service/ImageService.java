@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -28,50 +29,65 @@ public class ImageService implements IImageService {
     @Override
     public void saveFile(String email, MultipartFile file) throws Exception {
 
+        User user = userRepository.findByEmail(email);
+
         String dataName = StringUtils.cleanPath(file.getOriginalFilename());
         String dataType = file.getContentType();
         byte[] data64 = file.getBytes();
         Long size = file.getSize();
-        String image64 = Base64.getEncoder().encodeToString(data64);
 
-        if (email.contains("@")) { // si c'est un mail c'est un user sinon un établisement
-            User user = userRepository.findByEmail(email);
-            try {
-                // Si l'utilisateur avait déjà une image hors image par défaut
-                /*if (((User) user).getImage() != null && !user.getImage().getDataName().equals("default_image.png")) {
-                    this.deleteImage(user.getImage().getId(), user.getEmail());
-                }*/
+        try {
+            // Si l'utilisateur avait déjà une image hors image par défaut
+            /*if (((User) user).getImage() != null && !user.getImage().getDataName().equals("default_image.png")) {
+                this.deleteImage(user.getImage().getId(), user.getEmail());
+            }*/
 
-                UserImage userImage = new UserImage();
-                userImage.setDataName(dataName);
-                userImage.setData64(data64);
-                userImage.setMimeType(dataType);
-                userImage.setDataImage64(image64);
-                userImage.setUser(user);
+            UserImage userImage = new UserImage();
+            userImage.setDataName(dataName);
+            userImage.setData64(data64);
+            userImage.setMimeType(dataType);
+            userImage.setSizeImage(size);
+            userImage.setUser(user);
 
-                imageRepository.save(userImage);
+            imageRepository.save(userImage);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new DataIntegrityViolationException(e.getMessage());
-            }
-        } else {
-            Establishment establishment = establishementRepository.findByNameContaining(email);
-            try {
-                    EstablishmentImage establishmentImage =  new EstablishmentImage();
-                    establishmentImage.setDataName(dataName);
-                    establishmentImage.setData64(data64);
-                    establishmentImage.setMimeType(dataType);
-                    establishmentImage.setDataImage64(image64);
-                    establishmentImage.setEstablishment(establishment);
-
-                    imageRepository.save(establishmentImage);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new DataIntegrityViolationException(e.getMessage());
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DataIntegrityViolationException(e.getMessage());
         }
 
+
+    }
+
+    public void saveMultipleFile(String establishementName, MultipartFile[] files) throws IOException {
+
+        if (files == null || files.length == 0) {
+            throw new RuntimeException("You must select at least one file for uploading");
+        }
+        for (MultipartFile file : files) {
+
+            Establishment establishment = establishementRepository.findByNameContaining(establishementName);
+
+            String dataName = StringUtils.cleanPath(file.getOriginalFilename());
+            String dataType = file.getContentType();
+            byte[] data64 = file.getBytes();
+            Long size = file.getSize();
+
+            try {
+                EstablishmentImage establishmentImage =  new EstablishmentImage();
+                establishmentImage.setDataName(dataName);
+                establishmentImage.setData64(data64);
+                establishmentImage.setMimeType(dataType);
+                establishmentImage.setSizeImage(size);
+                establishmentImage.setEstablishment(establishment);
+
+                imageRepository.save(establishmentImage);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new DataIntegrityViolationException(e.getMessage());
+            }
+
+        }
     }
 
     /**
@@ -138,4 +154,6 @@ public class ImageService implements IImageService {
             throw new Exception(ex.getMessage(), ex.getCause());
         }
     }
+
+
 }

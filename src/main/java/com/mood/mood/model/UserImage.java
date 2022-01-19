@@ -15,8 +15,8 @@ public class UserImage extends Image{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public UserImage(String dataName, byte[] data64, String dataImage64, String mimeType, User user) {
-        super(dataName, data64, dataImage64, mimeType);
+    public UserImage(String dataName, byte[] data64, long sizeImage, String mimeType, User user) {
+        super(dataName, data64, sizeImage, mimeType);
         this.user = user;
     }
 

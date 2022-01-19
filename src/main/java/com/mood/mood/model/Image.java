@@ -30,8 +30,8 @@ public class Image {
     private byte[] data64;
 
     @NonNull
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String dataImage64;
+    @Column(nullable = false)
+    private long sizeImage;
 
     @NonNull
     @Column(nullable = false, length = 300)
@@ -61,12 +61,12 @@ public class Image {
         this.data64 = data64;
     }
 
-    public String getDataImage64() {
-        return dataImage64;
+    public long getSizeImage() {
+        return sizeImage;
     }
 
-    public void setDataImage64(String dataImage64) {
-        this.dataImage64 = dataImage64;
+    public void setSizeImage(long sizeImage) {
+        this.sizeImage = sizeImage;
     }
 
     public String getMimeType() {
