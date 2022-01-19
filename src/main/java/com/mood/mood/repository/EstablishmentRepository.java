@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface EstablishmentRepository extends JpaRepository<Establishment, Integer> {
-
     Establishment findById(int id);
     List<Establishment> findByNameLikeIgnoreCase(String name); //like + ignoreCase query allows finding name like arg with case insensitivity
     List<Establishment> findByCategoryId(int categoryId);

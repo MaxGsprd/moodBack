@@ -13,15 +13,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/establishments")
 public class EstablishmentController {
     @Autowired
     IEstablishmentService establishmentService;
 
     @GetMapping("/establishments")
-    //@ResponseBody
-    // If we use @RestController annotation, then @ResponseBody is not needed to use. This is because
-    //@RestController = @Controller + @ResponseBody
     public ResponseEntity<List<EstablishmentDetails>> getAllEstablishments() throws Exception {
         try {
             List<EstablishmentDetails> establishments = establishmentService.getAllEstablishments();
@@ -65,12 +61,19 @@ public class EstablishmentController {
   public ResponseEntity<Establishment> createEstablishment(@Valid @RequestBody EstablishmentForm establishmentForm) throws Exception {
         try {
             Establishment createdEstablishment = establishmentService.createEstablishment(establishmentForm);
-            System.out.println("it worked");
             return ResponseEntity.status(HttpStatus.CREATED).body(createdEstablishment);
         } catch (Exception e) {
-            System.out.println("createEstablishment failed in controller");
             throw new Exception(e.getMessage(), e.getCause());
         }
+  }
+
+  @DeleteMapping("/establishmentDelete/{id}")
+  public void deleteEstablishment(@PathVariable int id) throws Exception {
+      try {
+          establishmentService.deleteEstablishmentById(id);
+      } catch (Exception ex) {
+          throw new Exception(ex.getMessage(), ex.getCause());
+      }
   }
 
 }

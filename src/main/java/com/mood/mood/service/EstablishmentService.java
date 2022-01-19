@@ -81,6 +81,10 @@ public class EstablishmentService implements IEstablishmentService {
         }
     }
 
+    /**
+     * @param establishmentForm establishment DTO in
+     * @return true if success, false otherwise
+     * */
     public Establishment createEstablishment(EstablishmentForm establishmentForm) throws Exception {
         try {
             Establishment createdEstablishment = establishmentDtoToEntity(establishmentForm);
@@ -91,12 +95,20 @@ public class EstablishmentService implements IEstablishmentService {
         }
     }
 
-//    public void deleteEstablishment(final Long id) {
-//        establishementRepository.deleteById(id);
-//    }
-//
-//    public Establishment createEstablishment(Establishment establishment) {
-//        Establishment createdEstablishment = establishementRepository.save(establishment);
-//        return createdEstablishment;
-//    }
+    /**
+     * @param id establishment id to be deleted
+     * @return true if success, false otherwise
+     * */
+    public void deleteEstablishmentById(int id) throws Exception {
+        try {
+            Establishment establishment = establishmentRepository.findById(id);
+            establishmentRepository.deleteById(establishment.getId());
+
+            //TO DO delete establishment notes, comments & images
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    //TO DO UPDATE establishment
 }

@@ -13,6 +13,7 @@ public interface IEstablishmentService {
     List<EstablishmentDetails> getEstablishmentByNameLike(String name) throws Exception;
     List<EstablishmentDetails> getAllEstablishmentsByCategoryId(int id) throws Exception;
     Establishment createEstablishment(@ModelAttribute EstablishmentForm establishmentForm) throws Exception;
+    void deleteEstablishmentById(int id) throws Exception;
 //    EstablishmentDetails convertEstablishmentEntityToDto(Establishment establishment);
 //    Establishment establishmentDtoToEntity(EstablishmentForm establishmentForm);
 }
