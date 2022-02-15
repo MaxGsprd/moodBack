@@ -32,7 +32,7 @@ public class Comment {
 
     /**
      * 0: default
-     * : signalé
+     * 1: signalé
      */
     @NonNull
     @Column(nullable = false)

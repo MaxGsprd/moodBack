@@ -27,7 +27,7 @@ public class RegisterUser {
     @NotBlank(message = "Veuillez renseigner votre mot de passe.")
     private String confirmPassword;
 
-    @NotBlank(message = "Veuillez renseigner votre date de naissance.")
+    @NotNull(message = "Veuillez renseigner votre date de naissance.")
     private LocalDate birthdate;
 
     @Pattern(regexp = "[0-9]+", message = "Veuillez saisir des chiffres valides.")
@@ -57,7 +57,7 @@ public class RegisterUser {
             "Format du n° de tel : 0102030405 ou 01 02 03 04 05.")
     private String phone;
 
-    @NotBlank(message = "Veuillez sélectionner votre préférence.")
+    @NotNull(message = "Veuillez sélectionner votre préférence.")
     private int mood;
 
     private MultipartFile image;

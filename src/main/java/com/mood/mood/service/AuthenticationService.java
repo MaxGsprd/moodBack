@@ -15,8 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.QueryTimeoutException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -32,7 +38,11 @@ public class AuthenticationService implements IAuthenticationService {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
     private LocalisationUtil localisationUtil;
+
+    private static final String ADDRESS_URL = "https://api-adresse.data.gouv.fr/";
 
     @Override
     public String generateToken(AuthenticateUser authenticateUser) throws Exception {
@@ -56,21 +66,20 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account already exist");
         }
 
-        if(user.getPassword() != user.getConfirmPassword()) {
+        if(!user.getPassword().equals(user.getConfirmPassword())) {
             throw new IllegalArgumentException("Confirm password doesn't match");
         }
 
-        String address = user.getAddressNumber() + " " +user.getAddressName() + " " + user.getPostalCode() + " " + user.getCity();
-        /*URL url =  new URL("https://api-adresse.data.gouv.fr/search/?q="+address+"&type=housenumber&autocomplete=1");
+        /*String address = user.getAddressNumber() + " " +user.getAddressName() + " " + user.getPostalCode() + " " + user.getCity();
+        URL url =  new URL("https://api-adresse.data.gouv.fr/search/?q="+address+"&type=housenumber&autocomplete=1");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         String response = con.getResponseMessage();*/
-        List<Object> features = localisationUtil.getRegisterAddress(user.getAddressNumber(), user.getAddressName(), user.getPostalCode());
 
-        /*Localisation localisation = new Localisation();
-        localisation.setLongitude(coordinates[1]);
-        localisation.setLatitude(coordinates[0]);*/
-        
+        Object address = localisationUtil.getRegisterAddress(user.getAddressNumber(), user.getAddressName(), user.getPostalCode());
+        //System.out.println(address.toString());
+
+
         User createdUser = new User(
                 user.getName(),
                 user.getFirstname(),
@@ -82,7 +91,6 @@ public class AuthenticationService implements IAuthenticationService {
                 roleRepository.findByTitle("ROLE_USER"),
                 categoryRepository.getById(user.getMood())
         );
-        
 
         userRepository.save(createdUser);
 

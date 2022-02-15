@@ -2,6 +2,7 @@ package com.mood.mood.config;
 
 import com.mood.mood.filter.JwtFilter;
 import com.mood.mood.service.CustomUserDetailsService;
+import com.mood.mood.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private CustomUserDetailsService userDetailsService;
     @Autowired
@@ -73,17 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    /*@Bean
-    public WebMvcConfigurer corsConfigurer()
-    {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("/**");
-            }
-        };
-    }*/
-
     /**
      * Configure la sécurité au niveau des requêtes HTTP
      *
@@ -102,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // on active le mécanisme d'authification "stateless" car notre filtre JWT suit ce mécanisme
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/roles").permitAll()
+                .antMatchers("/localisation").permitAll()
                 .antMatchers("/authentication/register").permitAll()
                 .antMatchers("/authentication/login").permitAll()
                 .anyRequest().authenticated()

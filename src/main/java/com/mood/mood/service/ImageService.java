@@ -46,7 +46,7 @@ public class ImageService implements IImageService {
                 userImage.setDataName(dataName);
                 userImage.setData64(data64);
                 userImage.setMimeType(dataType);
-                userImage.setDataImage64(image64);
+                userImage.setSizeImage(size);
                 userImage.setUser(user);
 
                 imageRepository.save(userImage);
@@ -62,7 +62,7 @@ public class ImageService implements IImageService {
                     establishmentImage.setDataName(dataName);
                     establishmentImage.setData64(data64);
                     establishmentImage.setMimeType(dataType);
-                    establishmentImage.setDataImage64(image64);
+                    establishmentImage.setSizeImage(size);
                     establishmentImage.setEstablishment(establishment);
 
                     imageRepository.save(establishmentImage);
