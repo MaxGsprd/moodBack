@@ -1,5 +1,6 @@
 package com.mood.mood.repository;
 
+import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.model.Comment;
 import com.mood.mood.model.Establishment;
 import com.mood.mood.model.User;
@@ -11,9 +12,11 @@ import java.util.*;
 
 @Repository
 public interface CommentRepository  extends JpaRepository<Comment, Integer> {
+    List<Comment> findAll();
     List<Comment> findByCreatedDate(LocalDateTime date); // filtre from send date to now()
     List<Comment> findByStatus(Boolean status);
-    List<Comment> findByUser(User User);
-    List<Comment> findByEstablishment(Establishment establishment);
+    List<Comment> findByUserId(int userId);
+    List<Comment> findByEstablishmentId(int establishmentId);
     List<Comment> findByGroupType(Integer type);
+    void deleteById(int id);
 }

@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment") //indique le nom de la table associée.
+@Table(name = "comment")
 public class Comment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NonNull
@@ -29,13 +29,13 @@ public class Comment {
     @Column(nullable = true, columnDefinition = "Text")
     private String content;
 
-//    @NonNull
+    @NonNull
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
     /**
      * 0: default
-     * : signalé
+     * 1: reported
      */
     @NonNull
     @Column(nullable = false)
@@ -62,5 +62,10 @@ public class Comment {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     private User user;
+
+    @PrePersist
+    public void preSave() {
+        setCreatedDate(LocalDateTime.now());
+    }
 
 }
