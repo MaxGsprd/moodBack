@@ -1,0 +1,824 @@
+{
+	"info": {
+		"_postman_id": "ef24e6d4-bebc-4004-9817-395160872a7e",
+		"name": "PROJET3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication requests",
+			"item": [
+				{
+					"name": "postLoginAndGetToken",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"toto@gmail.com\",\r\n    \"password\":1234\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/authentication/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Establishment requests",
+			"item": [
+				{
+					"name": "getAllEstablishments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/establishments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEstablishmentById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/establishment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEstablishmentsByName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0MjQ4MDcyMywiaWF0IjoxNjQyNDQ0NzIzfQ.4g9h8BgbxbGh1s_3skTvZbSabgKkksWF0w6yYxmswMc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/establishments/bar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishments",
+								"bar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllEstablishmentsByCategoryId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0MjQ4MDcyMywiaWF0IjoxNjQyNDQ0NzIzfQ.4g9h8BgbxbGh1s_3skTvZbSabgKkksWF0w6yYxmswMc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/establishments/category/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishments",
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEstablishmentsByStatus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDk1MTc1MSwiaWF0IjoxNjQ0OTE1NzUxfQ.Xt4yZJsjo8YnGh8rqCPYdDayWBXcknj2iXM4V4Cbgc0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/establishmentsByStatus/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishmentsByStatus",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createEstablishment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDIxMDkxNSwiaWF0IjoxNjQ0MTc0OTE1fQ.5FWhjRX9fuPdpwyVcX-CcBz4zIyZ_lSWfQ_wwkbn-fM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Rouille\",\r\n    \"description\":\"un bar qui swing\",\r\n    \"category\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/newEstablishment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"newEstablishment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateEstablishment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDIwOTYwMCwiaWF0IjoxNjQ0MTczNjAwfQ.4c_Tq5xdu3OIuHKaesvH1TkdImMQNuyY49rMEQFOsJQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Le refait\",\r\n    \"description\":\"un bar tout neuf\",\r\n    \"category\":2\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/establishment/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishment",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEstablishment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDk1MTc1MSwiaWF0IjoxNjQ0OTE1NzUxfQ.Xt4yZJsjo8YnGh8rqCPYdDayWBXcknj2iXM4V4Cbgc0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/establishment/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"establishment",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment requests",
+			"item": [
+				{
+					"name": "getAllComments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCommentByEstablishmentId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentsByEstablishment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentsByEstablishment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCommentsByStatus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentsByStatus/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentsByStatus",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCommentsByUserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentsByUser/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentsByUser",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatAllCommentsByGroupType",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDcxMzc4NSwiaWF0IjoxNjQ0Njc3Nzg1fQ.NAefVs42Qgy7HTmqT4XOQ55rqlAe_8W7pqxwywnSyXE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentsByGroupType/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentsByGroupType",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createComment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDk1NzkzMCwiaWF0IjoxNjQ0OTIxOTMwfQ.Gi-xcNMT3WJ-d3pJzl-O1DBkZejQn0QVv8cfBUhmoLg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"another comment\",\r\n    \"content\":\"a new comment\",\r\n    \"groupType\":0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/newComment/establishment/2/user/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"newComment",
+								"establishment",
+								"2",
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDg2MDUwMiwiaWF0IjoxNjQ0ODI0NTAyfQ.ACxp5Had2oTBGJ4VH2ypZ-PrfEdNCkqagiawmyxZQV8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comment/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comment",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateComment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NDg2MDUwMiwiaWF0IjoxNjQ0ODI0NTAyfQ.ACxp5Had2oTBGJ4VH2ypZ-PrfEdNCkqagiawmyxZQV8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"I changed title\",\r\n    \"content\":\"and the content\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Note requests",
+			"item": [
+				{
+					"name": "noteEstablishment (create a note) ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NTAzNjI4MywiaWF0IjoxNjQ1MDAwMjgzfQ.FuTpP1RBr28u5PBYHDQGZkFSv2apNv58iq00Fdc4k3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\":5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/noteEstablishment/establishment/2/user/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"noteEstablishment",
+								"establishment",
+								"2",
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNotesByValue",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NTAzNjI4MywiaWF0IjoxNjQ1MDAwMjgzfQ.FuTpP1RBr28u5PBYHDQGZkFSv2apNv58iq00Fdc4k3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/noteByValue/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"noteByValue",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "noteByEstablishment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NTAzNjI4MywiaWF0IjoxNjQ1MDAwMjgzfQ.FuTpP1RBr28u5PBYHDQGZkFSv2apNv58iq00Fdc4k3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/noteByEstablishment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"noteByEstablishment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "noteAverageByEstablishment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NTAzNjI4MywiaWF0IjoxNjQ1MDAwMjgzfQ.FuTpP1RBr28u5PBYHDQGZkFSv2apNv58iq00Fdc4k3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/noteAverageByEstablishment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"noteAverageByEstablishment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "noteByUserAndEstablishment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NTAzNjI4MywiaWF0IjoxNjQ1MDAwMjgzfQ.FuTpP1RBr28u5PBYHDQGZkFSv2apNv58iq00Fdc4k3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/noteByUserAndEstablishment/establishment/1/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"noteByUserAndEstablishment",
+								"establishment",
+								"1",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteNote",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b3RvQGdtYWlsLmNvbSIsImV4cCI6MTY0NTAzNjI4MywiaWF0IjoxNjQ1MDAwMjgzfQ.FuTpP1RBr28u5PBYHDQGZkFSv2apNv58iq00Fdc4k3g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/note/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"note",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
