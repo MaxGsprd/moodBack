@@ -25,4 +25,5 @@ public class EstablishmentDetails {
     private List<EstablishmentImage> images;
     private NotesAverage note;
     private List<CommentDetails> comments;
+    private Category category;
 }
