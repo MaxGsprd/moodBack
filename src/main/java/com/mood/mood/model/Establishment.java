@@ -16,7 +16,7 @@ import java.util.List;
 public class Establishment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NonNull
