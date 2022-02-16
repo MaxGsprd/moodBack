@@ -6,9 +6,14 @@ import com.mood.mood.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Integer> {
-    Note findByValue(Integer value);
-    Note findByEstablishment(Establishment establishment);
-    Note findByUserAndEstablishment(User user, Establishment establishment);
+    List<Note> findByValue(Integer value);
+    Note findById(int note_id);
+    List<Note> findAllByEstablishmentId(int establishmentId);
+    Note findByUserIdAndEstablishmentId(int establishmentId, int userId);
+    void deleteNoteById(int note_id);
 }
