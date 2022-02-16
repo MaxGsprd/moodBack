@@ -102,6 +102,22 @@ public class GroupService implements IGroupService {
     }
 
     @Override
+    public Group create(Integer id, GroupForm form) {
+        User user = userRepository.findById(id).orElse(null);
+
+        Group group= new Group();
+
+        group.addUser(user);
+        group.setTitle(form.getTitle());
+        group.setCreatedDate(LocalDateTime.now());
+
+        groupRepository.save(group);
+
+        return group;
+
+    }
+
+    @Override
     public GroupDetails rename(Integer id, String name) {
         Group group = groupRepository.findById(id).orElse(null);
 

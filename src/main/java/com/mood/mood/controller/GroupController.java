@@ -46,6 +46,16 @@ public class GroupController {
         }
     }
 
+    @PostMapping("/createGroup/{user_id}")
+    public ResponseEntity<Group> renameGroup(@PathVariable Integer user_id, GroupForm form) throws Exception {
+        try {
+            Group group = groupService.create(user_id, form);
+            return ResponseEntity.ok(group);
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+        }
+    }
+
     @PostMapping("/renameGroup/{id}")
     public ResponseEntity<GroupDetails> renameGroup(@PathVariable Integer id, String name) throws Exception {
         try {
