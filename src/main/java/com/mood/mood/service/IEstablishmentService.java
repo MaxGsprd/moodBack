@@ -14,6 +14,6 @@ public interface IEstablishmentService {
     List<EstablishmentDetails> getAllEstablishmentsByCategoryId(int id) throws Exception;
     Establishment createEstablishment(@ModelAttribute EstablishmentForm establishmentForm) throws Exception;
     void deleteEstablishmentById(int id) throws Exception;
-//    EstablishmentDetails convertEstablishmentEntityToDto(Establishment establishment);
-//    Establishment establishmentDtoToEntity(EstablishmentForm establishmentForm);
+    EstablishmentDetails updateEstablishment(final int id, EstablishmentForm establishmentForm) throws Exception;
+    List<EstablishmentDetails> getEstablishmentsByStatus(Boolean status) throws Exception;
 }
