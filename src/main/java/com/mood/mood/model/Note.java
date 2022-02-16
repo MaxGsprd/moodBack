@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Note {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NonNull
