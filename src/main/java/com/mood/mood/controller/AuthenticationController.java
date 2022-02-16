@@ -29,7 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @ModelAttribute RegisterUser user) throws Exception {//@RequestBody
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterUser user) throws Exception {//@RequestBody
         try {
             User createdUser = authenticationService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);

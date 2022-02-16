@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GroupTest {
 
     private Group groupNoArgs;
-    private Group groupsAllArgs;
+    private Group groupAllArgs;
 
     @BeforeEach
     void setUp() {
@@ -20,7 +20,7 @@ class GroupTest {
         LocalDateTime updatedDate = LocalDateTime.of(2021, 11, 8, 10, 15);
         List<User> users = new ArrayList<User>();
         groupNoArgs = new Group();
-        groupsAllArgs = new Group(
+        groupAllArgs = new Group(
                 0,
                 "groupTitle",
                 createdDate,
@@ -34,40 +34,59 @@ class GroupTest {
         assertEquals(groupNoArgs.getClass().getSimpleName(), "Group");
         assertEquals(groupNoArgs.getId(), 0);
 
-        assertEquals(groupsAllArgs.getClass().getSimpleName(), "Group");
-        assertEquals(groupsAllArgs.getId(), 0);
+        assertEquals(groupAllArgs.getClass().getSimpleName(), "Group");
+        assertEquals(groupAllArgs.getId(), 0);
     }
 
     @Test
     void setId() {
-        groupsAllArgs.setId(0);
+        groupAllArgs.setId(0);
         assertEquals(groupNoArgs.getId(), 0);
     }
 
     @Test
     void setTitle() {
-        groupsAllArgs.setTitle("groupTitleTest");
-        assertEquals(groupsAllArgs.getTitle(),"groupTitleTest");
+        groupAllArgs.setTitle("groupTitleTest");
+        assertEquals(groupAllArgs.getTitle(),"groupTitleTest");
     }
 
     @Test
     void setCreatedDate() {
         LocalDateTime createdDateTest = LocalDateTime.of(2021, 06, 05, 10, 15);
-        groupsAllArgs.setCreatedDate(createdDateTest);
-        assertEquals(groupsAllArgs.getCreatedDate(), createdDateTest);
+        groupAllArgs.setCreatedDate(createdDateTest);
+        assertEquals(groupAllArgs.getCreatedDate(), createdDateTest);
     }
 
     @Test
     void setUpdatedDate() {
         LocalDateTime updatedDateTest = LocalDateTime.of(2021, 11, 8, 10, 15);
-        groupsAllArgs.setUpdatedDate(updatedDateTest);
-        assertEquals(groupsAllArgs.getUpdatedDate(), updatedDateTest);
+        groupAllArgs.setUpdatedDate(updatedDateTest);
+        assertEquals(groupAllArgs.getUpdatedDate(), updatedDateTest);
     }
 
     @Test
     void addUser() {
         User userTest = new User();
-        groupsAllArgs.addUser(userTest);
-        assertTrue(groupsAllArgs.getUsers().contains(userTest));
+        groupAllArgs.addUser(userTest);
+        assertTrue(groupAllArgs.getUsers().contains(userTest));
+    }
+
+    @Test
+    void removeUser() {
+        User userOne = new User();
+        userOne.setFirstname("John");
+        userOne.setName("Doe");
+
+        User userTwo = new User();
+        userTwo.setFirstname("Jane");
+        userTwo.setName("Doe");
+
+        groupAllArgs.addUser(userOne);
+        groupAllArgs.addUser(userTwo);
+
+        groupAllArgs.removeUser(userTwo);
+
+        assertTrue(groupAllArgs.getUsers().contains(userOne));
+        assertFalse(groupAllArgs.getUsers().contains(userTwo));
     }
 }

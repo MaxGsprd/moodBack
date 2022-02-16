@@ -6,17 +6,29 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Entity
-@DiscriminatorValue("IE")
 @NoArgsConstructor
 public class InvitationEvenement extends Invitation {
 
     @NonNull
     @Column(nullable = false)
     private LocalDateTime invitationDate;
+
+    /**
+     * 0:submitted
+     * 1:accepted
+     * 2:refused
+     * 3:cancelled
+     */
+    @NonNull
+    @Column(nullable = false)
+    private int status;
 
     @ManyToOne
     @JsonIdentityInfo(
@@ -25,7 +37,7 @@ public class InvitationEvenement extends Invitation {
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    public InvitationEvenement(User organizer, Group group, User destinataire, @NonNull LocalDateTime invitationDate, Establishment establishment, @NonNull Integer status) {
+    public InvitationEvenement(User organizer, Group group, User destinataire, @NonNull LocalDateTime invitationDate, Establishment establishment, @NonNull int status) {
         super(organizer, group, destinataire, status);
         this.invitationDate = invitationDate;
         this.establishment = establishment;
@@ -37,6 +49,14 @@ public class InvitationEvenement extends Invitation {
 
     public void setInvitationDate(LocalDateTime invitationDate) {
         this.invitationDate = invitationDate;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Establishment getEstablishment() {
