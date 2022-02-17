@@ -18,7 +18,8 @@ public interface ICommentService {
     List<CommentDetails> getAllCommentsByStatus(Boolean status) throws Exception;
     List<CommentDetails> getAllCommentsByUserId(int userId) throws Exception;
     List<CommentDetails> getAllCommentsByGroupType(int groupType) throws Exception;
-//    List<CommentDetails> getAllCommentsByCreatedDate(LocalDateTime createdDate) throws Exception;
+    List<CommentDetails> getAllCommentsByCreatedDateLatest() throws Exception;
+    List<CommentDetails> getAllCommentsByCreatedDateOldest() throws Exception;
     Comment createComment(@ModelAttribute CommentForm commentForm, int establishment_id, int user_id) throws Exception;
     void deleteCommentById(int id) throws Exception;
     CommentDetails updateComment(final int id, CommentForm commentForm) throws Exception;

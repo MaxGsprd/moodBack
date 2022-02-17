@@ -11,6 +11,7 @@ import com.mood.mood.repository.UserRepository;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,20 @@ public class CommentService implements ICommentService{
 
     public List<CommentDetails> getAllComments() {
         return commentRepository.findAll()
+                .stream()
+                .map(this::convertCommentEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<CommentDetails> getAllCommentsByCreatedDateLatest() {
+        return commentRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"))
+                .stream()
+                .map(this::convertCommentEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<CommentDetails> getAllCommentsByCreatedDateOldest() {
+        return commentRepository.findAll(Sort.by(Sort.Direction.ASC, "createdDate"))
                 .stream()
                 .map(this::convertCommentEntityToDto)
                 .collect(Collectors.toList());
@@ -67,13 +82,6 @@ public class CommentService implements ICommentService{
                 .map(this::convertCommentEntityToDto)
                 .collect(Collectors.toList());
     }
-
-//    public List<CommentDetails> getAllCommentsByCreatedDate(LocalDateTime createdDate) {
-//        return commentRepository.findByCreatedDate(createdDate)
-//                .stream()
-//                .map(this::convertCommentEntityToDto)
-//                .collect(Collectors.toList());
-//    }
 
     /**
      * @param commentForm comment DTO in
