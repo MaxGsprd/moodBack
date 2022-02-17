@@ -15,5 +15,5 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
     Note findById(int note_id);
     List<Note> findAllByEstablishmentId(int establishmentId);
     Note findByUserIdAndEstablishmentId(int establishmentId, int userId);
-    void deleteNoteById(int note_id);
+    void deleteById(int note_id);
 }

@@ -31,7 +31,7 @@ public class NoteController {
             Establishment notedEstablishment = noteService.noteEstablishment(noteForm, establishment_id, user_id);
             return ResponseEntity.status(HttpStatus.CREATED).body(notedEstablishment);
         } catch (Exception e) {
-            throw new Exception("Error: the establishment couldn't be created " + e.getMessage(), e.getCause());
+            throw new Exception("Error: the note couldn't be created " + e.getMessage(), e.getCause());
         }
     }
 
