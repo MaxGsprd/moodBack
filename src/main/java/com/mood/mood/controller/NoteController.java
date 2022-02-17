@@ -92,15 +92,15 @@ public class NoteController {
         }
     }
 
-//    @PutMapping("note/{id}")
-//    public ResponseEntity<EstablishmentDetails> updateEstablishment(@PathVariable("id") int id, @RequestBody EstablishmentForm establishmentForm) throws Exception {
-//        try {
-//            EstablishmentDetails updateEstablishment = establishmentService.updateEstablishment(id, establishmentForm);
-//            return ResponseEntity.ok(updateEstablishment);
-//        } catch (Exception e) {
-//            throw new Exception("Error updating establishment " + e.getMessage(), e.getCause());
-//        }
-//    }
+    @PutMapping("note/{id}")
+    public ResponseEntity<Note> updateNote(@PathVariable("id") int id, @RequestBody NoteForm noteForm) throws Exception {
+        try {
+            Note updatedNote = noteService.updateNote(id, noteForm);
+            return ResponseEntity.ok(updatedNote);
+        } catch (Exception e) {
+            throw new Exception("Error updating note " + e.getMessage(), e.getCause());
+        }
+    }
 
 
     @DeleteMapping("note/{id}")

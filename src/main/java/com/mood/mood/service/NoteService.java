@@ -128,12 +128,19 @@ public class NoteService implements INoteService {
         }
     }
 
-    public void deleteEstablishmentById(int id) throws Exception {
+
+    /**
+     * @param id note id to be updated
+     */
+    public Note updateNote(int id, NoteForm noteForm) throws Exception {
         try {
-            Establishment establishment = establishmentRepository.findById(id);
-            establishmentRepository.deleteById(establishment.getId());
+            Note note = noteRepository.findById(id);
+            note.setValue(noteForm.getValue());
+            noteRepository.save(note);
+            return note;
         } catch (Exception e) {
-            throw new Exception("Error : This establishment couldn't be found, " + e.getMessage(), e.getCause());
+            throw new Exception("Error : This note couldn't be found, " + e.getMessage(), e.getCause());
         }
     }
+
 }
