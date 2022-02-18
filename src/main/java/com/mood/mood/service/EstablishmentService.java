@@ -56,6 +56,19 @@ public class EstablishmentService implements IEstablishmentService {
 
 
     /**
+     * Return all establishments sorted By notes average from best to last
+     * */
+    public List<EstablishmentDetails> getAllEstablishmentsByNotesAverages() throws Exception {
+        List<Establishment> establishments = establishmentRepository.findAll();
+        List<EstablishmentDetails> establishmentDetails = establishments.stream().map(this::convertEstablishmentEntityToDto).collect(Collectors.toList());
+        List<EstablishmentDetails> sortedEstablishmentDetails = establishmentDetails.stream()
+                .sorted((o1,o2) -> (int) (o2.getNote().getNote() - o1.getNote().getNote())).collect(Collectors.toList());
+        /** sort stream with comparator on establishmentDetails note */
+        return sortedEstablishmentDetails;
+    }
+
+
+    /**
      * Find establishment by name with Like query
      */
     public List<EstablishmentDetails> getEstablishmentByNameLike(String name) throws Exception {

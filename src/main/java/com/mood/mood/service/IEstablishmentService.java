@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface IEstablishmentService {
     List<EstablishmentDetails> getAllEstablishments() throws Exception;
+    List<EstablishmentDetails> getAllEstablishmentsByNotesAverages() throws Exception;
     EstablishmentDetails getEstablishmentById(final int id) throws Exception;
     List<EstablishmentDetails> getEstablishmentByNameLike(String name) throws Exception;
     List<EstablishmentDetails> getAllEstablishmentsByCategoryId(int id) throws Exception;
