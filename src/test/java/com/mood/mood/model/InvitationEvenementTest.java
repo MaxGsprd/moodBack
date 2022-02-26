@@ -49,4 +49,10 @@ class InvitationEvenementTest {
         assertEquals(invitationRequiredArgs.getEstablishment(), establishment);
     }
 
+    @Test
+    void setStatus() {
+        invitationRequiredArgs.setStatus(1);
+        assertEquals(invitationRequiredArgs.getStatus(), 1);
+    }
+
 }

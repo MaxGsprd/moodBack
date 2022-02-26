@@ -61,7 +61,7 @@ class InvitationTest {
 
     @Test
     void setStatus() {
-        invitationRequiredArgs.setStatus(0);
-        assertEquals(invitationRequiredArgs.getStatus(), 0);
+        invitationRequiredArgs.setStatus(2);
+        assertEquals(invitationRequiredArgs.getStatus(), 2);
     }
 }

@@ -25,7 +25,7 @@ public class LocalisationUtil {
 
     public List<Object> getRegisterAddress(String addressNum, String address, String cp) throws Exception {
         String full_address = addressNum+"+"+address.replace(" ", "+");
-        List<Object> add =  localisationController.getAddressFromString(full_address,cp);
+        List<Object> add =  localisationController.getAddressFromString(full_address, cp);
 
         return add;
     }

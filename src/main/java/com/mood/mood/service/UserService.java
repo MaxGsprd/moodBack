@@ -1,35 +1,43 @@
 package com.mood.mood.service;
 
-import com.mood.mood.repository.UserRepository;
+import com.mood.mood.dto.in.UserForm;
 import com.mood.mood.dto.out.GroupDetails;
 import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.dto.out.UserDetails;
+import com.mood.mood.model.Category;
 import com.mood.mood.model.Group;
+import com.mood.mood.model.Role;
 import com.mood.mood.model.User;
+import com.mood.mood.repository.CategoryRepository;
+import com.mood.mood.repository.RoleRepository;
+import com.mood.mood.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserService implements IUserService {
     @Autowired
     UserRepository userRepository;
 
-    @SneakyThrows
-    @Override
-    public UserDetails find(String email) {
-        User user = userRepository.findByEmail(email);
+    @Autowired
+    CategoryRepository categoryRepository;
 
-        URL url =  new URL("https://api-adresse.data.gouv.fr/reverse/?lon="+user.getLocalisation().getLongitude()+"&lat="+user.getLocalisation().getLatitude()+"&type=housenumber&autocomplete=1");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        String response = con.getResponseMessage();
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Override
+    public UserDetails find(Integer id) {
+        User user = userRepository.findById(id).orElse(null);
 
         List<GroupDetails> groupDetailsList = new ArrayList<>();
+        assert user != null;
         for (Group group : user.getGroups()) {
             groupDetailsList.add(
                     new GroupDetails(
@@ -63,7 +71,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User update(Integer id, User user) throws Exception {
+    public User update(Integer id, UserForm user) throws Exception {
         User updatedUser = userRepository.findById(id).orElse(null);
 
         if(updatedUser == null) return null;
@@ -71,14 +79,43 @@ public class UserService implements IUserService {
         updatedUser.setFirstname(user.getFirstname());
         updatedUser.setName(user.getName());
         updatedUser.setEmail(user.getEmail());
-        updatedUser.setMood(user.getMood());
         updatedUser.setBirthdate(user.getBirthdate());
 
         return userRepository.save(updatedUser);
     }
 
     @Override
-    public void delete(User user) {
+    public User updateMood(Integer id, Integer mood) {
+        User updatedUser = userRepository.findById(id).orElse(null);
+        Category newMood = categoryRepository.findById(mood).orElse(null);
+
+        if(updatedUser == null) return null;
+
+        updatedUser.setMood(newMood);
+
+        return userRepository.save(updatedUser);
+    }
+
+    @Override
+    public User updateRole(Integer id, Integer role) {
+        User updatedUser = userRepository.findById(id).orElse(null);
+        Role newRole = roleRepository.findById(role).orElse(null);
+
+        if(updatedUser == null) return null;
+
+        updatedUser.setRole(newRole);
+
+        return userRepository.save(updatedUser);
+    }
+
+    @Override
+    public boolean delete(Integer id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        if(user == null) return false;
+
         userRepository.delete(user);
+
+        return true;
     }
 }
