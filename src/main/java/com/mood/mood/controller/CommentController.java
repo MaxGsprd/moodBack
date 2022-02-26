@@ -9,9 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -80,7 +77,6 @@ public class CommentController {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
-
 
     @GetMapping("/allCommentsSortedByOldestCreatedDate")
     public ResponseEntity<List<CommentDetails>> getCommentByOldestCreatedDate() throws Exception {
