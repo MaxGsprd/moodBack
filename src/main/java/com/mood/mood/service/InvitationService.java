@@ -61,7 +61,6 @@ public class InvitationService implements IInvitationService {
             newInvitation.setStatus(0);
             Optional<Group> group = groupRepository.findById(groupId);
             newInvitation.setGroup(group.get());
-
             invitationRepository.save(newInvitation);
             return newInvitation;
         } catch (Exception e) {

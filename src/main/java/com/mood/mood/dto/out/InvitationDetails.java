@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvitationDetails {
-    private String invitationDate;
+    private LocalDateTime invitationDate;
     private int status;
     private EstablishmentDetails establishment;
     // UserDetails crée une boucle

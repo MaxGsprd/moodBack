@@ -2,6 +2,8 @@ package com.mood.mood.controller;
 
 import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.model.Invitation;
+import com.mood.mood.model.InvitationEvenement;
+import com.mood.mood.service.IInvitationEvenementService;
 import com.mood.mood.service.IInvitationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ public class invitationController {
 
     @Autowired
     IInvitationService invitationService;
+    @Autowired
+    IInvitationEvenementService invitationEvenementService;
 
     @GetMapping("invitations/group/{groupId}")
     public ResponseEntity<List<InvitationDetails>> getAllInvitationDetailsByGroupId(@PathVariable int groupId) throws Exception {
@@ -53,6 +57,19 @@ public class invitationController {
                                                        @PathVariable int groupId) throws Exception {
         try {
             Invitation invitation = invitationService.createInvitationForGroup(organizerId,receiverId,groupId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(invitation);
+        } catch (Exception e) {
+            throw new Exception("Error: the invitation couldn't be created " + e.getMessage(), e.getCause());
+        }
+    }
+
+    @PostMapping("createInvitationEvenementForEvent/{organizerId}+{receiverId}+{groupId}+{establishmentId}")
+    public ResponseEntity<InvitationEvenement> createInvitationEvenement(@Valid @PathVariable int organizerId,
+                                                                @PathVariable int receiverId,
+                                                                @PathVariable int groupId,
+                                                                @PathVariable int establishmentId) throws Exception {
+        try {
+            InvitationEvenement invitation = invitationEvenementService.createInvitationForEvent(organizerId, receiverId, groupId, establishmentId);
             return ResponseEntity.status(HttpStatus.CREATED).body(invitation);
         } catch (Exception e) {
             throw new Exception("Error: the invitation couldn't be created " + e.getMessage(), e.getCause());
