@@ -2,33 +2,32 @@ package com.mood.mood.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Entity
+@Data
+@AllArgsConstructor
+//@RequiredArgsConstructor
 @NoArgsConstructor
 public class InvitationEvenement extends Invitation {
 
-    @NonNull
-    @Column(nullable = false)
+    @Column
     private LocalDateTime invitationDate;
 
-    /**
-     * 0:submitted
-     * 1:accepted
-     * 2:refused
-     * 3:cancelled
-     */
-    @NonNull
-    @Column(nullable = false)
-    private int status;
+//    /**
+//     * 0:submitted
+//     * 1:accepted
+//     * 2:refused
+//     * 3:cancelled
+//     */
+//    @NonNull
+//    @Column(nullable = false)
+//    private int status;
 
     @ManyToOne
     @JsonIdentityInfo(
@@ -37,33 +36,9 @@ public class InvitationEvenement extends Invitation {
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    public InvitationEvenement(User organizer, Group group, User destinataire, @NonNull LocalDateTime invitationDate, Establishment establishment, @NonNull int status) {
+    public InvitationEvenement(User organizer, Group group, User destinataire, LocalDateTime invitationDate, Establishment establishment, @NonNull int status) {
         super(organizer, group, destinataire, status);
         this.invitationDate = invitationDate;
-        this.establishment = establishment;
-    }
-
-    public LocalDateTime getInvitationDate() {
-        return invitationDate;
-    }
-
-    public void setInvitationDate(LocalDateTime invitationDate) {
-        this.invitationDate = invitationDate;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Establishment getEstablishment() {
-        return establishment;
-    }
-
-    public void setEstablishment(Establishment establishment) {
         this.establishment = establishment;
     }
 }

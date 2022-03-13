@@ -1,5 +1,6 @@
 package com.mood.mood.repository;
 
+import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.model.Group;
 import com.mood.mood.model.Invitation;
 import com.mood.mood.model.User;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Integer> {
-    Invitation findByGroup(Group group);
-    List<Invitation> findByReceiver(User receiver);
-    List<Invitation> findByOrganizer(User organizer);
+    List<Invitation> findByGroupId(int groupId);
+    List<Invitation> findByReceiverId(int receiverId);
+    List<Invitation> findByOrganizerId(int organizerId);
 }
