@@ -23,30 +23,30 @@ public class invitationController {
     IInvitationEvenementService invitationEvenementService;
 
     @GetMapping("invitations/group/{groupId}")
-    public ResponseEntity<List<InvitationDetails>> getAllInvitationDetailsByGroupId(@PathVariable int groupId) throws Exception {
+    public ResponseEntity<List<Invitation>> getAllInvitationDetailsByGroupId(@PathVariable int groupId) throws Exception {
         try {
-            List<InvitationDetails> invitationDetails = invitationService.getAllInvitationsByGroupId(groupId);
-            return ResponseEntity.ok(invitationDetails);
+            List<Invitation> invitations = invitationService.getAllInvitationsByGroupId(groupId);
+            return ResponseEntity.ok(invitations);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
 
     @GetMapping("invitationsByReceiver/{receiverId}")
-    public ResponseEntity<List<InvitationDetails>> getAllInvitationDetailsByReceiverId(@PathVariable int receiverId) throws Exception {
+    public ResponseEntity<List<Invitation>> getAllInvitationDetailsByReceiverId(@PathVariable int receiverId) throws Exception {
         try {
-            List<InvitationDetails> invitationDetails = invitationService.getAllInvitationsByReceiverId(receiverId);
-            return ResponseEntity.ok(invitationDetails);
+            List<Invitation> invitations = invitationService.getAllInvitationsByReceiverId(receiverId);
+            return ResponseEntity.ok(invitations);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
 
     @GetMapping("invitationsByOrganizer/{organizerId}")
-    public ResponseEntity<List<InvitationDetails>> getAllInvitationDetailsByOrganizerId(@PathVariable int organizerId) throws Exception {
+    public ResponseEntity<List<Invitation>> getAllInvitationDetailsByOrganizerId(@PathVariable int organizerId) throws Exception {
         try {
-            List<InvitationDetails> invitationDetails = invitationService.getAllInvitationsByOrganizerId(organizerId);
-            return ResponseEntity.ok(invitationDetails);
+            List<Invitation> invitations = invitationService.getAllInvitationsByOrganizerId(organizerId);
+            return ResponseEntity.ok(invitations);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
@@ -64,13 +64,12 @@ public class invitationController {
         }
     }
 
-    @PostMapping("createInvitationEvenementForEvent/{organizerId}+{receiverId}+{groupId}+{establishmentId}")
+    @PostMapping("createInvitationEvenementForEvent/{organizerId}+{groupId}+{establishmentId}")
     public ResponseEntity<InvitationEvenement> createInvitationEvenement(@Valid @PathVariable int organizerId,
-                                                                @PathVariable int receiverId,
                                                                 @PathVariable int groupId,
                                                                 @PathVariable int establishmentId) throws Exception {
         try {
-            InvitationEvenement invitation = invitationEvenementService.createInvitationForEvent(organizerId, receiverId, groupId, establishmentId);
+            InvitationEvenement invitation = invitationEvenementService.createInvitationForEvent(organizerId, groupId, establishmentId);
             return ResponseEntity.status(HttpStatus.CREATED).body(invitation);
         } catch (Exception e) {
             throw new Exception("Error: the invitation couldn't be created " + e.getMessage(), e.getCause());

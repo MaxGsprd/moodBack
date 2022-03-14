@@ -28,13 +28,11 @@ public class InvitationEvenementService implements IInvitationEvenementService {
     @Autowired
     private final EstablishmentRepository establishmentRepository;
 
-    public InvitationEvenement createInvitationForEvent(int organizerId, int receiverId, int groupId, int establishmentId) throws Exception {
+    public InvitationEvenement createInvitationForEvent(int organizerId, int groupId, int establishmentId) throws Exception {
         try {
             InvitationEvenement newInvitationEvenement = new InvitationEvenement();
             Optional<User> organizer = userRepository.findById(organizerId);
             newInvitationEvenement.setOrganizer(organizer.get());
-            Optional<User> receiver = userRepository.findById(receiverId);
-            newInvitationEvenement.setReceiver(receiver.get());
             newInvitationEvenement.setStatus(0);
             Optional<Group> group = groupRepository.findById(groupId);
             newInvitationEvenement.setGroup(group.get());

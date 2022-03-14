@@ -30,24 +30,21 @@ public class InvitationService implements IInvitationService {
     @Autowired
     private final GroupRepository groupRepository;
 
-    public List<InvitationDetails> getAllInvitationsByGroupId(final int groupId) {
+    public List<Invitation> getAllInvitationsByGroupId(final int groupId) {
         return invitationRepository.findByGroupId(groupId)
                 .stream()
-                .map(this::convertInvitationEntityToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<InvitationDetails> getAllInvitationsByReceiverId(final int receiverId) {
+    public List<Invitation> getAllInvitationsByReceiverId(final int receiverId) {
         return invitationRepository.findByReceiverId(receiverId)
                 .stream()
-                .map(this::convertInvitationEntityToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<InvitationDetails> getAllInvitationsByOrganizerId(final int organizerId) {
+    public List<Invitation> getAllInvitationsByOrganizerId(final int organizerId) {
         return invitationRepository.findByOrganizerId(organizerId)
                 .stream()
-                .map(this::convertInvitationEntityToDto)
                 .collect(Collectors.toList());
     }
 
@@ -80,11 +77,4 @@ public class InvitationService implements IInvitationService {
         }
     }
 
-    /**
-     * @param invitation  convert Invitation entity to invitationDetails (DTO out)
-     * @return InvitationDetails
-     */
-    private InvitationDetails convertInvitationEntityToDto(Invitation invitation) {
-        return modelMapper.map(invitation, InvitationDetails.class);
-    }
 }
