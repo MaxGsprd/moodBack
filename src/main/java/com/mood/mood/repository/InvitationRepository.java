@@ -1,9 +1,6 @@
 package com.mood.mood.repository;
 
-import com.mood.mood.dto.out.InvitationDetails;
-import com.mood.mood.model.Group;
 import com.mood.mood.model.Invitation;
-import com.mood.mood.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

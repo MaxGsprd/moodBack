@@ -1,6 +1,6 @@
 package com.mood.mood.service;
 
-import com.mood.mood.dto.out.InvitationDetails;
+import com.mood.mood.dto.out.InvitationEvenementDetails;
 import com.mood.mood.model.*;
 import com.mood.mood.repository.EstablishmentRepository;
 import com.mood.mood.repository.GroupRepository;
@@ -49,7 +49,7 @@ public class InvitationEvenementService implements IInvitationEvenementService {
      * @param invitationEvenement  convert InvitationEvenement entity to invitationDetails (DTO out)
      * @return InvitationDetails
      */
-    private InvitationDetails convertInvitationEvenementEntityToDto(InvitationEvenement invitationEvenement) {
-        return modelMapper.map(invitationEvenement, InvitationDetails.class);
+    private InvitationEvenementDetails convertInvitationEvenementEntityToDto(InvitationEvenement invitationEvenement) {
+        return modelMapper.map(invitationEvenement, InvitationEvenementDetails.class);
     }
 }

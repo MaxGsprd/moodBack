@@ -1,6 +1,5 @@
 package com.mood.mood.controller;
 
-import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.model.Invitation;
 import com.mood.mood.model.InvitationEvenement;
 import com.mood.mood.service.IInvitationEvenementService;
@@ -83,6 +82,16 @@ public class invitationController {
             HttpHeaders header = new HttpHeaders();
             header.add("Invitation deleted", "The invitation has been successfully deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    @PutMapping("{id}+{receiverResponse}")
+    public Invitation updateInvitation(@PathVariable("id") int id, @PathVariable Integer receiverResponse) throws Exception {
+        try {
+            Invitation invitation = invitationService.updateInvitation(id, receiverResponse);
+            return invitation;
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }

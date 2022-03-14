@@ -1,7 +1,6 @@
 package com.mood.mood.service;
 
 
-import com.mood.mood.dto.out.InvitationDetails;
 import com.mood.mood.model.Group;
 import com.mood.mood.model.Invitation;
 import com.mood.mood.model.User;
@@ -60,6 +59,17 @@ public class InvitationService implements IInvitationService {
             newInvitation.setGroup(group.get());
             invitationRepository.save(newInvitation);
             return newInvitation;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    public Invitation updateInvitation(final int invitationId, Integer receiverResponse) throws Exception {
+        try {
+            Invitation invitation = invitationRepository.findById(invitationId).orElse(null);
+            invitation.setStatus(receiverResponse);
+            invitationRepository.save(invitation);
+            return invitation;
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }

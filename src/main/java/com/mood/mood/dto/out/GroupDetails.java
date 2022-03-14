@@ -18,5 +18,5 @@ public class GroupDetails {
     // List<UserDetails> crée une boucle
     private List<User> users;
 
-    private List<InvitationDetails> invitations;
+    private List<InvitationEvenementDetails> invitations;
 }

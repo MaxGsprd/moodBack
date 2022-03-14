@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvitationDetails {
+public class InvitationEvenementDetails {
     private LocalDateTime invitationDate;
     private int status;
     private EstablishmentDetails establishment;
