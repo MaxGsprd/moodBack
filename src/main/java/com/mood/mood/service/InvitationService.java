@@ -69,6 +69,18 @@ public class InvitationService implements IInvitationService {
     }
 
     /**
+     * @param id invitation id to be deleted
+     */
+    public void deleteInvitationById(int id) throws Exception {
+        try {
+            Optional<Invitation> invitation = invitationRepository.findById(id);
+            invitationRepository.deleteById(invitation.get().getId());
+        } catch (Exception e) {
+            throw new Exception("Error : This invitation couldn't be found, " + e.getMessage(), e.getCause());
+        }
+    }
+
+    /**
      * @param invitation  convert Invitation entity to invitationDetails (DTO out)
      * @return InvitationDetails
      */
