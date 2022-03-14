@@ -51,9 +51,9 @@ class ImageTest {
     }
 
     @Test
-    void setDataImage64() {
+    void setSizeImage() {
         imageNoArgs.setSizeImage(18000);
-        assertEquals(imageNoArgs.getSizeImage(), 20000);
+        assertEquals(imageNoArgs.getSizeImage(), 18000);
     }
 
     @Test
