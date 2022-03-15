@@ -87,7 +87,7 @@ public class invitationController {
         }
     }
 
-    @PutMapping("{id}+{receiverResponse}")
+    @PutMapping("invitation/{id}+{receiverResponse}")
     public Invitation updateInvitation(@PathVariable("id") int id, @PathVariable Integer receiverResponse) throws Exception {
         try {
             Invitation invitation = invitationService.updateInvitation(id, receiverResponse);
@@ -96,5 +96,17 @@ public class invitationController {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
+
+    @PutMapping("invitationEvenement/{id}+{receiverResponse}")
+    public InvitationEvenement invitationEvenement(@PathVariable("id") int id, @PathVariable int receiverResponse) throws Exception {
+        try {
+            InvitationEvenement invitationEvenement = invitationEvenementService.updateInvitationEvenement(id, receiverResponse);
+            return invitationEvenement;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+
 
 }

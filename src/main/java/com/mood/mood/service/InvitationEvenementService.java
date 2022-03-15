@@ -45,6 +45,17 @@ public class InvitationEvenementService implements IInvitationEvenementService {
         }
     }
 
+    public InvitationEvenement updateInvitationEvenement(final int invitationEvenementId, final int receiverResponse) throws Exception {
+        try {
+            InvitationEvenement invitationEvenement = invitationEvenementRepository.findById(invitationEvenementId).orElse(null);
+            invitationEvenement.setStatus(receiverResponse);
+            invitationEvenementRepository.save(invitationEvenement);
+            return invitationEvenement;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
     /**
      * @param invitationEvenement  convert InvitationEvenement entity to invitationDetails (DTO out)
      * @return InvitationDetails
