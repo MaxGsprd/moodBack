@@ -1,5 +1,6 @@
 package com.mood.mood.controller;
 
+import com.mood.mood.dto.out.InvitationEvenementDetails;
 import com.mood.mood.model.Invitation;
 import com.mood.mood.model.InvitationEvenement;
 import com.mood.mood.service.IInvitationEvenementService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -50,6 +52,16 @@ public class invitationController {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
+
+    /*
+    @GetMapping("invitationEvenementByDate/{date}")
+    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByDate(@PathVariable LocalDateTime date) throws Exception {
+        try {
+            List<InvitationEvenementDetails>p
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }*/
 
     @PostMapping("createInvitationForGroup/{organizerId}+{receiverId}+{groupId}")
     public ResponseEntity<Invitation> createInvitation(@Valid @PathVariable int organizerId,

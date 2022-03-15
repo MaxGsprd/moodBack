@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 public interface InvitationEvenementRepository extends JpaRepository<InvitationEvenement, Integer> {
     InvitationEvenement findByInvitationDate(LocalDateTime dateTime);
     InvitationEvenement findByStatus(Integer status);
-    InvitationEvenement findByEstablishment(Establishment establishment);
-    InvitationEvenement findByGroup(Group group);
+    InvitationEvenement findByEstablishmentId(int establishmentId);
+    InvitationEvenement findByGroupId(int groupId);
 }

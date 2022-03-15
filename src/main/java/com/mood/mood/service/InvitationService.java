@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,21 +31,15 @@ public class InvitationService implements IInvitationService {
     private final GroupRepository groupRepository;
 
     public List<Invitation> getAllInvitationsByGroupId(final int groupId) {
-        return invitationRepository.findByGroupId(groupId)
-                .stream()
-                .collect(Collectors.toList());
+        return new ArrayList<>(invitationRepository.findByGroupId(groupId));
     }
 
     public List<Invitation> getAllInvitationsByReceiverId(final int receiverId) {
-        return invitationRepository.findByReceiverId(receiverId)
-                .stream()
-                .collect(Collectors.toList());
+        return new ArrayList<>(invitationRepository.findByReceiverId(receiverId));
     }
 
     public List<Invitation> getAllInvitationsByOrganizerId(final int organizerId) {
-        return invitationRepository.findByOrganizerId(organizerId)
-                .stream()
-                .collect(Collectors.toList());
+        return new ArrayList<>(invitationRepository.findByOrganizerId(organizerId));
     }
 
     public Invitation createInvitationForGroup(final int organizerId, final int receiverId, final int groupId) throws Exception {
