@@ -85,7 +85,7 @@ public class CommentController {
 //    }
 
     @PostMapping("/newComment/establishment/{establishment_id}/user/{user_id}")
-    public ResponseEntity<Comment> createEstablishment(@Valid @RequestBody CommentForm commentForm,
+    public ResponseEntity<Comment> createComment(@Valid @RequestBody CommentForm commentForm,
                                                        @PathVariable("establishment_id") int establishment_id,
                                                        @PathVariable("user_id") int user_id) throws Exception {
         try {

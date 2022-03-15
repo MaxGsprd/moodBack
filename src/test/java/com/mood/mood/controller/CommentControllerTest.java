@@ -3,8 +3,8 @@ package com.mood.mood.controller;
 import com.google.gson.Gson;
 import com.mood.mood.dto.in.CommentForm;
 import com.mood.mood.service.CommentService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -34,7 +33,7 @@ public class CommentControllerTest {
 
     private Gson gson;
 
-    @BeforeEach
+    @Before
     public void setUp() throws Exception {
         this.form = new CommentForm(
                 "title",
@@ -46,7 +45,7 @@ public class CommentControllerTest {
 
     @Test
     public void getAllComments() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/comments/")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/comments")
                 .contentType(MediaType.APPLICATION_JSON);
 
         var result = mockMvc.perform(requestBuilder);
@@ -54,30 +53,60 @@ public class CommentControllerTest {
     }
 
     @Test
-    void getCommentByEstablishment() {
+    public void getCommentByEstablishment() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/commentsByEstablishment/{establishmentId}", 1 )
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept("application/json");
+        var result = mockMvc.perform(requestBuilder);
+
+        result.andExpect(status().isOk());
     }
 
     @Test
-    void getCommentByStatus() {
+    public void getCommentByStatus() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/commentsByStatus/{status}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept("application/json");
+
+        var result = mockMvc.perform(requestBuilder);
+        result.andExpect(status().isOk());
     }
 
     @Test
-    void getCommentsByUserId() {
+    public void getCommentsByUserId() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/commentsByUser/{userId}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept("application/json");
+
+        var result = mockMvc.perform(requestBuilder);
+        result.andExpect(status().isOk());
     }
 
     @Test
-    void getCommentsByGroupType() {
+    public void getCommentsByGroupType() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/commentsByGroupType/{groupType}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept("application/json");
+
+        var result = mockMvc.perform(requestBuilder);
+        result.andExpect(status().isOk());
     }
 
     @Test
-    void createEstablishment() {
+    public void createComment() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/newComment/establishment/{establishmentId}/user/{userId}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.gson.toJson(this.form));
+
+        var result = mockMvc.perform(requestBuilder);
+        result.andExpect(status().isCreated());
     }
 
     @Test
-    void deleteComment() {
+    public void deleteComment() {
     }
 
     @Test
-    void updateComment() {
+    public void updateComment() {
     }
 }
