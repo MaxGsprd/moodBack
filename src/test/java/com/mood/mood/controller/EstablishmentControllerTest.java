@@ -69,6 +69,7 @@ public class EstablishmentControllerTest {
                 .accept("application/json");
 
         var result = mockMvc.perform(requestBuilder);
+        // mockMvc.perform(requestBuilder).andExpect(status().isOk());
 
         result.andExpect(status().isOk());
         //System.out.println(result.getResponse().getContentAsString());

@@ -5,6 +5,8 @@ import com.mood.mood.dto.out.UserDetails;
 import com.mood.mood.model.User;
 import com.mood.mood.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +42,7 @@ public class UserController {
     public ResponseEntity<User> updateRole(@PathVariable Integer id, @PathVariable Integer role) throws Exception {
         try {
             User user = userService.updateRole(id, role);
+
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
             throw new Exception(ex.getMessage(), ex.getCause());
@@ -57,9 +60,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity.HeadersBuilder<?> deleteGroup(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<Void> deleteGroup(@PathVariable Integer id) throws Exception {
         try {
-            return userService.delete(id) ? ResponseEntity.noContent() : ResponseEntity.notFound();
+            userService.delete(id);
+            HttpHeaders header = new HttpHeaders();
+            header.add("Establishment deleted", "The establishment has been successfully deleted");
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage(), ex.getCause());
         }
