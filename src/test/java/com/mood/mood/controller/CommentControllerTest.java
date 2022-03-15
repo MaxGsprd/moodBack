@@ -94,7 +94,7 @@ public class CommentControllerTest {
 
     @Test
     public void createComment() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/newComment/establishment/{establishmentId}/user/{userId}")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/newComment/establishment/1/user/11")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.gson.toJson(this.form));
 
@@ -103,10 +103,20 @@ public class CommentControllerTest {
     }
 
     @Test
-    public void deleteComment() {
+    public void deleteComment() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/comment/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON);
+        var result = mockMvc.perform(requestBuilder);
+        result.andExpect(status().isOk());
     }
 
     @Test
-    public void updateComment() {
+    public void updateComment() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/comment/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.gson.toJson(this.form));
+        var result = mockMvc.perform(requestBuilder);
+        result.andExpect(status().isOk());
+
     }
 }
