@@ -1,15 +1,21 @@
 package com.mood.mood.model;
 
+import com.mood.mood.dto.in.LocalisationForm;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Localisation {
+public class Localisation implements Serializable {
 
     @Id
     @GeneratedValue
@@ -17,33 +23,14 @@ public class Localisation {
 
     @NonNull
     @Column(nullable = false)
-    private String longitude;
+    private Double longitude;
 
     @NonNull
     @Column(nullable = false)
-    private String latitude;
+    private Double latitude;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
+    public Localisation(@NonNull Double longitude, @NonNull Double latitude) {
         this.longitude = longitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 }

@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.QueryTimeoutException;
+import java.util.List;
 
 public interface IAuthenticationService {
     String generateToken(@RequestBody AuthenticateUser authenticateUser) throws Exception;
-    User createUser(@ModelAttribute RegisterUser user) throws QueryTimeoutException;
+    User createUser(@ModelAttribute RegisterUser user) throws Exception;
     User forgotPassword(@RequestBody ForgotPasswordForm forgotPasswordForm) throws Exception;
 }

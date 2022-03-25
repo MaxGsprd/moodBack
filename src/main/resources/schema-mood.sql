@@ -1,4 +1,5 @@
 CREATE IF NOT EXISTS DATABASE mood ENCODING 'UTF-8';
+CREATE DATABASE mood OWNER root;
 
 insert into roles (id, title) values (1, 'ROLE_ADMIN');
 

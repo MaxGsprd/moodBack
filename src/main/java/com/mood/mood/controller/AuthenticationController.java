@@ -5,12 +5,14 @@ import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
 import com.mood.mood.model.User;
 import com.mood.mood.service.IAuthenticationService;
+import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 /*@CrossOrigin(origins = "*")*/
@@ -18,6 +20,9 @@ import javax.validation.Valid;
 public class AuthenticationController {
     @Autowired
     IAuthenticationService authenticationService;
+
+    @Autowired
+    private LocalisationUtil localisationUtil;
 
     @PostMapping("/login")
     public String login(@Valid @RequestBody AuthenticateUser user) throws Exception {
@@ -29,7 +34,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterUser user) throws Exception {//@RequestBody
+    public ResponseEntity<User> register(@RequestBody RegisterUser user) throws Exception {//@RequestBody
         try {
             User createdUser = authenticationService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);

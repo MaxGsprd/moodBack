@@ -1,13 +1,14 @@
 package com.mood.mood.service;
 
-import com.mood.mood.repository.CategoryRepository;
-import com.mood.mood.repository.RoleRepository;
-import com.mood.mood.repository.UserRepository;
 import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
+import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.model.Localisation;
 import com.mood.mood.model.User;
+import com.mood.mood.repository.CategoryRepository;
+import com.mood.mood.repository.RoleRepository;
+import com.mood.mood.repository.UserRepository;
 import com.mood.mood.util.JwtUtil;
 import com.mood.mood.util.LocalisationUtil;
 import lombok.SneakyThrows;
@@ -15,15 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.QueryTimeoutException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class AuthenticationService implements IAuthenticationService {
@@ -38,11 +32,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
     private LocalisationUtil localisationUtil;
-
-    private static final String ADDRESS_URL = "https://api-adresse.data.gouv.fr/";
 
     @Override
     public String generateToken(AuthenticateUser authenticateUser) throws Exception {
@@ -59,27 +49,26 @@ public class AuthenticationService implements IAuthenticationService {
         return jwtUtil.generateToken(authenticateUser.getEmail());
     }
 
-    @SneakyThrows
+    //@SneakyThrows
     @Override
-    public User createUser(RegisterUser user) throws QueryTimeoutException {
+    public User createUser(RegisterUser user) throws Exception {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new IllegalArgumentException("Account already exist");
         }
 
-        if(!user.getPassword().equals(user.getConfirmPassword())) {
+        /*if(user.getPassword() != user.getConfirmPassword()) {
             throw new IllegalArgumentException("Confirm password doesn't match");
+        }*/
+
+       Localisation loc = null;
+        if(user.getLocalisationForm() != null) {
+
+            GeoCoordinates cordonate = localisationUtil.getRegisterAddress(user.getLocalisationForm());
+
+            loc = new Localisation(cordonate.getX(), cordonate.getY());
         }
 
-        /*String address = user.getAddressNumber() + " " +user.getAddressName() + " " + user.getPostalCode() + " " + user.getCity();
-        URL url =  new URL("https://api-adresse.data.gouv.fr/search/?q="+address+"&type=housenumber&autocomplete=1");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        String response = con.getResponseMessage();*/
-
-        Object address = localisationUtil.getRegisterAddress(user.getAddressNumber(), user.getAddressName(), user.getPostalCode());
-        //System.out.println(address.toString());
-
-
+        assert loc != null;
         User createdUser = new User(
                 user.getName(),
                 user.getFirstname(),
@@ -87,13 +76,16 @@ public class AuthenticationService implements IAuthenticationService {
                 user.getEmail(),
                 user.getPassword(),
                 user.getPhone(),
-                new Localisation(),
+                loc,
                 roleRepository.findByTitle("ROLE_USER"),
-                categoryRepository.getById(user.getMood())
+                categoryRepository.findById(user.getMood())
         );
 
-        userRepository.save(createdUser);
-
+        try {
+            userRepository.save(createdUser);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         return createdUser;
     }
 
