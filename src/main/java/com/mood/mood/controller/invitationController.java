@@ -113,7 +113,7 @@ public class invitationController {
             InvitationEvenement invitation = invitationEvenementService.createInvitationForEvent(organizerId, groupId, establishmentId);
             return ResponseEntity.status(HttpStatus.CREATED).body(invitation);
         } catch (Exception e) {
-            throw new Exception("Error: the invitation couldn't be created " + e.getMessage(), e.getCause());
+            throw new Exception("Error: the invitation evenement couldn't be created " + e.getMessage(), e.getCause());
         }
     }
 
