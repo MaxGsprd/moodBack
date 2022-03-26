@@ -1,19 +1,15 @@
 package com.mood.mood.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.mood.mood.model.Localisation;
+import com.mood.mood.dto.out.LocalisationDetails;
+import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.service.LocalisationService;
+import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.constraints.NotNull;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URI;
 import java.util.*;
 
 @RestController
@@ -29,6 +25,20 @@ public class LocalisationController {
     @Autowired
     private LocalisationService localisationService;
 
+    @Autowired
+    private LocalisationUtil localisationUtil;
+
+    @PostMapping("/test")
+    public ResponseEntity<String> localisationTest() throws Exception {//@RequestBody
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("Found Link test");
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+        }
+    }
+
 
     @GetMapping("/getAddressFromString}")
     public List<Object> getAddressFromString(String full_address)  throws Exception {
@@ -41,15 +51,16 @@ public class LocalisationController {
         }
     }
 
-    @GetMapping("/getAddressFromLatLon/{latitude:.+},{longitude:.+}")
-    public List<Object> getAddressFromLatLon(@PathVariable Double latitude, @PathVariable Double longitude)
-            throws Exception{
-        Optional<Localisation> localisation = LocalisationService.getLocationByLatitudeAndLongitude(latitude, longitude);
-        RestTemplate restTemplate = new RestTemplate();
-        Object[] result = restTemplate.getForObject(BASE_URI_STRING+"reverse/?lon="+longitude+"&lat="+latitude+"&type=street", Object[].class);
+    @GetMapping("/getAddressFromLatLon")
+    public LocalisationDetails getAddressFromLatLon(@RequestParam String latitude, @RequestParam String longitude)
+            throws Exception{;
+        Object result = restTemplate.getForObject("https://api-adresse.data.gouv.fr/reverse/?lon="+longitude+"&lat="+latitude+"&type=street", Object.class);
 
-        return Arrays.asList(result);
+        LocalisationDetails address = localisationUtil.getReverseCoordinate(result);
+
+        return (LocalisationDetails) address;
     }
+
 
 }
 

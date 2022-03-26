@@ -27,4 +27,8 @@ public class GeoCoordinates implements Serializable {
     private String district;
     private String oldcitycode;
     private String oldcity;
+    private int distance;
+
+    private Double longitude;
+    private Double latitude;
 }

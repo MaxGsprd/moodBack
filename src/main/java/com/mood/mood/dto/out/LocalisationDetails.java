@@ -11,14 +11,13 @@ import lombok.NonNull;
 public class LocalisationDetails {
 
     private String housenumber; // addressNumber
-    @NonNull
+
     private String street; // addressName
     @NonNull
     private String postcode; // postalCode
     @NonNull
     private String city; // town
-    @NonNull
-    private String longitude; // coordinates[1]
-    @NonNull
-    private String latitude; // coordinates[0]
+
+    private Double longitude; // coordinates[1]
+    private Double latitude; // coordinates[0]
 }

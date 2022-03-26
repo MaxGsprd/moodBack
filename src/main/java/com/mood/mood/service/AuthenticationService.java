@@ -7,17 +7,15 @@ import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.model.Localisation;
 import com.mood.mood.model.User;
 import com.mood.mood.repository.CategoryRepository;
+import com.mood.mood.repository.LocalisationRepository;
 import com.mood.mood.repository.RoleRepository;
 import com.mood.mood.repository.UserRepository;
 import com.mood.mood.util.JwtUtil;
 import com.mood.mood.util.LocalisationUtil;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.QueryTimeoutException;
 
 @Service
 public class AuthenticationService implements IAuthenticationService {
@@ -31,6 +29,8 @@ public class AuthenticationService implements IAuthenticationService {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private LocalisationRepository localisationRepository;
     @Autowired
     private LocalisationUtil localisationUtil;
 
@@ -56,16 +56,18 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account already exist");
         }
 
-        /*if(user.getPassword() != user.getConfirmPassword()) {
+        if(user.getPassword() != user.getConfirmPassword()) {
             throw new IllegalArgumentException("Confirm password doesn't match");
-        }*/
+        }
 
        Localisation loc = null;
         if(user.getLocalisationForm() != null) {
 
-            GeoCoordinates cordonate = localisationUtil.getRegisterAddress(user.getLocalisationForm());
+            GeoCoordinates cordonate = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
 
-            loc = new Localisation(cordonate.getX(), cordonate.getY());
+            loc = new Localisation(cordonate.getLongitude(), cordonate.getLatitude());
+
+            localisationRepository.save(loc);
         }
 
         assert loc != null;
