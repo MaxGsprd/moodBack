@@ -63,6 +63,36 @@ public class invitationController {
         }
     }
 
+    @GetMapping("invitationEvenementByStatus/{status}")
+    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByStatus(@PathVariable int status) throws Exception {
+        try {
+            List<InvitationEvenementDetails> invitations = invitationEvenementService.findByStatus(status);
+            return ResponseEntity.ok(invitations);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    @GetMapping("invitationEvenementByEstablishment/{establishmentId}")
+    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByEstablishment(@PathVariable int establishmentId) throws Exception {
+        try {
+            List<InvitationEvenementDetails> invitations = invitationEvenementService.findByEstablishmentId(establishmentId);
+            return ResponseEntity.ok(invitations);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    @GetMapping("invitationEvenementByGroup/{groupId}")
+    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByGroup(@PathVariable int groupId) throws Exception {
+        try {
+            List<InvitationEvenementDetails> invitations = invitationEvenementService.findByGroupId(groupId);
+            return ResponseEntity.ok(invitations);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
     @PostMapping("createInvitationForGroup/{organizerId}+{receiverId}+{groupId}")
     public ResponseEntity<Invitation> createInvitation(@Valid @PathVariable int organizerId,
                                                        @PathVariable int receiverId,

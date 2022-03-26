@@ -68,7 +68,39 @@ public class InvitationEvenementService implements IInvitationEvenementService {
                     .stream()
                     .map(this::convertInvitationEvenementEntityToDto)
                     .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
 
+    public List<InvitationEvenementDetails> findByStatus(int status) throws Exception {
+        try {
+            return invitationEvenementRepository.findByStatus(status)
+                    .stream()
+                    .map(this::convertInvitationEvenementEntityToDto)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<InvitationEvenementDetails> findByEstablishmentId(int establishmentId) throws Exception {
+        try {
+            return invitationEvenementRepository.findByEstablishmentId(establishmentId)
+                    .stream()
+                    .map(this::convertInvitationEvenementEntityToDto)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<InvitationEvenementDetails> findByGroupId(int groupId) throws Exception {
+        try {
+            return invitationEvenementRepository.findByGroupId(groupId)
+                    .stream()
+                    .map(this::convertInvitationEvenementEntityToDto)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
