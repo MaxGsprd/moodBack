@@ -11,7 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -27,6 +30,7 @@ public class InvitationEvenementService implements IInvitationEvenementService {
     private final GroupRepository groupRepository;
     @Autowired
     private final EstablishmentRepository establishmentRepository;
+
 
     public InvitationEvenement createInvitationForEvent(int organizerId, int groupId, int establishmentId) throws Exception {
         try {
@@ -48,9 +52,23 @@ public class InvitationEvenementService implements IInvitationEvenementService {
     public InvitationEvenement updateInvitationEvenement(final int invitationEvenementId, final int receiverResponse) throws Exception {
         try {
             InvitationEvenement invitationEvenement = invitationEvenementRepository.findById(invitationEvenementId).orElse(null);
+            assert invitationEvenement != null;
             invitationEvenement.setStatus(receiverResponse);
             invitationEvenementRepository.save(invitationEvenement);
             return invitationEvenement;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<InvitationEvenementDetails> findByInvitationDate(String invitationDateString) throws Exception {
+        try {
+            LocalDate invitationDate = LocalDate.parse(invitationDateString);
+            return invitationEvenementRepository.findByInvitationDate(invitationDate)
+                    .stream()
+                    .map(this::convertInvitationEvenementEntityToDto)
+                    .collect(Collectors.toList());
+
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }

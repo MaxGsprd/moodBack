@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 @Entity
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class InvitationEvenement extends Invitation {
 
     @Column
-    private LocalDateTime invitationDate;
+    private LocalDate invitationDate;
 
     @ManyToOne
     @JsonIdentityInfo(
@@ -24,7 +24,7 @@ public class InvitationEvenement extends Invitation {
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    public InvitationEvenement(User organizer, Group group, User receiver, LocalDateTime invitationDate, Establishment establishment, @NonNull int status) {
+    public InvitationEvenement(User organizer, Group group, User receiver, LocalDate invitationDate, Establishment establishment, int status) {
         super(organizer, group, receiver, status);
         this.invitationDate = invitationDate;
         this.establishment = establishment;
@@ -32,6 +32,6 @@ public class InvitationEvenement extends Invitation {
 
     @PrePersist
     public void preSave() {
-        setInvitationDate(LocalDateTime.now());
+        setInvitationDate(LocalDate.now());
     }
 }

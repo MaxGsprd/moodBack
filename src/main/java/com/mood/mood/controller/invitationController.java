@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -53,15 +52,16 @@ public class invitationController {
         }
     }
 
-    /*
+
     @GetMapping("invitationEvenementByDate/{date}")
-    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByDate(@PathVariable LocalDateTime date) throws Exception {
+    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByDate(@PathVariable String date) throws Exception {
         try {
-            List<InvitationEvenementDetails>p
+            List<InvitationEvenementDetails> invitations = invitationEvenementService.findByInvitationDate(date);
+            return ResponseEntity.ok(invitations);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
-    }*/
+    }
 
     @PostMapping("createInvitationForGroup/{organizerId}+{receiverId}+{groupId}")
     public ResponseEntity<Invitation> createInvitation(@Valid @PathVariable int organizerId,
@@ -75,7 +75,7 @@ public class invitationController {
         }
     }
 
-    @PostMapping("createInvitationEvenementForEvent/{organizerId}+{groupId}+{establishmentId}")
+    @PostMapping("createInvitationEvenement/{organizerId}+{groupId}+{establishmentId}")
     public ResponseEntity<InvitationEvenement> createInvitationEvenement(@Valid @PathVariable int organizerId,
                                                                 @PathVariable int groupId,
                                                                 @PathVariable int establishmentId) throws Exception {
@@ -102,8 +102,7 @@ public class invitationController {
     @PutMapping("invitation/{id}+{receiverResponse}")
     public Invitation updateInvitation(@PathVariable("id") int id, @PathVariable Integer receiverResponse) throws Exception {
         try {
-            Invitation invitation = invitationService.updateInvitation(id, receiverResponse);
-            return invitation;
+            return invitationService.updateInvitation(id, receiverResponse);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
@@ -112,13 +111,10 @@ public class invitationController {
     @PutMapping("invitationEvenement/{id}+{receiverResponse}")
     public InvitationEvenement invitationEvenement(@PathVariable("id") int id, @PathVariable int receiverResponse) throws Exception {
         try {
-            InvitationEvenement invitationEvenement = invitationEvenementService.updateInvitationEvenement(id, receiverResponse);
-            return invitationEvenement;
+            return invitationEvenementService.updateInvitationEvenement(id, receiverResponse);
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
     }
-
-
 
 }

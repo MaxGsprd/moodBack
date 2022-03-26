@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -62,6 +61,7 @@ public class InvitationService implements IInvitationService {
     public Invitation updateInvitation(final int invitationId, Integer receiverResponse) throws Exception {
         try {
             Invitation invitation = invitationRepository.findById(invitationId).orElse(null);
+            assert invitation != null;
             invitation.setStatus(receiverResponse);
             invitationRepository.save(invitation);
             return invitation;
@@ -75,8 +75,9 @@ public class InvitationService implements IInvitationService {
      */
     public void deleteInvitationById(int id) throws Exception {
         try {
-            Optional<Invitation> invitation = invitationRepository.findById(id);
-            invitationRepository.deleteById(invitation.get().getId());
+            Invitation invitation = invitationRepository.findById(id).orElse(null);
+            assert invitation != null;
+            invitationRepository.deleteById(invitation.getId());
         } catch (Exception e) {
             throw new Exception("Error : This invitation couldn't be found, " + e.getMessage(), e.getCause());
         }

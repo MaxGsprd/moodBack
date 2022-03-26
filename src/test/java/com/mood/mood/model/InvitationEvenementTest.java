@@ -3,7 +3,7 @@ package com.mood.mood.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +19,7 @@ class InvitationEvenementTest {
                 new User(),
                 new Group(),
                 new User(),
-                LocalDateTime.now().plusHours(2),
+                LocalDate.now(),
                 new Establishment(),
                 0
 
@@ -37,7 +37,7 @@ class InvitationEvenementTest {
 
     @Test
     void setInvitationDate() {
-        LocalDateTime invitationDate = LocalDateTime.now().plusHours(4);
+        LocalDate invitationDate = LocalDate.now();
         invitationRequiredArgs.setInvitationDate(invitationDate);
         assertEquals(invitationRequiredArgs.getInvitationDate(), invitationDate);
     }
