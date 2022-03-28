@@ -10,9 +10,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.web.client.RestTemplate;
-// import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 public class MoodApplication {

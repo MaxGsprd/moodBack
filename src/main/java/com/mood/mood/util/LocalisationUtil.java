@@ -3,6 +3,7 @@ package com.mood.mood.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mood.mood.controller.LocalisationController;
 import com.mood.mood.dto.in.LocalisationForm;
+import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.repository.LocalisationRepository;
@@ -28,17 +29,11 @@ public class LocalisationUtil {
 
     /**
      * traitement des informations de localisation avant insertion ou extraction
-     * @return
+     * @param address from request sent by user
+     * @return Coordinates{Lat, Lon} fom DTO.out LocalisationCoordinates
+     * @throws Exception
      */
-        // récupération de l'adresse envoyé
-
-        // envoyé un requête a localisation controller
-
-        // renvoyé la latitude et la longitude a un autre service
-
-
-
-    public GeoCoordinates getSearchCoordinates(LocalisationForm address) throws Exception {
+    public LocalisationCoordinates getSearchCoordinates(LocalisationForm address) throws Exception {
         String addressNum = address.getAddressNumber();
         String addressName = address.getAddressName().replace(" ","+"); // replace all blanc space by '+'
         String addressPostal = address.getPostalCode();
@@ -60,28 +55,41 @@ public class LocalisationUtil {
 
         GeoCoordinates coordonate = responseTreat(result);
 
-        return (GeoCoordinates) coordonate;
+        LocalisationCoordinates coordinatesFormatDtoOut = new LocalisationCoordinates();
+
+        coordinatesFormatDtoOut.setLatitude(coordonate.getLatitude());
+        coordinatesFormatDtoOut.setLongitude(coordonate.getLongitude());
+
+
+        return (LocalisationCoordinates) coordinatesFormatDtoOut;
     }
 
-    public LocalisationDetails getReverseCoordinate(Object response){
+    /**
+     *
+     * @param response request send {lat, log}
+     * @return
+     */
+    public LocalisationDetails getReverseCoordinate(Object response) throws InterruptedException{
 
-
-        GeoCoordinates coordonate = responseTreat(response);
+        GeoCoordinates addressFormatDtoOut = responseTreat(response);
 
         LocalisationDetails responseOut = new LocalisationDetails();
-        responseOut.setHousenumber(coordonate.getHousenumber());
-        responseOut.setStreet(coordonate.getName());
-        responseOut.setPostcode(coordonate.getPostcode());
-        responseOut.setCity(coordonate.getCity());
-        responseOut.setLatitude(coordonate.getLatitude());
-        responseOut.setLongitude(coordonate.getLongitude());
-
-        System.out.println(coordonate);
+        responseOut.setHousenumber(addressFormatDtoOut.getHousenumber());
+        responseOut.setStreet(addressFormatDtoOut.getName());
+        responseOut.setPostcode(addressFormatDtoOut.getPostcode());
+        responseOut.setCity(addressFormatDtoOut.getCity());
+        responseOut.setLatitude(addressFormatDtoOut.getLatitude());
+        responseOut.setLongitude(addressFormatDtoOut.getLongitude());
 
         return responseOut;
+
     }
 
-    //private Object responseTreat(Object response, String type, Class typeClass ){
+    /**
+     * Treat object from response api {URL="https://adresse.data.gouv.fr/"}
+     * @param response Objet receiver
+     * @return GeoCoordinates : MODEL
+     */
     @NotNull
     private GeoCoordinates responseTreat(Object response){
 

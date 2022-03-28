@@ -3,6 +3,7 @@ package com.mood.mood.service;
 import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
+import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.model.Localisation;
 import com.mood.mood.model.User;
@@ -56,16 +57,16 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account already exist");
         }
 
-        if(user.getPassword() != user.getConfirmPassword()) {
+        /*if(user.getPassword() != user.getConfirmPassword()) {
             throw new IllegalArgumentException("Confirm password doesn't match");
-        }
+        }*/
 
        Localisation loc = null;
         if(user.getLocalisationForm() != null) {
 
-            GeoCoordinates cordonate = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
+            LocalisationCoordinates coordinates = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
 
-            loc = new Localisation(cordonate.getLongitude(), cordonate.getLatitude());
+            loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
 
             localisationRepository.save(loc);
         }

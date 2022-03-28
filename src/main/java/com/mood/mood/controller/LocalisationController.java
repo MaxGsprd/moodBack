@@ -1,7 +1,6 @@
 package com.mood.mood.controller;
 
 import com.mood.mood.dto.out.LocalisationDetails;
-import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.service.LocalisationService;
 import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,24 +27,12 @@ public class LocalisationController {
     @Autowired
     private LocalisationUtil localisationUtil;
 
-    @PostMapping("/test")
-    public ResponseEntity<String> localisationTest() throws Exception {//@RequestBody
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("Found Link test");
-        } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
-        }
-    }
-
-
     @GetMapping("/getAddressFromString}")
     public List<Object> getAddressFromString(String full_address)  throws Exception {
         try {
-            Object result = restTemplate.getForObject("https://api-adresse.data.gouv.fr/search/?q="+full_address+"&limit=5", Object.class);
+            Object result = restTemplate.getForObject(BASE_URI_STRING+"/search/?q="+full_address+"&limit=5", Object.class);
             //assert result != null;
-            return Arrays.asList(result);
+            return Arrays.asList(result) ;
         } catch (Exception ex) {
             throw new Exception(ex.getMessage(), ex.getCause());
         }
@@ -54,7 +41,7 @@ public class LocalisationController {
     @GetMapping("/getAddressFromLatLon")
     public LocalisationDetails getAddressFromLatLon(@RequestParam String latitude, @RequestParam String longitude)
             throws Exception{;
-        Object result = restTemplate.getForObject("https://api-adresse.data.gouv.fr/reverse/?lon="+longitude+"&lat="+latitude+"&type=street", Object.class);
+        Object result = restTemplate.getForObject(BASE_URI_STRING+"/reverse/?lon="+longitude+"&lat="+latitude+"&type=street", Object.class);
 
         LocalisationDetails address = localisationUtil.getReverseCoordinate(result);
 
