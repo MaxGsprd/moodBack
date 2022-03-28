@@ -2,7 +2,7 @@ package com.mood.mood.service;
 
 import com.mood.mood.dto.in.UserForm;
 import com.mood.mood.dto.out.GroupDetails;
-import com.mood.mood.dto.out.InvitationDetails;
+import com.mood.mood.dto.out.InvitationEvenementDetails;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.dto.out.UserDetails;
 import com.mood.mood.model.Category;
@@ -12,12 +12,9 @@ import com.mood.mood.model.User;
 import com.mood.mood.repository.CategoryRepository;
 import com.mood.mood.repository.RoleRepository;
 import com.mood.mood.repository.UserRepository;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +41,7 @@ public class UserService implements IUserService {
                             group.getTitle(),
                             group.getUsers(),
                             // invitation repository findbyGroup
-                            new ArrayList<InvitationDetails>()
+                            new ArrayList<InvitationEvenementDetails>()
                     )
             );
         }

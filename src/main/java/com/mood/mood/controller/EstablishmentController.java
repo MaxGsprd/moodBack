@@ -31,6 +31,16 @@ public class EstablishmentController {
         }
     }
 
+    @GetMapping("/establishmentsByNotesAverage")
+    public ResponseEntity<List<EstablishmentDetails>> getAllEstablishmentsByNotesAverage() throws Exception {
+        try {
+            List<EstablishmentDetails> establishments = establishmentService.getAllEstablishmentsByNotesAverages();
+            return ResponseEntity.ok(establishments);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
     @GetMapping("/establishments/{name}")
     public ResponseEntity<List<EstablishmentDetails>> getEstablishmentsByName(@PathVariable String name) throws Exception {
         try {

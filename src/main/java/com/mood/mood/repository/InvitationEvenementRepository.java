@@ -1,17 +1,16 @@
 package com.mood.mood.repository;
 
-import com.mood.mood.model.Establishment;
-import com.mood.mood.model.Group;
 import com.mood.mood.model.InvitationEvenement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface InvitationEvenementRepository extends JpaRepository<InvitationEvenement, Integer> {
-    InvitationEvenement findByInvitationDate(LocalDateTime dateTime);
-    InvitationEvenement findByStatus(Integer status);
-    InvitationEvenement findByEstablishment(Establishment establishment);
-    InvitationEvenement findByGroup(Group group);
+    List<InvitationEvenement> findByInvitationDate(LocalDate invitationDate);
+    List<InvitationEvenement> findByStatus(Integer status);
+    List<InvitationEvenement> findByEstablishmentId(int establishmentId);
+    List<InvitationEvenement> findByGroupId(int groupId);
 }

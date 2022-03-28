@@ -1,26 +1,21 @@
 package com.mood.mood.controller;
 
 import com.mood.mood.dto.in.CommentForm;
-import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.out.CommentDetails;
-import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.model.Comment;
-import com.mood.mood.model.Establishment;
 import com.mood.mood.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 public class CommentController {
+
     @Autowired
     ICommentService commentService;
 
@@ -74,15 +69,25 @@ public class CommentController {
         }
     }
 
-//    @GetMapping("/commentsByCreatedDate/{createdDate}")
-//    public ResponseEntity<List<CommentDetails>> getCommentByCreatedDate(@PathVariable @DateTimeFormat Date createdDate) throws Exception {
-//        try {
-//            List<CommentDetails> comments = commentService.getAllCommentsByCreatedDate(createdDate);
-//            return ResponseEntity.ok(comments);
-//        } catch (Exception e) {
-//            throw new Exception(e.getMessage(), e.getCause());
-//        }
-//    }
+    @GetMapping("/allCommentsSortedByLatestCreatedDate")
+    public ResponseEntity<List<CommentDetails>> getCommentByLatestCreatedDate() throws Exception {
+        try {
+            List<CommentDetails> comments = commentService.getAllCommentsByCreatedDateLatest();
+            return ResponseEntity.ok(comments);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
+
+    @GetMapping("/allCommentsSortedByOldestCreatedDate")
+    public ResponseEntity<List<CommentDetails>> getCommentByOldestCreatedDate() throws Exception {
+        try {
+            List<CommentDetails> comments = commentService.getAllCommentsByCreatedDateOldest();
+            return ResponseEntity.ok(comments);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage(), e.getCause());
+        }
+    }
 
     @PostMapping("/newComment/establishment/{establishment_id}/user/{user_id}")
     public ResponseEntity<Comment> createEstablishment(@Valid @RequestBody CommentForm commentForm,

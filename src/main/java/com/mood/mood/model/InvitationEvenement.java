@@ -2,33 +2,20 @@ package com.mood.mood.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.time.LocalDate;
+
 
 @Entity
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class InvitationEvenement extends Invitation {
 
-    @NonNull
-    @Column(nullable = false)
-    private LocalDateTime invitationDate;
-
-    /**
-     * 0:submitted
-     * 1:accepted
-     * 2:refused
-     * 3:cancelled
-     */
-    @NonNull
-    @Column(nullable = false)
-    private int status;
+    @Column
+    private LocalDate invitationDate;
 
     @ManyToOne
     @JsonIdentityInfo(
@@ -37,33 +24,14 @@ public class InvitationEvenement extends Invitation {
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;
 
-    public InvitationEvenement(User organizer, Group group, User destinataire, @NonNull LocalDateTime invitationDate, Establishment establishment, @NonNull int status) {
-        super(organizer, group, destinataire, status);
+    public InvitationEvenement(User organizer, Group group, User receiver, LocalDate invitationDate, Establishment establishment, int status) {
+        super(organizer, group, receiver, status);
         this.invitationDate = invitationDate;
         this.establishment = establishment;
     }
 
-    public LocalDateTime getInvitationDate() {
-        return invitationDate;
-    }
-
-    public void setInvitationDate(LocalDateTime invitationDate) {
-        this.invitationDate = invitationDate;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Establishment getEstablishment() {
-        return establishment;
-    }
-
-    public void setEstablishment(Establishment establishment) {
-        this.establishment = establishment;
+    @PrePersist
+    public void preSave() {
+        setInvitationDate(LocalDate.now());
     }
 }

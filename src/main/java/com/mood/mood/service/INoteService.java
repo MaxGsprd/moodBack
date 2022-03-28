@@ -15,4 +15,5 @@ public interface INoteService {
     NotesAverage getEstablishmentAverage(int establishment_id) throws Exception;
     Note getNoteByEstablishmentAndUser(int establishment_id, int user_id) throws Exception;
     void deleteNoteById(int id) throws Exception;
+    Note updateNote(final int id, NoteForm noteForm) throws Exception;
 }

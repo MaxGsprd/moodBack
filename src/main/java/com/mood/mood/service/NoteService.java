@@ -35,10 +35,15 @@ public class NoteService implements INoteService {
      * */
     public Establishment noteEstablishment(@ModelAttribute NoteForm noteForm, int establishment_id,  int user_id) throws Exception {
         try {
-            Note note = this.convertNoteDtoToEntity(noteForm, establishment_id, user_id);
-            Establishment establishment = establishmentRepository.findById(establishment_id);
-            noteRepository.save(note);
-            return establishment;
+            Note noteExist = noteRepository.findByUserIdAndEstablishmentId(establishment_id, user_id);
+            if (noteExist != null) {
+                throw new Exception("This user already gave a note to this establishment");
+            }  else {
+                Note note = this.convertNoteDtoToEntity(noteForm, establishment_id, user_id);
+                Establishment establishment = establishmentRepository.findById(establishment_id);
+                noteRepository.save(note);
+                return establishment;
+            }
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
@@ -112,14 +117,30 @@ public class NoteService implements INoteService {
     }
 
     /**
-     * @param id establishment id to be deleted
+     * @param id note id to be deleted
      */
     public void deleteNoteById(int id) throws Exception {
         try {
             Note note = noteRepository.findById(id);
-            noteRepository.deleteNoteById(note.getId());
+            noteRepository.deleteById(note.getId());
         } catch (Exception e) {
             throw new Exception("Error : This note couldn't be found, " + e.getMessage(), e.getCause());
         }
     }
+
+
+    /**
+     * @param id note id to be updated
+     */
+    public Note updateNote(int id, NoteForm noteForm) throws Exception {
+        try {
+            Note note = noteRepository.findById(id);
+            note.setValue(noteForm.getValue());
+            noteRepository.save(note);
+            return note;
+        } catch (Exception e) {
+            throw new Exception("Error : This note couldn't be found, " + e.getMessage(), e.getCause());
+        }
+    }
+
 }
