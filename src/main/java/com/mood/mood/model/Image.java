@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -23,10 +24,11 @@ public class Image {
     @Column(nullable = false)
     private String dataName;
 
-    @Lob
+    //@Lob
     @NonNull
     @Column(nullable = false)
-    @Basic(fetch = FetchType.LAZY)
+    //@Basic(fetch = FetchType.EAGER)
+    @Type(type="org.hibernate.type.BinaryType")
     private byte[] data64;
 
     @NonNull
@@ -53,6 +55,9 @@ public class Image {
         this.dataName = dataName;
     }
 
+    //@Lob >> remember that i am not using it anymore to avoid the exception on the browser
+    @Column(length = 16000000) // This should generate a medium blob
+    @Basic(fetch = FetchType.LAZY) // I've read this is default, but anyway...
     public byte[] getData64() {
         return data64;
     }

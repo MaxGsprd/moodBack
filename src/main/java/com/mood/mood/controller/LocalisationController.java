@@ -1,5 +1,7 @@
 package com.mood.mood.controller;
 
+import com.mood.mood.dto.in.LocalisationForm;
+import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.service.LocalisationService;
 import com.mood.mood.util.LocalisationUtil;
@@ -27,9 +29,11 @@ public class LocalisationController {
     @Autowired
     private LocalisationUtil localisationUtil;
 
-    @GetMapping("/getAddressFromString}")
-    public List<Object> getAddressFromString(String full_address)  throws Exception {
+    @GetMapping("/getAddressFromString")
+    public List<Object> getAddressFromString(@RequestBody LocalisationForm address)  throws Exception {
         try {
+            String full_address = localisationUtil.formatToSendRequest(address);
+
             Object result = restTemplate.getForObject(BASE_URI_STRING+"/search/?q="+full_address+"&limit=5", Object.class);
             //assert result != null;
             return Arrays.asList(result) ;
@@ -37,6 +41,21 @@ public class LocalisationController {
             throw new Exception(ex.getMessage(), ex.getCause());
         }
     }
+
+    @GetMapping("/getAddressFromRequest")
+    public LocalisationCoordinates getAddressFromRequest(@RequestBody LocalisationForm address)  throws Exception {
+        try {
+            String full_address = localisationUtil.formatToSendRequest(address);
+
+            Object result = restTemplate.getForObject(BASE_URI_STRING+"/search/?q="+full_address+"&limit=5", Object.class);
+            //assert result != null;
+            LocalisationCoordinates coordonates = localisationUtil.getSearchCoordinatesFromRequest(result);
+            return coordonates ;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+        }
+    }
+
 
     @GetMapping("/getAddressFromLatLon")
     public LocalisationDetails getAddressFromLatLon(@RequestParam String latitude, @RequestParam String longitude)

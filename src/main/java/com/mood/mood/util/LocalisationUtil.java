@@ -28,25 +28,19 @@ public class LocalisationUtil {
     private LocalisationService localisationService;
 
     /**
-     * traitement des informations de localisation avant insertion ou extraction
+     * From Register Controller
+     *
      * @param address from request sent by user
      * @return Coordinates{Lat, Lon} fom DTO.out LocalisationCoordinates
      * @throws Exception
      */
     public LocalisationCoordinates getSearchCoordinates(LocalisationForm address) throws Exception {
-        String addressNum = address.getAddressNumber();
-        String addressName = address.getAddressName().replace(" ","+"); // replace all blanc space by '+'
-        String addressPostal = address.getPostalCode();
 
-        /**
-         * format of string to send request
-         */
-        String full_address = addressNum+"+"+addressName+"&postcode="+addressPostal;
 
         /**
          * Reponse of array list object from API
          */
-        List<Object> add =  localisationController.getAddressFromString(full_address);
+        List<Object> add = localisationController.getAddressFromString(address);
 
         /**
          * Remove first array of response
@@ -63,6 +57,32 @@ public class LocalisationUtil {
 
         return (LocalisationCoordinates) coordinatesFormatDtoOut;
     }
+
+    /**
+     * @param response [Object] from request sent by user
+     *
+     *                 request geoLocalisation
+     *
+     * @return Coordinates{Lat, Lon} fom DTO.out LocalisationCoordinates
+     * @throws Exception
+     */
+    public LocalisationCoordinates getSearchCoordinatesFromRequest(Object response) throws Exception {
+        /**
+         * Remove first array of response
+         */
+        LinkedHashMap<String, Object> result = (LinkedHashMap<String, Object>) response;
+
+        GeoCoordinates coordonate = responseTreat(result);
+
+        LocalisationCoordinates coordinatesFormatDtoOut = new LocalisationCoordinates();
+
+        coordinatesFormatDtoOut.setLatitude(coordonate.getLatitude());
+        coordinatesFormatDtoOut.setLongitude(coordonate.getLongitude());
+
+
+        return (LocalisationCoordinates) coordinatesFormatDtoOut;
+    }
+
 
     /**
      *
@@ -121,6 +141,17 @@ public class LocalisationUtil {
 
         return addressProperties;
 
+    }
+
+    public String formatToSendRequest(LocalisationForm address){
+        String addressNum = address.getAddressNumber();
+        String addressName = address.getAddressName().replace(" ","+"); // replace all blanc space by '+'
+        String addressPostal = address.getPostalCode();
+
+        /**
+         * format of string to send request
+         */
+        return addressNum+"+"+addressName+"&postcode="+addressPostal;
     }
 
 

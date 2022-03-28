@@ -38,9 +38,9 @@ public class ImageService implements IImageService {
 
         try {
             // Si l'utilisateur avait déjà une image hors image par défaut
-            /*if (((User) user).getImage() != null && !user.getImage().getDataName().equals("default_image.png")) {
+            if (((User) user).getImage() != null && !user.getImage().getDataName().equals("default_image.png")) {
                 this.deleteImage(user.getImage().getId(), user.getEmail());
-            }*/
+            }
 
             UserImage userImage = new UserImage();
             userImage.setDataName(dataName);
@@ -49,7 +49,13 @@ public class ImageService implements IImageService {
             userImage.setSizeImage(size);
             userImage.setUser(user);
 
-            imageRepository.save(userImage);
+            imageRepository.save(userImage); // save Image
+
+            /**
+             * update user && save new image
+             */
+            user.setImage(userImage);
+            userRepository.save(user);
 
         } catch (Exception e) {
             e.printStackTrace();
