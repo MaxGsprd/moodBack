@@ -35,6 +35,13 @@ public class EstablishmentService implements IEstablishmentService {
     @Autowired
     private final ModelMapper modelMapper;
 
+    /**
+     * Recherche etabliqhement par localisation + ou - 20 km
+     *
+     * @param id
+     * @return
+     */
+
     public EstablishmentDetails getEstablishmentById(final int id) {
         Establishment establishment = establishmentRepository.findById(id);
         return convertEstablishmentEntityToDto(establishment);

@@ -38,7 +38,7 @@ public class ImageService implements IImageService {
 
         try {
             // Si l'utilisateur avait déjà une image hors image par défaut
-            if (((User) user).getImage() != null && !user.getImage().getDataName().equals("default_image.png")) {
+            if (((User) user).getImage() != null || !user.getImage().getDataName().equals("default_image.png")) {
                 this.deleteImage(user.getImage().getId(), user.getEmail());
             }
 
