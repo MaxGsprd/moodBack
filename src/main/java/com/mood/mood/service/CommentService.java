@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +91,7 @@ public class CommentService implements ICommentService{
             Establishment establishment = establishmentRepository.findById(establishment_id);
             comment.setEstablishment(establishment);
             Optional<User> user = userRepository.findById(user_id);
+            assert user.isPresent();
             comment.setUser(user.get());
             commentRepository.save(comment);
             return comment;
