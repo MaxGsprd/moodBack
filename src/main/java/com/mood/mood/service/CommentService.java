@@ -107,6 +107,7 @@ public class CommentService implements ICommentService{
     public void deleteCommentById(int id) throws Exception {
         try {
             Optional<Comment> comment = commentRepository.findById(id);
+            assert comment.isPresent();
             commentRepository.deleteById(comment.get().getId());
         } catch (Exception e) {
             throw new Exception("Error : This establishment couldn't be found, " + e.getMessage(), e.getCause());
@@ -119,6 +120,7 @@ public class CommentService implements ICommentService{
     public CommentDetails updateComment(int id, CommentForm commentForm) throws Exception {
         try {
             Optional<Comment> comment = commentRepository.findById(id);
+            assert comment.isPresent();
             comment.get().setTitle(commentForm.getTitle());
             comment.get().setContent(commentForm.getContent());
             commentRepository.save(comment.get());
