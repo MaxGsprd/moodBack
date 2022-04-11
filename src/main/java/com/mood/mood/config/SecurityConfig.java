@@ -96,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/localisation").permitAll()
                 .antMatchers("/authentication/register").permitAll()
                 .antMatchers("/authentication/login").permitAll()
-                .antMatchers("/establishments/*").permitAll()
+                .antMatchers("/establishments").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
