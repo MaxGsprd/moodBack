@@ -37,8 +37,8 @@ public class AuthenticationService implements IAuthenticationService {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    //@Autowired
-    //private RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
     @Autowired
     private LocalisationUtil localisationUtil;
 
