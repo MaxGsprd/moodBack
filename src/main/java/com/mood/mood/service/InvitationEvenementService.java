@@ -35,13 +35,19 @@ public class InvitationEvenementService implements IInvitationEvenementService {
     public InvitationEvenement createInvitationForEvent(int organizerId, int groupId, int establishmentId) throws Exception {
         try {
             InvitationEvenement newInvitationEvenement = new InvitationEvenement();
+
             Optional<User> organizer = userRepository.findById(organizerId);
+            assert organizer.isPresent();
             newInvitationEvenement.setOrganizer(organizer.get());
             newInvitationEvenement.setStatus(0);
+
             Optional<Group> group = groupRepository.findById(groupId);
+            assert group.isPresent();
             newInvitationEvenement.setGroup(group.get());
+
             Establishment establishment = establishmentRepository.findById(establishmentId);
             newInvitationEvenement.setEstablishment(establishment);
+
             invitationEvenementRepository.save(newInvitationEvenement);
             return newInvitationEvenement;
         } catch (Exception e) {

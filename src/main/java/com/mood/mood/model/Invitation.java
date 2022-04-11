@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@Table(name="invitation")
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Invitation implements Serializable {

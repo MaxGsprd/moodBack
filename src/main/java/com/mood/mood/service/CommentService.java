@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +91,7 @@ public class CommentService implements ICommentService{
             Establishment establishment = establishmentRepository.findById(establishment_id);
             comment.setEstablishment(establishment);
             Optional<User> user = userRepository.findById(user_id);
+            assert user.isPresent();
             comment.setUser(user.get());
             commentRepository.save(comment);
             return comment;
@@ -107,6 +106,7 @@ public class CommentService implements ICommentService{
     public void deleteCommentById(int id) throws Exception {
         try {
             Optional<Comment> comment = commentRepository.findById(id);
+            assert comment.isPresent();
             commentRepository.deleteById(comment.get().getId());
         } catch (Exception e) {
             throw new Exception("Error : This establishment couldn't be found, " + e.getMessage(), e.getCause());
@@ -119,6 +119,7 @@ public class CommentService implements ICommentService{
     public CommentDetails updateComment(int id, CommentForm commentForm) throws Exception {
         try {
             Optional<Comment> comment = commentRepository.findById(id);
+            assert comment.isPresent();
             comment.get().setTitle(commentForm.getTitle());
             comment.get().setContent(commentForm.getContent());
             commentRepository.save(comment.get());

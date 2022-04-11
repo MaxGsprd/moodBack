@@ -5,7 +5,6 @@ import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.model.Comment;
 import com.mood.mood.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -105,9 +104,7 @@ public class CommentController {
     public  ResponseEntity<Void> deleteComment(@PathVariable int id) throws Exception {
         try {
             commentService.deleteCommentById(id);
-            HttpHeaders header = new HttpHeaders();
-            header.add("Comment deleted", "The comment has been successfully deleted");
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.ok(null);
         } catch (Exception ex) {
             throw new Exception("Error: The comment deletion request couldn't be executed. " + ex.getMessage(), ex.getCause());
         }
