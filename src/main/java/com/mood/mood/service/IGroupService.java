@@ -10,6 +10,5 @@ public interface IGroupService {
     GroupDetails inviteUser(Integer groupId, Integer userId);
     GroupDetails removeUser(Integer groupId,Integer userId);
     boolean delete(Integer id);
-    Group create(Integer id, GroupForm form);
     GroupDetails rename(Integer id, String name);
 }

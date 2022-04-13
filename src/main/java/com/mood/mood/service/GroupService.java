@@ -59,8 +59,10 @@ public class GroupService implements IGroupService {
 
         assert group != null && user != null;
         group.addUser(user);
+        user.addGroup(group);
 
         groupRepository.save(group);
+        userRepository.save(user);
 
         GroupDetails groupDetails = new GroupDetails();
 
@@ -98,22 +100,6 @@ public class GroupService implements IGroupService {
         groupRepository.delete(group);
 
         return true;
-
-    }
-
-    @Override
-    public Group create(Integer id, GroupForm form) {
-        User user = userRepository.findById(id).orElse(null);
-
-        Group group= new Group();
-
-        group.addUser(user);
-        group.setTitle(form.getTitle());
-        group.setCreatedDate(LocalDateTime.now());
-
-        groupRepository.save(group);
-
-        return group;
 
     }
 

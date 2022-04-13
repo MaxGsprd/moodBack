@@ -101,11 +101,12 @@ public class NoteService implements INoteService {
     /**
      * Convert NoteFrom (Dto in) to Note entity
      */
-    private Note convertNoteDtoToEntity(NoteForm noteForm, int establishment_id,  int user_id) {
+    public Note convertNoteDtoToEntity(NoteForm noteForm, int establishment_id, int user_id) {
         Note note = new Note();
         note.setValue(noteForm.getValue());
-        Optional<User> user = userRepository.findById(user_id);
-        note.setUser(user.get());
+        User user = userRepository.findById(user_id).orElse(null);
+        assert user != null;
+        note.setUser(user);
         Establishment establishment = establishmentRepository.findById(establishment_id);
         note.setEstablishment(establishment);
         return note;
@@ -116,8 +117,7 @@ public class NoteService implements INoteService {
      */
     public void deleteNoteById(int id) throws Exception {
         try {
-            Note note = noteRepository.findById(id);
-            noteRepository.deleteNoteById(note.getId());
+            noteRepository.deleteById(id);
         } catch (Exception e) {
             throw new Exception("Error : This note couldn't be found, " + e.getMessage(), e.getCause());
         }

@@ -103,9 +103,9 @@ public class EstablishmentService implements IEstablishmentService {
             Establishment establishment = establishmentRepository.findById(id);
             establishment.setName(establishmentForm.getName());
             establishment.setDescription(establishmentForm.getDescription());
-            establishment.setDescription(establishmentForm.getDescription());
             int categoryId = establishmentForm.getCategory();
-            Category category = categoryRepository.findById(categoryId);
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            assert category != null;
             establishment.setCategory(category);
             establishmentRepository.save(establishment);
             return convertEstablishmentEntityToDto(establishment);
@@ -151,7 +151,8 @@ public class EstablishmentService implements IEstablishmentService {
         establishment.setName(establishmentForm.getName());
         establishment.setDescription(establishmentForm.getDescription());
         int categoryId = establishmentForm.getCategory();
-        Category category = categoryRepository.findById(categoryId);
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        assert category != null;
         establishment.setCategory(category);
         establishment.setStatus(false);
         return establishment;

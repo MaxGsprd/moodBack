@@ -15,8 +15,7 @@ public interface CommentRepository  extends JpaRepository<Comment, Integer> {
     List<Comment> findAll();
     List<Comment> findByCreatedDate(LocalDateTime date); // filtre from send date to now()
     List<Comment> findByStatus(Boolean status);
-    List<Comment> findByUserId(int userId);
-    List<Comment> findByEstablishmentId(int establishmentId);
+    List<Comment> findByUser(User user);
+    List<Comment> findByEstablishment(Establishment establishment);
     List<Comment> findByGroupType(Integer type);
-    void deleteById(int id);
 }

@@ -57,5 +57,4 @@ public class UserForm {
     @NotBlank(message = "Veuillez sélectionner votre préférence.")
     private int mood;
 
-    private MultipartFile image;
 }

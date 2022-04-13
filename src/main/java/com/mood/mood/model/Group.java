@@ -81,6 +81,7 @@ public class Group {
     }
 
     public void addUser(User user) {
+        if(this.users == null) this.users = new ArrayList<>();
         this.users.add(user);
     }
 

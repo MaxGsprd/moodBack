@@ -76,7 +76,7 @@ public class AuthenticationService implements IAuthenticationService {
         con.setRequestMethod("GET");
         String response = con.getResponseMessage();*/
 
-        Object address = localisationUtil.getRegisterAddress(user.getAddressNumber(), user.getAddressName(), user.getPostalCode());
+        //Object address = localisationUtil.getRegisterAddress(user.getAddressNumber(), user.getAddressName(), user.getPostalCode());
         //System.out.println(address.toString());
 
 
@@ -103,7 +103,7 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account doesn't exist");
         }
 
-        if(forgotPasswordForm.getPassword() == forgotPasswordForm.getConfirmPassword()) {
+        if(forgotPasswordForm.getPassword() != forgotPasswordForm.getConfirmPassword()) {
             throw new IllegalArgumentException("Confirm password doesn't match");
         }
 
