@@ -39,7 +39,7 @@ public class EstablishmentForm {
 //
 //    @NotBlank(message = "Veuillez saisir une ville")
 //    @Size(max = 100, message = "Le nom de la ville est trop long")
-//    private String ciy;
+//    private String city;
 //
     @NotNull(message = "Veuillez sélectionner une catégorie pour l'établissement.")
     private int category;
