@@ -1,10 +1,8 @@
 package com.mood.mood.model;
 
 import com.mood.mood.dto.in.LocalisationForm;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,8 +27,11 @@ public class Localisation implements Serializable {
     @Column(nullable = false)
     private Double latitude;
 
+
+
     public Localisation(@NonNull Double longitude, @NonNull Double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
 }

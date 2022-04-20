@@ -6,6 +6,7 @@ import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.model.GeoCoordinates;
+import com.mood.mood.model.Localisation;
 import com.mood.mood.repository.LocalisationRepository;
 import com.mood.mood.service.LocalisationService;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +27,7 @@ public class LocalisationUtil {
 
     @Autowired
     private LocalisationService localisationService;
+
 
     /**
      * From Register Controller

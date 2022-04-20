@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,12 +29,17 @@ public class ImageController {
 
 
     @GetMapping("/")
-    public List<Image> get(Model model) {
-        List<Image> images = imageService.getFiles()
-                .stream()
-                .map(this::mapToImage)
-                .collect(Collectors.toList());
-        return images;
+    public List<Image> get(Model model)
+            throws Exception {
+        try {
+            List<Image> images = imageService.getFiles()
+                    .stream()
+                    .map(this::mapToImage)
+                    .collect(Collectors.toList());
+            return images;
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+        }
     }
     private Image mapToImage(Image imageEntity) {
         String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -41,8 +48,11 @@ public class ImageController {
                 .toUriString();
         Image fileResponse = new Image();
         fileResponse.setId(imageEntity.getId());
+        fileResponse.setData64(imageEntity.getData64());
+        fileResponse.setDataImage64(imageEntity.getData64());
         fileResponse.setDataName(imageEntity.getDataName());
         fileResponse.setMimeType(imageEntity.getMimeType());
+        fileResponse.setSizeImage(imageEntity.getSizeImage());
 
         return fileResponse;
     }
@@ -51,6 +61,9 @@ public class ImageController {
     public ResponseEntity<String> uploadFile(@PathVariable String userEmail, @RequestParam("file") MultipartFile file)
             throws Exception {
         try {
+            if (file == null) {
+                throw new RuntimeException("You must select a file for uploading");
+            }
             imageService.saveFile(userEmail, file);
             return ResponseEntity.status(HttpStatus.CREATED).body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
         } catch (Exception ex) {
@@ -72,6 +85,7 @@ public class ImageController {
             imageService.saveMultipleFile(establishementName, files);
             for (MultipartFile file : files) {
                 result =  ResponseEntity.status(HttpStatus.CREATED).body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
+                return result;
             }
         } catch (Exception ex) {
             //throw new Exception(ex.getMessage(), ex.getCause());
@@ -80,11 +94,11 @@ public class ImageController {
                         .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
             }
         }
-        return result;
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("All File uploaded successfully: %s", result));
     }
 
-    @GetMapping("/downloadFile/{email}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String email)
+    @GetMapping("/getUserImage/{email}")
+    public ResponseEntity<ByteArrayResource> getUserImage(@PathVariable String email)
             throws Exception{
         try {
         Image image = imageService.getFile(email).get();
@@ -101,6 +115,40 @@ public class ImageController {
         }
 
     }
+
+    @GetMapping("/getEstablishmentImage/{name}")
+    public List<Image> getEstablishmentImage(@PathVariable String name)
+            throws Exception{
+        try {
+            List<Image> images = imageService.getEstablishmentFiles(name)
+                    .stream()
+                    .map(this::mapToImage)
+                    .collect(Collectors.toList());
+
+            System.out.println(images);
+
+            return (List<Image>) images;
+
+
+            /*for (Image img : images) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(img.getMimeType()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION
+                                , "attachment:filename=\"" + img.getDataName() + "\"")
+                        .body(new ByteArrayResource(img.getData64()));
+
+            }*/
+
+
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+            /*return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(String.format("Could not download the file: %s!", image));*/
+        }
+
+
+    }
+
 
     @DeleteMapping("/{id}/{email}")
     public ResponseEntity<String> deleteFile(@PathVariable int id, @PathVariable String email)

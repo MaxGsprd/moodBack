@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
-    private User userNoArgs;
+   private User userNoArgs;
     private User userAllArgs;
     private User userRequiredArgs;
 

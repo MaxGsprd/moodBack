@@ -7,13 +7,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Base64;
 
 @Entity
 @RequiredArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @Table(name="images")
-public class Image {
+public class Image{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +39,7 @@ public class Image {
     @NonNull
     @Column(nullable = false, length = 300)
     private String mimeType;
+
 
     public int getId() {
         return id;
@@ -81,4 +83,12 @@ public class Image {
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
+
+    public String getDataImage64(byte[] data64) {
+        return Base64.getEncoder().encodeToString(data64);
+    }
+    public String setDataImage64(byte[] data64) {
+        return Base64.getEncoder().encodeToString(data64);
+    }
+
 }

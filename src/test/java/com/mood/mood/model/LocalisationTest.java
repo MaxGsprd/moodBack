@@ -8,16 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class LocalisationTest {
 
     private Localisation localisationNoArgs;
-    private Localisation localisationAllArgs;
+    private Localisation localisationAllArgs = new Localisation(
+            1,
+            0.1234,
+            4.321
+    );
 
     @BeforeEach
     void setUp() {
         localisationNoArgs = new Localisation();
-        localisationAllArgs = new Localisation(
-                1,
-                0.1234,
-                4.321
-        );
     }
 
     @Test

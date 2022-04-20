@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 
+
 @Service
 public class ImageService implements IImageService {
+
     @Autowired
     private ImageRepository imageRepository;
     @Autowired
@@ -85,12 +87,14 @@ public class ImageService implements IImageService {
                 establishmentImage.setData64(data64);
                 establishmentImage.setMimeType(dataType);
                 establishmentImage.setSizeImage(size);
+                establishmentImage.setDataImage64(data64);
                 establishmentImage.setEstablishment(establishment);
 
                 imageRepository.save(establishmentImage);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new DataIntegrityViolationException(e.getMessage());
+
             }
 
         }
@@ -102,18 +106,22 @@ public class ImageService implements IImageService {
      */
     @Override
     public Optional<Image> getFile(String email) {
-        if (email.contains("@")) {
             User user = userRepository.findByEmail(email);
 
             if (user.getImage() == null) return null;
 
             return imageRepository.findById(user.getImage().getId());
-        } else {
-            Establishment establishment = establishementRepository.findByNameContaining(email);
-            if (establishment.getImages() == null) return null;
 
-            return establishementImageRepository.findByEstablishment(establishment);
-        }
+    }
+
+    @Override
+    public List<Image> getEstablishmentFiles(String name) {
+
+        Establishment establishment = establishementRepository.findByNameContaining(name);
+        if (establishment.getImages() == null) return null;
+        List<Image> images = establishementImageRepository.findByEstablishment(establishment);
+
+        return images;
     }
 
     @Override

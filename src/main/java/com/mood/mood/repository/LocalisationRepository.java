@@ -11,4 +11,5 @@ import java.util.*;
 @Repository
 public interface LocalisationRepository extends JpaRepository<Localisation, Serializable>, JpaSpecificationExecutor<Localisation> {
     Optional<Localisation> findByLatitudeAndLongitude(Double latitude, Double longitude);
+
 }

@@ -10,6 +10,9 @@ public interface IImageService {
     void saveFile(String email, MultipartFile file) throws Exception;
     void saveMultipleFile(String establishementName, MultipartFile[] files) throws IOException;
     Optional<Image> getFile(String email);
+
+    List<Image> getEstablishmentFiles(String name);
+
     List<Image> getFiles();
     boolean deleteImage(int id, String email) throws Exception;
 }
