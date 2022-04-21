@@ -1,11 +1,9 @@
 package com.mood.mood.service;
 
-import com.mood.mood.repository.EstablishementImageRepository;
-import com.mood.mood.repository.EstablishmentRepository;
-import com.mood.mood.repository.ImageRepository;
-import com.mood.mood.repository.UserRepository;
+import com.mood.mood.repository.*;
 import com.mood.mood.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,6 +24,11 @@ public class ImageService implements IImageService {
     private EstablishmentRepository establishementRepository;
     @Autowired
     private EstablishementImageRepository establishementImageRepository;
+    @Autowired
+    private UserImageRepository userImageRepository;
+
+    @Value("${image.default.name}")
+    public String defaultImageName;
 
 
     @Override
@@ -40,8 +43,8 @@ public class ImageService implements IImageService {
 
         try {
             // Si l'utilisateur avait déjà une image hors image par défaut
-            if (((User) user).getImage() != null || !user.getImage().getDataName().equals("default_image.png")) {
-                this.deleteImage(user.getImage().getId(), user.getEmail());
+            if (((User) user).getImage() != null || !user.getImage().getDataName().equals(defaultImageName)) {
+                this.deleteUserImage(user.getImage().getId(), user.getEmail());
             }
 
             UserImage userImage = new UserImage();
@@ -87,7 +90,6 @@ public class ImageService implements IImageService {
                 establishmentImage.setData64(data64);
                 establishmentImage.setMimeType(dataType);
                 establishmentImage.setSizeImage(size);
-                establishmentImage.setDataImage64(data64);
                 establishmentImage.setEstablishment(establishment);
 
                 imageRepository.save(establishmentImage);
@@ -127,14 +129,30 @@ public class ImageService implements IImageService {
     @Override
     public List<Image> getFiles() {
         return imageRepository.findAll();
-    } // not working at all
+    }
 
+    /**
+     *
+     * @param id
+     * @return all image of establishment
+     */
+    public Optional<EstablishmentImage> getFileById(int id) {
+        return establishementImageRepository.findById(id);
+    }
+
+    /**
+     * Efface l'image de l'utilisateur et met l'image par defaut
+     * @param id
+     * @param email
+     * @return
+     * @throws Exception
+     */
     @Override
-    public boolean deleteImage(int id, String email) throws Exception {
+    public boolean deleteUserImage(int id, String email) throws Exception {
         try {
-            Image image = imageRepository.findById(id).orElse(null);
+            Image image = userImageRepository.findById(id).orElse(null);
             User user = userRepository.findByEmail(email);
-            Image defaultUserImage = imageRepository.findByDataName("default_image.png");
+            Image defaultUserImage = imageRepository.findByDataName(defaultImageName);
 
             /**
              * Si l'image est egal a null ou a l'image par défaut, ne pas effacé l'image
@@ -167,6 +185,42 @@ public class ImageService implements IImageService {
         } catch (Exception ex) {
             throw new Exception(ex.getMessage(), ex.getCause());
         }
+    }
+
+    @Override
+    public boolean deleteEstablishmentImage(int id, String name) throws Exception {
+        try {
+            Image image = establishementImageRepository.findById(id).orElse(null);
+
+            Establishment establishment = (Establishment) establishementRepository.findByNameLikeIgnoreCase(name);
+
+            imageRepository.deleteById(image.getId());
+
+            return true;
+
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+        }
+    }
+
+    @Override
+    public boolean deleteEstablishmentImage(int[] ids, String name) throws Exception {
+        try {
+            for (int id: ids) {
+
+
+                Image image = establishementImageRepository.findById(id).orElse(null);
+
+                Establishment establishment = (Establishment) establishementRepository.findByNameLikeIgnoreCase(name);
+
+                imageRepository.deleteById(image.getId());
+
+                return true;
+            }
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage(), ex.getCause());
+        }
+        return false;
     }
 
 

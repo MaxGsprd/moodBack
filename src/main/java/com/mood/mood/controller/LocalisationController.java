@@ -3,6 +3,7 @@ package com.mood.mood.controller;
 import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
+import com.mood.mood.model.Image;
 import com.mood.mood.service.LocalisationService;
 import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/localisation")
 public class LocalisationController {
+    private static Logger LOGGER = Logger.getLogger(invitationController.class.getName());
 
     private static final String BASE_URI_STRING = "https://api-adresse.data.gouv.fr/";
     private static final String GET_REQUEST = "GET";
@@ -31,6 +35,7 @@ public class LocalisationController {
 
     @GetMapping("/getAddressFromString")
     public List<Object> getAddressFromString(@RequestBody LocalisationForm address)  throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get Address from external API by full address code");
         try {
             String full_address = localisationUtil.formatToSendRequest(address);
 
@@ -38,12 +43,14 @@ public class LocalisationController {
             //assert result != null;
             return Arrays.asList(result) ;
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return (List<Object>) ResponseEntity.status(HttpStatus.BAD_REQUEST).body("**ERROR** -- Couldn't get objet from external API");
         }
     }
 
     @GetMapping("/getAddressFromRequest")
     public LocalisationCoordinates getAddressFromRequest(@RequestBody LocalisationForm address)  throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get Address from external API from localisation form address");
         try {
             String full_address = localisationUtil.formatToSendRequest(address);
 
@@ -52,19 +59,26 @@ public class LocalisationController {
             LocalisationCoordinates coordonates = localisationUtil.getSearchCoordinatesFromRequest(result);
             return coordonates ;
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
+            LOGGER.log(Level.SEVERE, "**ERROR** -- Couldn't get objet from external API from localisation form" + ex.getMessage(), ex);
+            return null;
         }
     }
 
 
     @GetMapping("/getAddressFromLatLon")
     public LocalisationDetails getAddressFromLatLon(@RequestParam String latitude, @RequestParam String longitude)
-            throws Exception{;
-        Object result = restTemplate.getForObject(BASE_URI_STRING+"/reverse/?lon="+longitude+"&lat="+latitude+"&type=street", Object.class);
+            throws Exception{
+        LOGGER.log(Level.INFO, "**START** - Get Address from external API from lat long");
+        try {
+            Object result = restTemplate.getForObject(BASE_URI_STRING + "/reverse/?lon=" + longitude + "&lat=" + latitude + "&type=street", Object.class);
 
-        LocalisationDetails address = localisationUtil.getReverseCoordinate(result);
+            LocalisationDetails address = localisationUtil.getReverseCoordinate(result);
 
-        return (LocalisationDetails) address;
+            return (LocalisationDetails) address;
+        }catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "**ERROR** -- Couldn't get objet from external API from lat long" + ex.getMessage(), ex);
+            return null;
+        }
     }
 
 

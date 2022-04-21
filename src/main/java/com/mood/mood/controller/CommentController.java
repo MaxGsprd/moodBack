@@ -3,18 +3,23 @@ package com.mood.mood.controller;
 import com.mood.mood.dto.in.CommentForm;
 import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.model.Comment;
+import com.mood.mood.model.Image;
 import com.mood.mood.service.ICommentService;
+import org.aspectj.bridge.ICommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 public class CommentController {
-
+    private static Logger LOGGER = Logger.getLogger(CommentController.class.getName());
     @Autowired
     ICommentService commentService;
 
@@ -24,7 +29,8 @@ public class CommentController {
             List<CommentDetails> commentDetails = commentService.getAllComments();
             return ResponseEntity.ok(commentDetails);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return null;
         }
     }
 
@@ -34,7 +40,8 @@ public class CommentController {
             List<CommentDetails> comments = commentService.getAllCommentsByEstablishmentId(establishmentId);
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -44,7 +51,8 @@ public class CommentController {
             List<CommentDetails> comments = commentService.getAllCommentsByStatus(status);
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -54,7 +62,8 @@ public class CommentController {
             List<CommentDetails> comments = commentService.getAllCommentsByUserId(userId);
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -64,7 +73,8 @@ public class CommentController {
             List<CommentDetails> comments = commentService.getAllCommentsByGroupType(groupType);
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -74,7 +84,8 @@ public class CommentController {
             List<CommentDetails> comments = commentService.getAllCommentsByCreatedDateLatest();
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -84,7 +95,8 @@ public class CommentController {
             List<CommentDetails> comments = commentService.getAllCommentsByCreatedDateOldest();
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -96,7 +108,8 @@ public class CommentController {
             Comment createdComment = commentService.createComment(commentForm, establishment_id, user_id);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
         } catch (Exception e) {
-            throw new Exception("Error: the establishment couldn't be created " + e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, "Error: the establishment couldn't be created " + e.getMessage(), e);
+            return  null;
         }
     }
 
@@ -106,7 +119,8 @@ public class CommentController {
             commentService.deleteCommentById(id);
             return ResponseEntity.ok(null);
         } catch (Exception ex) {
-            throw new Exception("Error: The comment deletion request couldn't be executed. " + ex.getMessage(), ex.getCause());
+            LOGGER.log(Level.SEVERE, "Error: The comment deletion request couldn't be executed. " + ex.getMessage(), ex.getCause());
+            return null;
         }
     }
 
@@ -116,7 +130,8 @@ public class CommentController {
             CommentDetails updatedComment = commentService.updateComment(id, commentForm);
             return ResponseEntity.ok(updatedComment);
         } catch (Exception e) {
-            throw new Exception("Error updating establishment " + e.getMessage(), e.getCause());
+            LOGGER.log(Level.SEVERE, "Error updating establishment " + e.getMessage(), e.getCause());
+            return null;
         }
     }
 }

@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Base64;
 
 @Entity
 @RequiredArgsConstructor
@@ -25,10 +24,8 @@ public class Image{
     @Column(nullable = false)
     private String dataName;
 
-    //@Lob
     @NonNull
     @Column(nullable = false)
-    //@Basic(fetch = FetchType.EAGER)
     @Type(type="org.hibernate.type.BinaryType")
     private byte[] data64;
 
@@ -82,13 +79,6 @@ public class Image{
 
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
-    }
-
-    public String getDataImage64(byte[] data64) {
-        return Base64.getEncoder().encodeToString(data64);
-    }
-    public String setDataImage64(byte[] data64) {
-        return Base64.getEncoder().encodeToString(data64);
     }
 
 }

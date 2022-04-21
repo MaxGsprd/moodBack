@@ -14,5 +14,9 @@ public interface IImageService {
     List<Image> getEstablishmentFiles(String name);
 
     List<Image> getFiles();
-    boolean deleteImage(int id, String email) throws Exception;
+    boolean deleteUserImage(int id, String email) throws Exception;
+
+    boolean deleteEstablishmentImage(int id, String name) throws Exception;
+
+    boolean deleteEstablishmentImage(int[] ids, String name) throws Exception;
 }

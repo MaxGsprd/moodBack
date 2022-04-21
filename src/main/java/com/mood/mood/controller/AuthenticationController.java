@@ -3,6 +3,7 @@ package com.mood.mood.controller;
 import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
+import com.mood.mood.model.Image;
 import com.mood.mood.model.User;
 import com.mood.mood.service.IAuthenticationService;
 import com.mood.mood.util.LocalisationUtil;
@@ -12,11 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 /*@CrossOrigin(origins = "*")*/
 @RequestMapping("/authentication")
 public class AuthenticationController {
+    private static Logger LOGGER = Logger.getLogger(AuthenticationController.class.getName());
     @Autowired
     IAuthenticationService authenticationService;
 
@@ -28,7 +33,8 @@ public class AuthenticationController {
         try {
             return authenticationService.generateToken(user);
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return "**ERROR** -- Bad login/password";
         }
     }
 
@@ -38,7 +44,8 @@ public class AuthenticationController {
             User createdUser = authenticationService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return null;
         }
     }
 
@@ -48,7 +55,8 @@ public class AuthenticationController {
             User user = authenticationService.forgotPassword(form);
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage(), ex.getCause());
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return null;
         }
     }
 }
