@@ -1,18 +1,25 @@
 package com.mood.mood.service;
 
+import com.mood.mood.controller.ImageController;
+import com.mood.mood.controller.LocalisationController;
+import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.CommentDetails;
+import com.mood.mood.dto.out.LocalisationCoordinates;
+import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.model.*;
-import com.mood.mood.repository.CategoryRepository;
-import com.mood.mood.repository.CommentRepository;
-import com.mood.mood.repository.EstablishmentRepository;
+import com.mood.mood.repository.*;
 import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.out.EstablishmentDetails;
-import com.mood.mood.repository.NoteRepository;
+import com.mood.mood.util.LocalisationUtil;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +41,17 @@ public class EstablishmentService implements IEstablishmentService {
     private final NoteService noteService;
     @Autowired
     private final ModelMapper modelMapper;
+    @Autowired
+    private LocalisationRepository localisationRepository;
+    @Autowired
+    private LocalisationController localisationController;
+    @Autowired
+    private LocalisationUtil localisationUtil;
+    @Autowired
+    private ImageController imageController;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Recherche etabliqhement par localisation + ou - 20 km
@@ -146,18 +164,91 @@ public class EstablishmentService implements IEstablishmentService {
                                         .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Establishment> getEstablishmentWithInDisatance(int km) throws Exception {
+        try {
+            //return establishmentRepository.findEstablishmentLocalisation();
+
+            String JM_FORMULE = "(6371 * acos(cos(radians(:latitude)) * cos(radians(e.latitude)) *" +
+                    " cos(radians(e.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(e.latitude))))";
+
+            /**
+             * SELECT "establishment"."id", description, name, status, category_id, latitude, longitude
+             * FROM "public"."establishment"
+             * INNER JOIN  "public"."localisation" ON "establishment"."localisation_id" = "localisation"."id";
+             *
+             */
+
+            int distanceWithInKM = 10;
+            Double longitude = -0.388346;
+            Double latitude = 49.325009;
+            List<Establishment> establishment =  entityManager.createQuery("SELECT e.id, e.description, e.name, e.status, l.latitude, l.longitude "+
+                            "FROM Establishment e join  e.localisation l "+
+                            "WHERE (6371 * acos(cos(radians(:latitude)) * cos(radians(e.latitude)) * cos(radians(e.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(e.latitude)))) " +
+                            "< :distance ORDER BY :JM_FORMULE DESC")
+                    .setParameter("JM_FORMULE", JM_FORMULE)
+                    .setParameter("longitude", longitude)
+                    .setParameter("latitude", latitude)
+                    .setParameter("distance", distanceWithInKM)
+                    .getResultList();
+
+            return establishment;
+        }catch (Exception ex) {
+            throw new Exception( ex.getMessage(), ex.getCause());
+        }
+
+    }
+
+    @Override
+    public List<Establishment> getEstablishmentWithLocalisation() throws Exception {
+
+            //return establishmentRepository.findEstablishmentLocalisation();
+            /*List<Establishment> establishment =  entityManager.createQuery("SELECT e.id, e.description, e.name, e.status, l.latitude, l.longitude FROM Establishment e join  e.localisation l WHERE e.id=:id")
+                    .setParameter("id",1)
+                    .getResultList();*/
+        try {
+            List<Establishment> establishments = entityManager.createQuery("SELECT e.id, e.description, e.name, e.status, c.description, c.title, l.latitude, l.longitude " +
+                            "FROM Establishment e join  e.localisation l " +
+                            "join e.category c")
+                    .getResultList();
+
+
+        return establishments;
+
+        }catch (Exception ex){
+            throw new Exception( ex.getMessage(), ex.getCause());
+        }
+    }
+
 
     /**
      * Convert Establishment entity to establishmentDetails (DTO out)
      */
     private EstablishmentDetails convertEstablishmentEntityToDto(Establishment establishment) {
+        LocalisationDetails localisationDetails;
+        List<Image> img;
+
         EstablishmentDetails establishmentDetails = new EstablishmentDetails();
         establishmentDetails.setName(establishment.getName());
         establishmentDetails.setDescription(establishment.getDescription());
+        Localisation localisation = establishment.getLocalisation();
+        try {
+            localisationDetails = localisationController.getAddressFromLatLon(String.valueOf(localisation.getLatitude()), String.valueOf(localisation.getLongitude()));
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        establishmentDetails.setAddress(localisationDetails);
+
+        try {
+            img = imageController.getEstablishmentImage(establishment.getName());
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        establishmentDetails.setImages(img);
         List<Note> notes = establishment.getNotes();
         establishmentDetails.setNote(noteService.notesAverage(notes));
         List<Comment> comments = establishment.getComments();
-        List<CommentDetails> commentDetails = comments.stream().map(comment ->commentService.convertCommentEntityToDto(comment)).collect(Collectors.toList());
+        List<CommentDetails> commentDetails = comments.stream().map(comment -> commentService.convertCommentEntityToDto(comment)).collect(Collectors.toList());
         establishmentDetails.setComments(commentDetails);
         establishmentDetails.setCategory(establishment.getCategory());
         return establishmentDetails;
@@ -167,13 +258,45 @@ public class EstablishmentService implements IEstablishmentService {
      * Convert EstablishmentForm (Dto in) to establishment entity
      */
     private Establishment establishmentDtoToEntity(EstablishmentForm establishmentForm) {
-        Establishment establishment = new Establishment();
-        establishment.setName(establishmentForm.getName());
-        establishment.setDescription(establishmentForm.getDescription());
-        int categoryId = establishmentForm.getCategory();
-        Category category = categoryRepository.findById(categoryId);
-        establishment.setCategory(category);
-        establishment.setStatus(false);
-        return establishment;
+        Establishment establishment = null;
+        try {
+            establishment = new Establishment();
+            establishment.setName(establishmentForm.getName());
+            establishment.setDescription(establishmentForm.getDescription());
+            LocalisationForm address = establishmentForm.getLocalisationForm();
+            Localisation loc;
+            LocalisationCoordinates coordinates;
+            if (establishmentForm.getLocalisationForm() != null) {
+                try {
+                    coordinates = localisationUtil.getSearchCoordinates(establishmentForm.getLocalisationForm());
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+                loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
+
+                localisationRepository.save(loc);
+                establishment.setLocalisation(loc);
+            }
+            try {
+                ResponseEntity<String> image = imageController.uploadEstablishmentFile(establishmentForm.getName(), establishmentForm.getImage());
+            } catch (Exception e) {
+                throw new RuntimeException();
+            }
+            int categoryId = establishmentForm.getCategory();
+            Category category = categoryRepository.findById(categoryId);
+            establishment.setCategory(category);
+            establishment.setStatus(false);
+            return establishment;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        } finally { // une fois l'étabilisement créer ajouter les image associer
+            if (establishment != null) {
+                try {
+                    ResponseEntity<String> image = imageController.uploadEstablishmentFile(establishmentForm.getName(), establishmentForm.getImage());
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.mood.mood.dto.out;
 
 import com.mood.mood.model.Category;
 import com.mood.mood.model.EstablishmentImage;
+import com.mood.mood.model.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,12 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EstablishmentDetails {
-    @NonNull
+
     private String name;
     private String description;
-    @NonNull
     private LocalisationDetails address;
-    private List<EstablishmentImage> images;
+    private List<Image> images;
     private NotesAverage note;
     private List<CommentDetails> comments;
     private Category category;

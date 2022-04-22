@@ -97,6 +97,29 @@ public class EstablishmentController {
             return null;
         }
   }
+    @GetMapping("/establishment/withindistance/{km}")
+    public ResponseEntity<List<Establishment>> getEstablishmentWithinDistance(@PathVariable("km") final int km) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get Establishment with in selected distance");
+        try {
+            List<Establishment> establishment = (List<Establishment>) establishmentService.getEstablishmentWithInDisatance(km);
+            return ResponseEntity.ok(establishment);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"**ERROR** -  : Any Establishment with in selected distance, couldn't be found, " + e.getMessage(), e.getCause());
+            return null;
+        }
+    }
+
+    @GetMapping("/establishment/withLocalisation")
+    public ResponseEntity<List<Establishment>> getEstablishmentWithLocalisation() throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get Establishment with localisation");
+        try {
+            List<Establishment> establishment = (List<Establishment>) establishmentService.getEstablishmentWithLocalisation();
+            return ResponseEntity.ok(establishment);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"**ERROR** -  : Any Establishment with it's localisation, couldn't be found, " + e.getMessage(), e.getCause());
+            return null;
+        }
+    }
 
   @PostMapping("/newEstablishment")
   public ResponseEntity<Establishment> createEstablishment(@Valid @RequestBody EstablishmentForm establishmentForm) throws Exception {

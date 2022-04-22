@@ -109,8 +109,9 @@ public class InsertDataBDD {
             LOGGER.log(Level.INFO, "Insert LOCALISATION Admin GEOLOC");
 
             pst.setInt(1, 1);
-            pst.setDouble(2, Double.parseDouble("-0.359033"));
-            pst.setDouble(3, Double.parseDouble("49.183839"));
+            pst.setDouble(2, Double.parseDouble("49.183839"));
+            pst.setDouble(3, Double.parseDouble("-0.359033"));
+
             pst.executeUpdate();
 
         } catch (SQLException ex) {
@@ -122,8 +123,9 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentCentreCommercialLocalosation)) {
 
             pst.setInt(1, 2);
-            pst.setDouble(2, Double.parseDouble("-0.364667"));
-            pst.setDouble(3, Double.parseDouble("49.21074"));
+            pst.setDouble(2, Double.parseDouble("49.21074"));
+            pst.setDouble(3, Double.parseDouble("-0.364667"));
+
             pst.executeUpdate();
 
         } catch (SQLException ex) {
@@ -135,8 +137,9 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentCampingSandrayaLocalosation)) {
 
             pst.setInt(1, 3);
-            pst.setDouble(2, Double.parseDouble("-0.388346"));
-            pst.setDouble(3, Double.parseDouble("49.325009"));
+            pst.setDouble(2, Double.parseDouble("49.325009"));
+            pst.setDouble(3, Double.parseDouble("-0.388346"));
+
             pst.executeUpdate();
 
         } catch (SQLException ex) {

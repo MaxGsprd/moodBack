@@ -29,6 +29,6 @@ public class GeoCoordinates implements Serializable {
     private String oldcity;
     private int distance;
 
-    private Double longitude;
-    private Double latitude;
+    private Double longitude; //first parameters or [0]
+    private Double latitude; //second parameters or [1]
 }

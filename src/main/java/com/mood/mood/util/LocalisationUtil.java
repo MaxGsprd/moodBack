@@ -145,6 +145,7 @@ public class LocalisationUtil {
 
     }
 
+
     public String formatToSendRequest(LocalisationForm address){
         String addressNum = address.getAddressNumber();
         String addressName = address.getAddressName().replace(" ","+"); // replace all blanc space by '+'

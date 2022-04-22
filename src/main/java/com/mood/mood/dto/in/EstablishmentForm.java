@@ -6,6 +6,7 @@ import com.mood.mood.model.Note;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,22 +26,10 @@ public class EstablishmentForm {
     @Size(min = 1, max = 500, message = "La description de l'établissement est trop longue. {max} caractères maximum.")
     private String description;
 
-//    @Pattern(regexp = "[0-9]+", message = "Veuillez saisir des chiffres valides.")
-//    private String addressNumber;
-//
-//    @NotBlank(message = "Veuillez renseigner le nom de rue, avenue, boulevard etc.")
-//    @Size(max = 100, message = "L'adresse renseignée est est trop longue. {max} caractères maximum.")
-//    private String addressName;
-//
-//    @NotBlank(message = "Veuillez saisir un code postal.")
-//    @Size(min= 5, max = 5, message = "Veuillez saisir un format de code postal correct.")
-//    @Pattern(regexp = "[0-9]+", message = "Veuillez saisir des chiffres valides.")
-//    private String postalCode;
-//
-//    @NotBlank(message = "Veuillez saisir une ville")
-//    @Size(max = 100, message = "Le nom de la ville est trop long")
-//    private String ciy;
-//
+    private LocalisationForm localisationForm;
+
+    private MultipartFile[] image;
+
     @NotNull(message = "Veuillez sélectionner une catégorie pour l'établissement.")
     private int category;
 

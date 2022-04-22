@@ -17,4 +17,8 @@ public interface IEstablishmentService {
     void deleteEstablishmentById(int id) throws Exception;
     EstablishmentDetails updateEstablishment(final int id, EstablishmentForm establishmentForm) throws Exception;
     List<EstablishmentDetails> getEstablishmentsByStatus(Boolean status) throws Exception;
+
+    List<Establishment> getEstablishmentWithInDisatance(int km) throws Exception;
+
+    List<Establishment> getEstablishmentWithLocalisation() throws Exception;
 }
