@@ -11,7 +11,7 @@ import lombok.NonNull;
 public class LocalisationCoordinates {
 
     @NonNull
-    private Double longitude; // coordinates[1][y]
+    private Double longitude; // first parameters or [0]
     @NonNull
-    private Double latitude; // coordinates[0][x]
+    private Double latitude; //second parameters or [1]
 }

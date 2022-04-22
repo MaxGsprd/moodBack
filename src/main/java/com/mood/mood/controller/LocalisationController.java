@@ -70,7 +70,7 @@ public class LocalisationController {
             throws Exception{
         LOGGER.log(Level.INFO, "**START** - Get Address from external API from lat long");
         try {
-            Object result = restTemplate.getForObject(BASE_URI_STRING + "/reverse/?lon=" + longitude + "&lat=" + latitude + "&type=street", Object.class);
+            Object result = restTemplate.getForObject(BASE_URI_STRING + "/reverse/?lon=" + longitude + "&lat=" + latitude , Object.class);
 
             LocalisationDetails address = localisationUtil.getReverseCoordinate(result);
 

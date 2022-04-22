@@ -16,7 +16,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -164,13 +163,15 @@ public class EstablishmentService implements IEstablishmentService {
                                         .collect(Collectors.toList());
     }
 
+
+
     @Override
-    public List<Establishment> getEstablishmentWithInDisatance(int km) throws Exception {
+    public List<Establishment> getEstablishmentWithInDisatance(double lat, double lon, double km) throws Exception {
         try {
             //return establishmentRepository.findEstablishmentLocalisation();
 
-            String JM_FORMULE = "(6371 * acos(cos(radians(:latitude)) * cos(radians(e.latitude)) *" +
-                    " cos(radians(e.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(e.latitude))))";
+            String JM_FORMULE = "(6371 * acos(cos(radians(:latitude)) * cos(radians(l.latitude)) *" +
+                    " cos(radians(l.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(l.latitude))))";
 
             /**
              * SELECT "establishment"."id", description, name, status, category_id, latitude, longitude
@@ -179,12 +180,12 @@ public class EstablishmentService implements IEstablishmentService {
              *
              */
 
-            int distanceWithInKM = 10;
-            Double longitude = -0.388346;
-            Double latitude = 49.325009;
-            List<Establishment> establishment =  entityManager.createQuery("SELECT e.id, e.description, e.name, e.status, l.latitude, l.longitude "+
-                            "FROM Establishment e join  e.localisation l "+
-                            "WHERE (6371 * acos(cos(radians(:latitude)) * cos(radians(e.latitude)) * cos(radians(e.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(e.latitude)))) " +
+            double distanceWithInKM = km;
+            double longitude = lon;
+            double latitude = lat;
+            List<Establishment> establishments =  entityManager.createQuery("SELECT e.id, e.description, e.name, e.status, c.description, c.title, l.latitude, l.longitude "+
+                            "FROM Establishment e join  e.localisation l join e.category c "+
+                            "WHERE (6371 * acos(cos(radians(:latitude)) * cos(radians(l.latitude)) * cos(radians(l.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(l.latitude)))) " +
                             "< :distance ORDER BY :JM_FORMULE DESC")
                     .setParameter("JM_FORMULE", JM_FORMULE)
                     .setParameter("longitude", longitude)
@@ -192,12 +193,16 @@ public class EstablishmentService implements IEstablishmentService {
                     .setParameter("distance", distanceWithInKM)
                     .getResultList();
 
-            return establishment;
+            return establishments;
+
         }catch (Exception ex) {
             throw new Exception( ex.getMessage(), ex.getCause());
         }
 
+
     }
+
+
 
     @Override
     public List<Establishment> getEstablishmentWithLocalisation() throws Exception {
@@ -259,13 +264,14 @@ public class EstablishmentService implements IEstablishmentService {
      */
     private Establishment establishmentDtoToEntity(EstablishmentForm establishmentForm) {
         Establishment establishment = null;
+        Localisation loc;
+        LocalisationCoordinates coordinates;
+
         try {
             establishment = new Establishment();
             establishment.setName(establishmentForm.getName());
             establishment.setDescription(establishmentForm.getDescription());
             LocalisationForm address = establishmentForm.getLocalisationForm();
-            Localisation loc;
-            LocalisationCoordinates coordinates;
             if (establishmentForm.getLocalisationForm() != null) {
                 try {
                     coordinates = localisationUtil.getSearchCoordinates(establishmentForm.getLocalisationForm());

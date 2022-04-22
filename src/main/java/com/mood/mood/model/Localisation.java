@@ -21,11 +21,11 @@ public class Localisation implements Serializable {
 
     @NonNull
     @Column(nullable = false)
-    private Double longitude;
+    private Double longitude; // first parameters or [0]
 
     @NonNull
     @Column(nullable = false)
-    private Double latitude;
+    private Double latitude; //second parameters or [1]
 
 
 

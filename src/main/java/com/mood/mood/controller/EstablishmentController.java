@@ -8,6 +8,7 @@ import com.mood.mood.model.Image;
 import com.mood.mood.service.IEstablishmentService;
 import com.mood.mood.service.INoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,11 +98,11 @@ public class EstablishmentController {
             return null;
         }
   }
-    @GetMapping("/establishment/withindistance/{km}")
-    public ResponseEntity<List<Establishment>> getEstablishmentWithinDistance(@PathVariable("km") final int km) throws Exception {
+    @GetMapping("/establishment/withindistance")
+    public ResponseEntity<List<Establishment>> getEstablishmentWithinDistance(@RequestParam("latitude") double lat, @RequestParam("longitude") double lon, @RequestParam("distance") double km) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Establishment with in selected distance");
         try {
-            List<Establishment> establishment = (List<Establishment>) establishmentService.getEstablishmentWithInDisatance(km);
+            List<Establishment> establishment = establishmentService.getEstablishmentWithInDisatance(lat, lon, km);
             return ResponseEntity.ok(establishment);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  : Any Establishment with in selected distance, couldn't be found, " + e.getMessage(), e.getCause());

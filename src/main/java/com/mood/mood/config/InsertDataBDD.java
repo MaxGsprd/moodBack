@@ -150,8 +150,9 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentCreteilSoleilLocalosation)) {
 
             pst.setInt(1, 4);
-            pst.setDouble(2, Double.parseDouble("2.454933"));
-            pst.setDouble(3, Double.parseDouble("48.779024"));
+            pst.setDouble(2, Double.parseDouble("48.779024"));
+            pst.setDouble(3, Double.parseDouble("2.454933"));
+
             pst.executeUpdate();
 
         } catch (SQLException ex) {

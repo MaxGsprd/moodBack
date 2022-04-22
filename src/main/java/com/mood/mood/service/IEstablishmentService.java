@@ -18,7 +18,7 @@ public interface IEstablishmentService {
     EstablishmentDetails updateEstablishment(final int id, EstablishmentForm establishmentForm) throws Exception;
     List<EstablishmentDetails> getEstablishmentsByStatus(Boolean status) throws Exception;
 
-    List<Establishment> getEstablishmentWithInDisatance(int km) throws Exception;
+    List<Establishment> getEstablishmentWithInDisatance(double lat, double lon, double km) throws Exception;
 
     List<Establishment> getEstablishmentWithLocalisation() throws Exception;
 }

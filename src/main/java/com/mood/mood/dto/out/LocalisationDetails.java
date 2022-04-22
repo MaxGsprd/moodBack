@@ -18,6 +18,6 @@ public class LocalisationDetails {
     @NonNull
     private String city; // town
 
-    private Double longitude; // coordinates[1]
-    private Double latitude; // coordinates[0]
+    private Double longitude; // coordinates[10]
+    private Double latitude; // coordinates[1]
 }
