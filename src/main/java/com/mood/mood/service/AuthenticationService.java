@@ -56,7 +56,8 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         // Une fois l'utilisateur authentifé, on génère et retourne le token
-        return jwtUtil.generateToken(authenticateUser.getEmail());
+        User user = this.userRepository.findByEmail(authenticateUser.getEmail());
+        return jwtUtil.generateToken(authenticateUser.getEmail()) + ' ' + user.getId();
     }
 
     @SneakyThrows

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-/*@CrossOrigin(origins = "*")*/
 @RequestMapping("/authentication")
 public class AuthenticationController {
     @Autowired
