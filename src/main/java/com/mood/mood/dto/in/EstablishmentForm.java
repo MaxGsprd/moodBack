@@ -1,8 +1,5 @@
 package com.mood.mood.dto.in;
 
-import com.mood.mood.model.Category;
-import com.mood.mood.model.Comment;
-import com.mood.mood.model.Note;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
