@@ -54,7 +54,7 @@ public class ImageController {
     @GetMapping("/")
     public List<Image> get(Model model)
             throws Exception {
-        LOGGER.log(Level.INFO, "list all images");
+        LOGGER.log(Level.INFO, "**START** -- list all images");
         try {
             List<Image> images = imageService.getFiles()
                     .stream()
@@ -62,7 +62,7 @@ public class ImageController {
                     .collect(Collectors.toList());
             return images;
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             return (List<Image>) ResponseEntity.status(HttpStatus.BAD_REQUEST).body("**ERROR** -- Image can't get list of all images");
         }
     }
@@ -74,11 +74,12 @@ public class ImageController {
      * @throws Exception
      */
     @GetMapping("/show/{id}")
-    public ResponseEntity<ByteArrayResource> displayImage(@PathVariable int id)
+    public ResponseEntity<?> displayImage(@PathVariable int id)
             throws Exception {
         LOGGER.log(Level.INFO, "start show image by id");
+        Image image = null;
         try {
-            Image image = imageService.getFileById(id).get();
+            image = imageService.getImageById(id).get();
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(image.getMimeType()))
@@ -86,9 +87,11 @@ public class ImageController {
                             , "attachment:filename=\"" + image.getDataName() + "\"")
                     .body(new ByteArrayResource(image.getData64()));
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(String.format("Could not download the file: %s!", image.getDataName()));
         }
-        return null;
+
     }
 
 
@@ -111,7 +114,7 @@ public class ImageController {
             imageService.saveFile(userEmail, file);
             return ResponseEntity.status(HttpStatus.CREATED).body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
         }
@@ -141,7 +144,7 @@ public class ImageController {
                 return result;
             }
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             for (MultipartFile file : files) {
                 result = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
@@ -158,11 +161,12 @@ public class ImageController {
      * @throws Exception
      */
     @GetMapping("/getUserImage/{email}")
-    public ResponseEntity<ByteArrayResource> getUserImage(@PathVariable String email)
+    public ResponseEntity<?> getUserImage(@PathVariable String email)
             throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get user image");
+        Image image = null;
         try {
-           Image image = imageService.getFile(email).get();
+            image = imageService.getFile(email).get();
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(image.getMimeType()))
@@ -170,12 +174,11 @@ public class ImageController {
                             , "attachment:filename=\"" + image.getDataName() + "\"")
                     .body(new ByteArrayResource(image.getData64()));
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            /*return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(String.format("Could not download the file: %s!", image));*/
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(String.format("Could not download the file: %s!", image));
         }
 
-        return null;
     }
 
     /**
@@ -199,7 +202,7 @@ public class ImageController {
             return (List<Image>) images;
 
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             return (List<Image>) ResponseEntity.status(HttpStatus.BAD_REQUEST).body("**ERROR** -- Image can't get list of images associate to the establishment");
 
         }
@@ -221,7 +224,7 @@ public class ImageController {
             imageService.deleteUserImage(id, email);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Image has been delete and default image set");
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("**ERROR** -- Image can't be delete");
         }
     }
@@ -245,7 +248,7 @@ public class ImageController {
             imageService.deleteEstablishmentImage(id, name);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Image associate to establishment has been delete");
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("**ERROR** -- Image can't be delete");
         }
     }

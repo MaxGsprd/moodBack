@@ -1,8 +1,10 @@
 package com.mood.mood.filter;
 
-import com.mood.mood.service.CustomUserDetailsService;
+import com.mood.mood.exceptions.CustomUserDetailsService;
 import com.mood.mood.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

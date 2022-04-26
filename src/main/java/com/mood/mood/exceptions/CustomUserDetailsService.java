@@ -1,4 +1,4 @@
-package com.mood.mood.service;
+package com.mood.mood.exceptions;
 
 import com.mood.mood.repository.UserRepository;
 import com.mood.mood.model.User;

@@ -140,6 +140,10 @@ public class ImageService implements IImageService {
         return establishementImageRepository.findById(id);
     }
 
+    public Optional<Image> getImageById(int id) {
+        return imageRepository.findById(id);
+    }
+
     /**
      * Efface l'image de l'utilisateur et met l'image par defaut
      * @param id

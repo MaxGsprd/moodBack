@@ -29,34 +29,42 @@ public class AuthenticationController {
     private LocalisationUtil localisationUtil;
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody AuthenticateUser user) throws Exception {
+    public ResponseEntity<?>  login(@Valid @RequestBody AuthenticateUser user) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Post login connexion token");
         try {
-            return authenticationService.generateToken(user);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(String.format(authenticationService.generateToken(user)));
+
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            return "**ERROR** -- Bad login/password";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR** -- Bad login/password"));
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterUser user) throws Exception {//@RequestBody
+    public ResponseEntity<?> register(@RequestBody RegisterUser user) throws Exception {//@RequestBody
+        LOGGER.log(Level.INFO, "**START** - Post  register form to create new user");
         try {
             User createdUser = authenticationService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** -Impossible d'enregistrer l'utilisateur! :" + ex.getMessage()));
         }
     }
 
     @PatchMapping("/forgotPassword")
-    public ResponseEntity<User> forgotPassword(@Valid @RequestBody ForgotPasswordForm form) throws Exception {
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordForm form) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Patch forget password");
         try {
             User user = authenticationService.forgotPassword(form);
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** -Impossible de réinitialiser le mot de passe! :" + ex.getMessage()));
         }
     }
 }

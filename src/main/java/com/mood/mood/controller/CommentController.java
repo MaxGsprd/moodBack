@@ -24,114 +24,145 @@ public class CommentController {
     ICommentService commentService;
 
     @GetMapping("/comments")
-    public ResponseEntity<List<CommentDetails>> getAllComments() throws Exception {
+    public ResponseEntity<?> getAllComments() throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments");
         try {
             List<CommentDetails> commentDetails = commentService.getAllComments();
-            return ResponseEntity.ok(commentDetails);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(commentDetails);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucun commentaire trouvé " ));
         }
     }
 
     @GetMapping("/commentsByEstablishment/{establishmentId}")
-    public ResponseEntity<List<CommentDetails>> getCommentByEstablishment(@PathVariable int establishmentId) throws Exception {
+    public ResponseEntity<?> getCommentByEstablishment(@PathVariable int establishmentId) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments by establishment :ID");
         try {
             List<CommentDetails> comments = commentService.getAllCommentsByEstablishmentId(establishmentId);
-            return ResponseEntity.ok(comments);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return  null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(comments);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucun commentaire trouvé " ));
         }
+
     }
 
     @GetMapping("/commentsByStatus/{status}")
-    public ResponseEntity<List<CommentDetails>> getCommentByStatus(@PathVariable Boolean status) throws Exception {
+    public ResponseEntity<?> getCommentByStatus(@PathVariable Boolean status) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments by :STATUS");
         try {
             List<CommentDetails> comments = commentService.getAllCommentsByStatus(status);
-            return ResponseEntity.ok(comments);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return  null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(comments);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucun commentaire par statue trouvé "));
         }
     }
 
     @GetMapping("/commentsByUser/{userId}")
-    public ResponseEntity<List<CommentDetails>> getCommentsByUserId(@PathVariable int userId) throws Exception {
+    public ResponseEntity<?> getCommentsByUserId(@PathVariable int userId) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments by :UserID");
         try {
             List<CommentDetails> comments = commentService.getAllCommentsByUserId(userId);
-            return ResponseEntity.ok(comments);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return  null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(comments);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Commentaire recherché par utilisateur intouvable! "));
         }
+
     }
 
     @GetMapping("/commentsByGroupType/{groupType}")
-    public ResponseEntity<List<CommentDetails>> getCommentsByGroupType(@PathVariable int groupType) throws Exception {
+    public ResponseEntity<?> getCommentsByGroupType(@PathVariable int groupType) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments by :groupType");
         try {
             List<CommentDetails> comments = commentService.getAllCommentsByGroupType(groupType);
-            return ResponseEntity.ok(comments);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return  null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(comments);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Commentaire recherché par type grouper intouvable! "));
         }
     }
 
     @GetMapping("/allCommentsSortedByLatestCreatedDate")
-    public ResponseEntity<List<CommentDetails>> getCommentByLatestCreatedDate() throws Exception {
+    public ResponseEntity<?> getCommentByLatestCreatedDate() throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments DESC order by :CreatedDate");
         try {
             List<CommentDetails> comments = commentService.getAllCommentsByCreatedDateLatest();
-            return ResponseEntity.ok(comments);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return  null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(comments);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Commentaire par ordre décroissante introuvable! "));
         }
     }
 
     @GetMapping("/allCommentsSortedByOldestCreatedDate")
-    public ResponseEntity<List<CommentDetails>> getCommentByOldestCreatedDate() throws Exception {
+    public ResponseEntity<?> getCommentByOldestCreatedDate() throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get all comments ASC order by :CreatedDate");
         try {
             List<CommentDetails> comments = commentService.getAllCommentsByCreatedDateOldest();
-            return ResponseEntity.ok(comments);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return  null;
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(comments);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Commentaire par ordre croissante introuvable! "));
         }
     }
 
     @PostMapping("/newComment/establishment/{establishment_id}/user/{user_id}")
-    public ResponseEntity<Comment> createEstablishment(@Valid @RequestBody CommentForm commentForm,
+    public ResponseEntity<?> createEstablishment(@Valid @RequestBody CommentForm commentForm,
                                                        @PathVariable("establishment_id") int establishment_id,
                                                        @PathVariable("user_id") int user_id) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Post new comment :establishment_ID, : user_ID");
         try {
             Comment createdComment = commentService.createComment(commentForm, establishment_id, user_id);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error: the establishment couldn't be created " + e.getMessage(), e);
-            return  null;
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error: the establishment couldn't be created " + ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible d'ajouté ce commentaire!"));
         }
     }
 
     @DeleteMapping("comment/{id}")
-    public  ResponseEntity<Void> deleteComment(@PathVariable int id) throws Exception {
+    public  ResponseEntity<?> deleteComment(@PathVariable int id) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Delete comment :ID");
         try {
             commentService.deleteCommentById(id);
-            return ResponseEntity.ok(null);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(String.format("Commentaire supprimer !"));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error: The comment deletion request couldn't be executed. " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de supprimer ce commentaire!"));
         }
     }
 
     @PutMapping("comment/{id}")
-    public ResponseEntity<CommentDetails> updateComment(@PathVariable("id") int id, @RequestBody CommentForm commentForm) throws Exception {
+    public ResponseEntity<?> updateComment(@PathVariable("id") int id, @RequestBody CommentForm commentForm) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Update comment :ID, :commentForm");
         try {
             CommentDetails updatedComment = commentService.updateComment(id, commentForm);
-            return ResponseEntity.ok(updatedComment);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(updatedComment);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error updating establishment " + e.getMessage(), e.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de modifier ce commentaire!"));
         }
     }
 }

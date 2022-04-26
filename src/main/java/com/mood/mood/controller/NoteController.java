@@ -44,14 +44,16 @@ public class NoteController {
      *              returns all note corresponding to value
      */
     @GetMapping("/noteByValue/{value}")
-    public ResponseEntity<List<Note>> getNotesByValue(@PathVariable int value) throws Exception {
+    public ResponseEntity<?> getNotesByValue(@PathVariable int value) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get all note");
         try {
             List<Note> notes = noteService.getNotesByValue(value);
-            return ResponseEntity.ok(notes);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(notes);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR** - : the note couldn't be found " + ex.getMessage(), ex);
-            return  null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucun note trouvé " ));
         }
     }
 
@@ -60,14 +62,16 @@ public class NoteController {
      *                        returns all note corresponding to value
      */
     @GetMapping("/noteListByEstablishment/{establishmentId}")
-    public ResponseEntity<List<Note>> getNotesByEstablishments(@PathVariable int establishmentId) throws Exception {
+    public ResponseEntity<?> getNotesByEstablishments(@PathVariable int establishmentId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get all note for an establishment");
         try {
             List<Note> notes = noteService.getNotesByEstablishment(establishmentId);
-            return ResponseEntity.ok(notes);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(notes);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR** - : Notes for this establishment couldn't be found " + ex.getMessage(), ex);
-            return  null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucun note trouvé par établissement " ));
         }
     }
 
@@ -76,14 +80,16 @@ public class NoteController {
      *                        returns all note corresponding to value
      */
     @GetMapping("/noteAverageByEstablishment/{establishmentId}")
-    public ResponseEntity<NotesAverage> getEstablishmentAverage(@PathVariable int establishmentId) throws Exception {
+    public ResponseEntity<?> getEstablishmentAverage(@PathVariable int establishmentId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get average note for an establishment");
         try {
             NotesAverage average = noteService.getEstablishmentAverage(establishmentId);
-            return ResponseEntity.ok(average);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(average);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR** - : the Average Notes for this establishment couldn't be found " + ex.getMessage(), ex);
-            return  null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucune moyenne  de note trouvé pour l'établissement " ));
         }
     }
 
@@ -92,42 +98,46 @@ public class NoteController {
      *                        returns all note corresponding to value
      */
     @GetMapping("/noteByUserAndEstablishment/establishment/{establishmentId}/user/{userId}")
-    public ResponseEntity<Note> getNoteByEstablishmentAndUser(@PathVariable("establishmentId") int establishmentId,
+    public ResponseEntity<?> getNoteByEstablishmentAndUser(@PathVariable("establishmentId") int establishmentId,
                                                               @PathVariable("userId") int userId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get note for an establishment by user");
         try {
             Note note = noteService.getNoteByEstablishmentAndUser(establishmentId, userId);
-            return ResponseEntity.ok(note);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(note);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR** - : the Notes a user post for this establishment couldn't be found " + ex.getMessage(), ex);
-            return  null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - La note posté par l'utilisateur pour cet établissement est introuvable!" ));
         }
     }
 
     @PutMapping("note/{id}")
-    public ResponseEntity<Note> updateNote(@PathVariable("id") int id, @RequestBody NoteForm noteForm) throws Exception {
+    public ResponseEntity<?> updateNote(@PathVariable("id") int id, @RequestBody NoteForm noteForm) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update Note");
         try {
             Note updatedNote = noteService.updateNote(id, noteForm);
-            return ResponseEntity.ok(updatedNote);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(updatedNote);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR** -  updating note " + ex.getMessage(), ex);
-            return  null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de modifier la note!" ));
         }
     }
 
 
     @DeleteMapping("note/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable int id) throws Exception {
+    public ResponseEntity<?> deleteById(@PathVariable int id) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Delete Note");
         try {
             noteService.deleteNoteById(id);
-            HttpHeaders header = new HttpHeaders();
-            header.add("Note deleted", "The note has been successfully deleted");
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(String.format("Note supprimer !"));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR** - : this note deletion request couldn't be executed. " + ex.getMessage(), ex);
-            return  null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de supprimer le note!"));
         }
     }
 }

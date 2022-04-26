@@ -168,7 +168,7 @@ public class EstablishmentService implements IEstablishmentService {
     @Override
     public List<Establishment> getEstablishmentWithInDisatance(double lat, double lon, double km) throws Exception {
         try {
-            //return establishmentRepository.findEstablishmentLocalisation();
+
 
             String JM_FORMULE = "(6371 * acos(cos(radians(:latitude)) * cos(radians(l.latitude)) *" +
                     " cos(radians(l.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(l.latitude))))";
@@ -212,13 +212,22 @@ public class EstablishmentService implements IEstablishmentService {
                     .setParameter("id",1)
                     .getResultList();*/
         try {
-            List<Establishment> establishments = entityManager.createQuery("SELECT e.id, e.description, e.name, e.status, c.description, c.title, l.latitude, l.longitude " +
+
+
+            /**
+             * SELECT "establishment"."id" as establishmentID, "establishment"."description" as establishmentDesc, "establishment"."name", "establishment"."status", "categories"."id" as categoryId, "categories"."description" as categoryDesc, "categories"."title", "localisation"."id" as localisationID, "localisation"."latitude", "localisation"."longitude"
+             * FROM "public"."establishment"
+             * JOIN  "public"."localisation" ON "establishment"."localisation_id" = "localisation"."id"
+             * JOIN "public"."categories" ON "establishment"."category_id" = "categories"."id";
+             */
+            List<Establishment> establishments = entityManager.createQuery("SELECT e.id as establishmentID, e.description as establishmentDescrip, e.name, e.status, c.id as categoryId, c.description as categoryDescrip, c.title, l.id as localisationID, l.latitude, l.longitude " +
                             "FROM Establishment e join  e.localisation l " +
                             "join e.category c")
                     .getResultList();
 
+                return establishments;
 
-        return establishments;
+
 
         }catch (Exception ex){
             throw new Exception( ex.getMessage(), ex.getCause());

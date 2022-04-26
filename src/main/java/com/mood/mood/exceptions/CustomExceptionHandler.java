@@ -1,4 +1,4 @@
-package com.mood.mood.service;
+package com.mood.mood.exceptions;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

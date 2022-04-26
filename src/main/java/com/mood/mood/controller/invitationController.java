@@ -26,92 +26,106 @@ public class invitationController {
     IInvitationEvenementService invitationEvenementService;
 
     @GetMapping("invitations/group/{groupId}")
-    public ResponseEntity<List<Invitation>> getAllInvitationDetailsByGroupId(@PathVariable int groupId) throws Exception {
+    public ResponseEntity<?> getAllInvitationDetailsByGroupId(@PathVariable int groupId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get All Invitation");
         try {
             List<Invitation> invitations = invitationService.getAllInvitationsByGroupId(groupId);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Invitation : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer l'invitaion!"));
         }
     }
 
     @GetMapping("invitationsByReceiver/{receiverId}")
-    public ResponseEntity<List<Invitation>> getAllInvitationDetailsByReceiverId(@PathVariable int receiverId) throws Exception {
+    public ResponseEntity<?> getAllInvitationDetailsByReceiverId(@PathVariable int receiverId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Invitation send to receiver");
         try {
             List<Invitation> invitations = invitationService.getAllInvitationsByReceiverId(receiverId);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Invitation send : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer l'invitaion envoyer à l'utilisateur!"));
         }
     }
 
     @GetMapping("invitationsByOrganizer/{organizerId}")
-    public ResponseEntity<List<Invitation>> getAllInvitationDetailsByOrganizerId(@PathVariable int organizerId) throws Exception {
+    public ResponseEntity<?> getAllInvitationDetailsByOrganizerId(@PathVariable int organizerId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Invitation send to Organizer");
         try {
             List<Invitation> invitations = invitationService.getAllInvitationsByOrganizerId(organizerId);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Invitation organizer : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer l'invitaion de l'oganisateur!"));
         }
     }
 
 
     @GetMapping("invitationEvenementByDate/{date}")
-    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByDate(@PathVariable String date) throws Exception {
+    public ResponseEntity<?> getAllInvitationEvenementByDate(@PathVariable String date) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Invitation Events");
         try {
             List<InvitationEvenementDetails> invitations = invitationEvenementService.findByInvitationDate(date);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Invitation Events : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer l'invitaion d'un événement!"));
         }
     }
 
     @GetMapping("invitationEvenementByStatus/{status}")
-    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByStatus(@PathVariable int status) throws Exception {
+    public ResponseEntity<?> getAllInvitationEvenementByStatus(@PathVariable int status) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Invitation Events Status");
         try {
             List<InvitationEvenementDetails> invitations = invitationEvenementService.findByStatus(status);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Status Invitation Events : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer le statue de l'invitaion d'un événement!"));
         }
     }
 
     @GetMapping("invitationEvenementByEstablishment/{establishmentId}")
-    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByEstablishment(@PathVariable int establishmentId) throws Exception {
+    public ResponseEntity<?> getAllInvitationEvenementByEstablishment(@PathVariable int establishmentId) throws Exception {
        LOGGER.log(Level.INFO, "**START** - Get Invitation Event Establishment place");
         try {
             List<InvitationEvenementDetails> invitations = invitationEvenementService.findByEstablishmentId(establishmentId);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Establishment Invitation Events : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer l'établissement associer à l'invitaion!"));
         }
     }
 
     @GetMapping("invitationEvenementByGroup/{groupId}")
-    public ResponseEntity<List<InvitationEvenementDetails>> getAllInvitationEvenementByGroup(@PathVariable int groupId) throws Exception {
+    public ResponseEntity<?> getAllInvitationEvenementByGroup(@PathVariable int groupId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Invitation Event Group");
         try {
             List<InvitationEvenementDetails> invitations = invitationEvenementService.findByGroupId(groupId);
-            return ResponseEntity.ok(invitations);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(invitations);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't get Group Invitation Events : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer le groupe associer à l'invitaion!"));
         }
     }
 
     @PostMapping("createInvitationForGroup/{organizerId}+{receiverId}+{groupId}")
-    public ResponseEntity<Invitation> createInvitation(@Valid @PathVariable int organizerId,
+    public ResponseEntity<?> createInvitation(@Valid @PathVariable int organizerId,
                                                        @PathVariable int receiverId,
                                                        @PathVariable int groupId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Create Invitation For Group");
@@ -120,12 +134,13 @@ public class invitationController {
             return ResponseEntity.status(HttpStatus.CREATED).body(invitation);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't create Invitation group : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de créer une invitaion pour ce group!"));
         }
     }
 
     @PostMapping("createInvitationEvenement/{organizerId}+{groupId}+{establishmentId}")
-    public ResponseEntity<InvitationEvenement> createInvitationEvenement(@Valid @PathVariable int organizerId,
+    public ResponseEntity<?> createInvitationEvenement(@Valid @PathVariable int organizerId,
                                                                 @PathVariable int groupId,
                                                                 @PathVariable int establishmentId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Create Invitation For Events");
@@ -134,43 +149,50 @@ public class invitationController {
             return ResponseEntity.status(HttpStatus.CREATED).body(invitation);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't create Invitation events : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de créer une invitaion pour cette événement!"));
         }
     }
 
     @DeleteMapping("invitation/{id}")
-    public ResponseEntity<Void> deleteInvitation(@PathVariable("id") int id) throws Exception {
+    public ResponseEntity<?> deleteInvitation(@PathVariable("id") int id) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Delete Invitation");
         try {
             invitationService.deleteInvitationById(id);
-            HttpHeaders header = new HttpHeaders();
-            header.add("Invitation deleted", "The invitation has been successfully deleted");
-            return ResponseEntity.status(HttpStatus.OK).build();
+          return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(String.format("The invitation has been successfully deleted"));
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't delete Invitation : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de supprimer ce l'invitation!"));
         }
     }
 
     @PutMapping("invitation/{id}+{receiverResponse}")
-    public Invitation updateInvitation(@PathVariable("id") int id, @PathVariable Integer receiverResponse) throws Exception {
+    public ResponseEntity<?>  updateInvitation(@PathVariable("id") int id, @PathVariable Integer receiverResponse) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update Invitation status response");
         try {
-            return invitationService.updateInvitation(id, receiverResponse);
+            Invitation updateInvitation = invitationService.updateInvitation(id, receiverResponse);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(updateInvitation);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't Update Invitation status response : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de modifier cet invitation!"));
         }
     }
 
     @PutMapping("invitationEvenement/{id}+{receiverResponse}")
-    public InvitationEvenement invitationEvenement(@PathVariable("id") int id, @PathVariable int receiverResponse) throws Exception {
+    public ResponseEntity<?> invitationEvenement(@PathVariable("id") int id, @PathVariable int receiverResponse) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update Invitation events status response");
         try {
-            return invitationEvenementService.updateInvitationEvenement(id, receiverResponse);
+            InvitationEvenement updateEventInvitation = invitationEvenementService.updateInvitationEvenement(id, receiverResponse);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(updateEventInvitation);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : couldn't Update Invitation events status response : " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de modifier l'invitation pour cet évémnement!"));
         }
     }
 

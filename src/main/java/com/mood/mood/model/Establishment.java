@@ -79,4 +79,6 @@ public class Establishment {
     public void addNote(Note note) {
         this.notes.add(note);
     }
+
+
 }

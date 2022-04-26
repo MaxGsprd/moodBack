@@ -12,30 +12,30 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterUser {
-    ////@NotBlank(message = "Veuillez renseigner votre nom.")
+    @NotBlank(message = "Veuillez renseigner votre nom.")
     @Size(min = 1, max = 100, message = "Votre nom est trop long. {max} caractères maximum.")
     private String name;
 
-    ////@NotBlank(message = "Veuillez renseigner votre prenom.")
+    @NotBlank(message = "Veuillez renseigner votre prenom.")
     @Size(min = 1, max = 100, message = "Votre prenom est trop long. {max} caractères maximum.")
     private String firstname;
 
-    ////@NotBlank(message = "Veuillez renseigner votre mot de passe.")
+    @NotBlank(message = "Veuillez renseigner votre mot de passe.")
     @Size(min = 10, message = "Le mot de passe doit être de dix caractères minimum.")
     private String password;
 
-    ////@NotBlank(message = "Veuillez renseigner votre mot de passe de confirmation.")
+    @NotBlank(message = "Veuillez renseigner votre mot de passe de confirmation.")
     private String confirmPassword;
 
-    //@NotNull(message = "Veuillez renseigner votre date de naissance.")
+    @NotNull(message = "Veuillez renseigner votre date de naissance.")
     private LocalDate birthdate;
 
-    //@NotBlank(message = "Veuillez renseigner votre adresse email.")
+    @NotBlank(message = "Veuillez renseigner votre adresse email.")
     @Email(message = "Votre adresse email doit être valide.")
     @Size(min = 1, max = 100, message = "Votre adresse email est trop long. {max} caractères maximum.")
     private String email;
 
-    //@NotBlank(message = "Veuillez renseigner votre n° de téléphone")
+    @NotBlank(message = "Veuillez renseigner votre n° de téléphone")
     @Pattern(regexp = "[0-9]+", message = "Format du n° de tel : 0102030405 ou 01 02 03 04 05.")
     @Size(min = 10, max = 14, message = "Le n° de téléphone renseigné est trop court ou trop long. " +
             "Format du n° de tel : 0102030405 ou 01 02 03 04 05.")

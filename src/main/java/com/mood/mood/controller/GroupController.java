@@ -7,6 +7,7 @@ import com.mood.mood.model.Group;
 import com.mood.mood.service.GroupService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,62 +22,72 @@ public class GroupController {
     GroupService groupService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<GroupDetails> getGroupDetails(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<?> getGroupDetails(@PathVariable Integer id) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Getting Group details by id");
         try {
             GroupDetails group = groupService.find(id);
-            return ResponseEntity.ok(group);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(group);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  Getting Group details " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer le information du group!"));
         }
     }
 
     @PostMapping("{id}/inviteUser/{userId}")
-    public ResponseEntity<GroupDetails> inviteUser(@PathVariable Integer id, @PathVariable Integer userId) throws Exception {
+    public ResponseEntity<?> inviteUser(@PathVariable Integer id, @PathVariable Integer userId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Adding a user to a group");
         try {
             GroupDetails group = groupService.inviteUser(id, userId);
-            return ResponseEntity.ok(group);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(group);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  Adding user to a Group " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible d'invité l'utilisateur au group!"));
         }
     }
 
     @DeleteMapping("{id}/removeUser/{userId}")
-    public ResponseEntity<GroupDetails> removeUser(@PathVariable Integer id, @PathVariable Integer userId) throws Exception {
+    public ResponseEntity<?> removeUser(@PathVariable Integer id, @PathVariable Integer userId) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Remove a user to a group");
         try {
             GroupDetails group = groupService.removeUser(id, userId);
-            return ResponseEntity.ok(group);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(group);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  Removing user to a Group " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de supprimer l'utilisateur au group!" ));
         }
     }
 
     @PutMapping("/createGroup/{user_id}")
-    public ResponseEntity<Group> renameGroup(@PathVariable Integer user_id, GroupForm form) throws Exception {
-        LOGGER.log(Level.INFO, "**START** - Create and Update group");
+    public ResponseEntity<?> renameGroup(@PathVariable Integer user_id, GroupForm form) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Create a group");
         try {
             Group group = groupService.create(user_id, form);
-            return ResponseEntity.ok(group);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(group);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE,"**ERROR** -  Updating Group " + ex.getMessage(), ex.getCause());
-            return null;
+            LOGGER.log(Level.SEVERE,"**ERROR** -  Creating Group " + ex.getMessage(), ex.getCause());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de créer le group %s!", form.getTitle()));
         }
     }
 
     @PutMapping("/renameGroup/{id}")
-    public ResponseEntity<GroupDetails> renameGroup(@PathVariable Integer id, String name) throws Exception {
+    public ResponseEntity<?> renameGroup(@PathVariable Integer id, String name) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update group name");
         try {
             GroupDetails group = groupService.rename(id, name);
-            return ResponseEntity.ok(group);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(group);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  Updating Group name " + ex.getMessage(), ex.getCause());
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de modifier le group %s!", name));
         }
     }
 
@@ -87,7 +98,8 @@ public class GroupController {
             return groupService.delete(id) ? ResponseEntity.noContent() : ResponseEntity.notFound();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  Deleting Group " + ex.getMessage(), ex.getCause());
-            return null;
+            return (ResponseEntity.HeadersBuilder<?>) ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de supprimer ce group!"));
         }
     }
 

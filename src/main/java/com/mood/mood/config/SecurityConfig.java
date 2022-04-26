@@ -1,8 +1,7 @@
 package com.mood.mood.config;
 
 import com.mood.mood.filter.JwtFilter;
-import com.mood.mood.service.CustomUserDetailsService;
-import com.mood.mood.filter.JwtFilter;
+import com.mood.mood.exceptions.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
