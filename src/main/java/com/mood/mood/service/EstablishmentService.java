@@ -244,10 +244,11 @@ public class EstablishmentService implements IEstablishmentService {
         LocalisationDetails localisationDetails;
         List<Image> img;
 
-        EstablishmentDetails establishmentDetails = new EstablishmentDetails();
+        EstablishmentDetails establishmentDetails = null;
 
 
         if(establishment.getStatus()){
+        establishmentDetails = new EstablishmentDetails();
         establishmentDetails.setName(establishment.getName());
         establishmentDetails.setDescription(establishment.getDescription());
         Localisation localisation = establishment.getLocalisation();
@@ -271,9 +272,10 @@ public class EstablishmentService implements IEstablishmentService {
         establishmentDetails.setComments(commentDetails);
         establishmentDetails.setCategory(establishment.getCategory());
 
-        } else {
-            establishmentDetails.setDescription("L'établisement : <<" + establishment.getName() + ">> est en attente de vérification!");
         }
+        /*else {
+            establishmentDetails.setDescription("L'établisement : <<" + establishment.getName() + ">> est en attente de vérification!");
+        }*/
 
         return establishmentDetails;
     }
@@ -283,17 +285,18 @@ public class EstablishmentService implements IEstablishmentService {
      */
     private Establishment establishmentDtoToEntity(EstablishmentForm establishmentForm) {
         Establishment establishment = null;
-        Localisation loc;
-        LocalisationCoordinates coordinates;
+        Localisation loc = null;
+        LocalisationCoordinates coordinates = null;
 
         try {
             establishment = new Establishment();
             establishment.setName(establishmentForm.getName());
             establishment.setDescription(establishmentForm.getDescription());
-            LocalisationForm address = establishmentForm.getLocalisationForm();
+            LocalisationForm address = null;
             if (establishmentForm.getLocalisationForm() != null) {
                 try {
-                    coordinates = localisationUtil.getSearchCoordinates(establishmentForm.getLocalisationForm());
+                    address = establishmentForm.getLocalisationForm();
+                    coordinates = localisationUtil.getSearchCoordinates(address);
                 } catch (Exception e) {
                     throw new RuntimeException();
                 }

@@ -137,7 +137,7 @@ public class CommentController {
     }
 
     @DeleteMapping("comment/{id}")
-    @Secured({"ROLE_USER", "ROLE_EDITOR"})
+    @Secured({"ROLE_USER", "ROLE_MODERATOR"})
     public  ResponseEntity<?> deleteComment(@PathVariable int id) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Delete comment :ID");
         try {
@@ -152,7 +152,7 @@ public class CommentController {
     }
 
     @PutMapping("comment/{id}")
-    @Secured({"ROLE_USER", "ROLE_EDITOR"})
+    @Secured({"ROLE_USER", "ROLE_MODERATOR"})
     public ResponseEntity<?> updateComment(@PathVariable("id") int id, @RequestBody CommentForm commentForm) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update comment :ID, :commentForm");
         try {

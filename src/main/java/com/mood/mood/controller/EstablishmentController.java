@@ -180,6 +180,7 @@ public class EstablishmentController {
   }
 
   @DeleteMapping("establishment/{id}")
+  @Secured("ROLE_EDITOR")
   public  ResponseEntity<?> deleteEstablishment(@PathVariable int id) throws Exception {
       LOGGER.log(Level.INFO, "**START** - Delete Establishment by id ");
       try {

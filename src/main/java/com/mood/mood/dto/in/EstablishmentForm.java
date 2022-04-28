@@ -22,6 +22,8 @@ public class EstablishmentForm {
     @Size(min = 1, max = 500, message = "La description de l'établissement est trop longue. {max} caractères maximum.")
     private String description;
 
+    private boolean statue = false;
+
     private LocalisationForm localisationForm;
 
     private MultipartFile[] image;
