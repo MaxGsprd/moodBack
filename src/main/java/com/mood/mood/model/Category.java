@@ -1,11 +1,13 @@
 package com.mood.mood.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

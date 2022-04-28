@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -237,12 +238,16 @@ public class EstablishmentService implements IEstablishmentService {
 
     /**
      * Convert Establishment entity to establishmentDetails (DTO out)
+     *
      */
     private EstablishmentDetails convertEstablishmentEntityToDto(Establishment establishment) {
         LocalisationDetails localisationDetails;
         List<Image> img;
 
         EstablishmentDetails establishmentDetails = new EstablishmentDetails();
+
+
+        if(establishment.getStatus()){
         establishmentDetails.setName(establishment.getName());
         establishmentDetails.setDescription(establishment.getDescription());
         Localisation localisation = establishment.getLocalisation();
@@ -265,6 +270,11 @@ public class EstablishmentService implements IEstablishmentService {
         List<CommentDetails> commentDetails = comments.stream().map(comment -> commentService.convertCommentEntityToDto(comment)).collect(Collectors.toList());
         establishmentDetails.setComments(commentDetails);
         establishmentDetails.setCategory(establishment.getCategory());
+
+        } else {
+            establishmentDetails.setDescription("L'établisement : <<" + establishment.getName() + ">> est en attente de vérification!");
+        }
+
         return establishmentDetails;
     }
 

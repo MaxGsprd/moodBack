@@ -164,5 +164,10 @@ class UserTest {
         Group group = new Group();
         userAllArgs.addGroup(group);
         assertTrue(userAllArgs.getGroups().contains(group));
+
+        assertNull(userNoArgs.getGroups());
+
+        userNoArgs.addGroup(group);
+        assertTrue(userNoArgs.getGroups().contains(group));
     }
 }

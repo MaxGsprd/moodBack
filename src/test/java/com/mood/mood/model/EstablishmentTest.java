@@ -12,6 +12,7 @@ class EstablishmentTest {
 
     private Establishment establishmentNoArgs;
     private Establishment establishmentAllArgs;
+    private Establishment establishmentRequiredArgs;
 
 
     @BeforeEach
@@ -35,6 +36,11 @@ class EstablishmentTest {
                 notes,
                 comments
         );
+        establishmentRequiredArgs = new Establishment(
+                "establishmentName",
+                false,
+                category
+        );
     }
 
     @Test
@@ -44,6 +50,9 @@ class EstablishmentTest {
 
         assertEquals(establishmentAllArgs.getClass().getSimpleName(), "Establishment");
         assertEquals(establishmentAllArgs.getId(), 0);
+
+        assertEquals(establishmentRequiredArgs.getClass().getSimpleName(), "Establishment");
+        assertEquals(establishmentRequiredArgs.getId(), 0);
     }
 
     @Test

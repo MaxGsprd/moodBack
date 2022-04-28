@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -199,14 +200,17 @@ public class User {
     }
 
     public void addComment(Comment comment) {
+        if (this.comments == null) this.comments = new ArrayList<>();
         this.comments.add(comment);
     }
 
     public void addNote(Note note) {
+        if (this.notes == null) this.notes = new ArrayList<>();
         this.notes.add(note);
     }
 
     public void addGroup(Group group) {
+        if (this.groups == null) this.groups = new ArrayList<>();
         this.groups.add(group);
     }
 }

@@ -259,7 +259,7 @@ public class InsertDataBDD {
             pst.setInt(1, 1);
             pst.setString(2, "Achats en magasin");
             pst.setString(3, "Centre commercial Côte de Nacre");
-            pst.setBoolean(4, true);
+            pst.setBoolean(4, false);
             pst.setInt(5, 1);
             pst.setInt(6, 2);
             pst.executeUpdate();

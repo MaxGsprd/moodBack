@@ -35,15 +35,10 @@ public class NoteService implements INoteService {
      * */
     public Establishment noteEstablishment(@ModelAttribute NoteForm noteForm, int establishment_id,  int user_id) throws Exception {
         try {
-            Note noteExist = noteRepository.findByUserIdAndEstablishmentId(establishment_id, user_id);
-            if (noteExist != null) {
-                throw new Exception("This user already gave a note to this establishment");
-            }  else {
-                Note note = this.convertNoteDtoToEntity(noteForm, establishment_id, user_id);
-                Establishment establishment = establishmentRepository.findById(establishment_id);
-                noteRepository.save(note);
-                return establishment;
-            }
+            Note note = this.convertNoteDtoToEntity(noteForm, establishment_id, user_id);
+            Establishment establishment = establishmentRepository.findById(establishment_id);
+            noteRepository.save(note);
+            return establishment;
         } catch (Exception e) {
             throw new Exception(e.getMessage(), e.getCause());
         }
@@ -106,32 +101,29 @@ public class NoteService implements INoteService {
     /**
      * Convert NoteFrom (Dto in) to Note entity
      */
-    private Note convertNoteDtoToEntity(NoteForm noteForm, int establishment_id,  int user_id) {
+    public Note convertNoteDtoToEntity(NoteForm noteForm, int establishment_id, int user_id) {
         Note note = new Note();
         note.setValue(noteForm.getValue());
-        Optional<User> user = userRepository.findById(user_id);
-        note.setUser(user.get());
+        User user = userRepository.findById(user_id).orElse(null);
+        assert user != null;
+        note.setUser(user);
         Establishment establishment = establishmentRepository.findById(establishment_id);
         note.setEstablishment(establishment);
         return note;
     }
 
     /**
-     * @param id note id to be deleted
+     * @param id establishment id to be deleted
      */
     public void deleteNoteById(int id) throws Exception {
         try {
-            Note note = noteRepository.findById(id);
-            noteRepository.deleteById(note.getId());
+            noteRepository.deleteById(id);
         } catch (Exception e) {
             throw new Exception("Error : This note couldn't be found, " + e.getMessage(), e.getCause());
         }
     }
 
-
-    /**
-     * @param id note id to be updated
-     */
+    @Override
     public Note updateNote(int id, NoteForm noteForm) throws Exception {
         try {
             Note note = noteRepository.findById(id);
@@ -142,5 +134,4 @@ public class NoteService implements INoteService {
             throw new Exception("Error : This note couldn't be found, " + e.getMessage(), e.getCause());
         }
     }
-
 }

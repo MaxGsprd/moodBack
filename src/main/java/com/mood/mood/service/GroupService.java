@@ -2,6 +2,7 @@ package com.mood.mood.service;
 
 import com.mood.mood.dto.in.GroupForm;
 import com.mood.mood.dto.out.GroupDetails;
+import com.mood.mood.dto.out.GroupUserDetails;
 import com.mood.mood.model.Group;
 import com.mood.mood.model.User;
 import com.mood.mood.repository.GroupRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService implements IGroupService {
@@ -19,6 +21,20 @@ public class GroupService implements IGroupService {
     @Autowired
     UserRepository userRepository;
 
+
+    private GroupUserDetails userDtoToGroup(User userEntity) {
+
+        GroupUserDetails groupUserDetail = new GroupUserDetails();
+        groupUserDetail.setId(userEntity.getId());
+        groupUserDetail.setName(userEntity.getName());
+        groupUserDetail.setFirstname(userEntity.getFirstname());
+        groupUserDetail.setEmail(userEntity.getEmail());
+        groupUserDetail.setPhone(userEntity.getPhone());
+
+        return groupUserDetail;
+    }
+
+
     @Override
     public GroupDetails find(Integer id) {
         Group group = groupRepository.findById(id).orElse(null);
@@ -27,7 +43,11 @@ public class GroupService implements IGroupService {
 
         assert group != null;
         groupDetails.setTitle(group.getTitle());
-        groupDetails.setUsers(group.getUsers());
+        groupDetails.setUsers(group.getUsers()
+                .stream()
+                .map(this::userDtoToGroup)
+                .collect(Collectors.toList())
+        );
 
         return groupDetails;
     }
@@ -43,10 +63,15 @@ public class GroupService implements IGroupService {
         group.setTitle(groupForm.getTitle());
         group.addUser(user);
         group.setCreatedDate(LocalDateTime.now());
+        group.setUpdatedDate(LocalDateTime.now());
         groupRepository.save(group);
 
         groupDetails.setTitle(group.getTitle());
-        groupDetails.setUsers(group.getUsers());
+        groupDetails.setUsers(group.getUsers()
+                .stream()
+                .map(this::userDtoToGroup)
+                .collect(Collectors.toList())
+        );
 
         return groupDetails;
     }
@@ -59,13 +84,19 @@ public class GroupService implements IGroupService {
 
         assert group != null && user != null;
         group.addUser(user);
+        user.addGroup(group);
 
         groupRepository.save(group);
+        userRepository.save(user);
 
         GroupDetails groupDetails = new GroupDetails();
 
         groupDetails.setTitle(group.getTitle());
-        groupDetails.setUsers(group.getUsers());
+        groupDetails.setUsers(group.getUsers()
+                .stream()
+                .map(this::userDtoToGroup)
+                .collect(Collectors.toList())
+        );
 
         return groupDetails;
     }
@@ -84,7 +115,11 @@ public class GroupService implements IGroupService {
         GroupDetails groupDetails = new GroupDetails();
 
         groupDetails.setTitle(group.getTitle());
-        groupDetails.setUsers(group.getUsers());
+        groupDetails.setUsers(group.getUsers()
+                .stream()
+                .map(this::userDtoToGroup)
+                .collect(Collectors.toList())
+        );
 
         return groupDetails;
     }
@@ -102,22 +137,6 @@ public class GroupService implements IGroupService {
     }
 
     @Override
-    public Group create(Integer id, GroupForm form) {
-        User user = userRepository.findById(id).orElse(null);
-
-        Group group= new Group();
-
-        group.addUser(user);
-        group.setTitle(form.getTitle());
-        group.setCreatedDate(LocalDateTime.now());
-
-        groupRepository.save(group);
-
-        return group;
-
-    }
-
-    @Override
     public GroupDetails rename(Integer id, String name) {
         Group group = groupRepository.findById(id).orElse(null);
 
@@ -126,7 +145,11 @@ public class GroupService implements IGroupService {
         assert group != null;
         group.setTitle(name);
         groupDetails.setTitle(group.getTitle());
-        groupDetails.setUsers(group.getUsers());
+        groupDetails.setUsers(group.getUsers()
+                .stream()
+                .map(this::userDtoToGroup)
+                .collect(Collectors.toList())
+        );
 
         groupRepository.save(group);
 

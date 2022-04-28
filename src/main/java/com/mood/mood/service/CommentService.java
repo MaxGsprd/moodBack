@@ -54,7 +54,8 @@ public class CommentService implements ICommentService{
     }
 
     public List<CommentDetails> getAllCommentsByEstablishmentId(int establishmentId) {
-        return commentRepository.findByEstablishmentId(establishmentId)
+        Establishment establishment = establishmentRepository.findById(establishmentId);
+        return commentRepository.findByEstablishment(establishment)
                 .stream()
                 .map(this::convertCommentEntityToDto)
                 .collect(Collectors.toList());
@@ -68,7 +69,9 @@ public class CommentService implements ICommentService{
     }
 
     public List<CommentDetails> getAllCommentsByUserId(int userId) {
-        return commentRepository.findByUserId(userId)
+        User user = userRepository.findById(userId).orElse(null);
+        assert user != null;
+        return commentRepository.findByUser(user)
                 .stream()
                 .map(this::convertCommentEntityToDto)
                 .collect(Collectors.toList());

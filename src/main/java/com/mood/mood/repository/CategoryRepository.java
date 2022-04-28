@@ -1,7 +1,6 @@
 package com.mood.mood.repository;
 
 import com.mood.mood.model.Category;
-import com.mood.mood.model.Establishment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

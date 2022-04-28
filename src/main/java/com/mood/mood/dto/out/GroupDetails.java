@@ -1,6 +1,5 @@
 package com.mood.mood.dto.out;
 
-import com.mood.mood.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class GroupDetails {
     private String title;
     @NonNull
     // List<UserDetails> crée une boucle
-    private List<User> users;
+    private List<GroupUserDetails> users;
 
     private List<InvitationEvenementDetails> invitations;
 }

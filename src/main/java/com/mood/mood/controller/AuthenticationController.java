@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-/*@CrossOrigin(origins = "*")*/
 @RequestMapping("/authentication")
 public class AuthenticationController {
     private static Logger LOGGER = Logger.getLogger(AuthenticationController.class.getName());
@@ -46,6 +45,9 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@RequestBody RegisterUser user) throws Exception {//@RequestBody
         LOGGER.log(Level.INFO, "**START** - Post  register form to create new user");
         try {
+            /*if(user.getPassword() != user.getConfirmPassword()) {
+                throw new IllegalArgumentException("Confirm password doesn't match");
+            }*/
             User createdUser = authenticationService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         } catch (Exception ex) {

@@ -3,16 +3,14 @@ package com.mood.mood.controller;
 import com.mood.mood.dto.in.CommentForm;
 import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.model.Comment;
-import com.mood.mood.model.Image;
 import com.mood.mood.service.ICommentService;
-import org.aspectj.bridge.ICommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -139,6 +137,7 @@ public class CommentController {
     }
 
     @DeleteMapping("comment/{id}")
+    @Secured({"ROLE_USER", "ROLE_EDITOR"})
     public  ResponseEntity<?> deleteComment(@PathVariable int id) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Delete comment :ID");
         try {
@@ -153,6 +152,7 @@ public class CommentController {
     }
 
     @PutMapping("comment/{id}")
+    @Secured({"ROLE_USER", "ROLE_EDITOR"})
     public ResponseEntity<?> updateComment(@PathVariable("id") int id, @RequestBody CommentForm commentForm) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update comment :ID, :commentForm");
         try {

@@ -57,9 +57,9 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account already exist");
         }
 
-        if(user.getPassword() != user.getConfirmPassword()) {
+        /*if(user.getPassword() != user.getConfirmPassword()) {
             throw new IllegalArgumentException("Confirm password doesn't match");
-        }
+        }*/
 
        Localisation loc = null;
         if(user.getLocalisationForm() != null) {

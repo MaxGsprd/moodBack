@@ -1,16 +1,14 @@
 package com.mood.mood.controller;
 
-import com.mood.mood.config.InsertDataBDD;
 import com.mood.mood.dto.in.GroupForm;
 import com.mood.mood.dto.out.GroupDetails;
-import com.mood.mood.model.Group;
 import com.mood.mood.service.GroupService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,11 +61,11 @@ public class GroupController {
         }
     }
 
-    @PutMapping("/createGroup/{user_id}")
-    public ResponseEntity<?> renameGroup(@PathVariable Integer user_id, GroupForm form) throws Exception {
+    @PostMapping("/createGroup/{user_id}")
+    public ResponseEntity<?> createGroup(@PathVariable Integer user_id,@Valid @RequestBody GroupForm form) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Create a group");
         try {
-            Group group = groupService.create(user_id, form);
+            GroupDetails group = groupService.create(form, user_id);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(group);
         } catch (Exception ex) {

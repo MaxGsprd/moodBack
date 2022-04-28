@@ -9,7 +9,6 @@ import lombok.NonNull;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -81,6 +80,7 @@ public class Group {
     }
 
     public void addUser(User user) {
+        if(this.users == null) this.users = new ArrayList<>();
         this.users.add(user);
     }
 

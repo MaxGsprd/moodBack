@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data //  annotation Lombok pas besoin de getters & setters Lombok le fait pour nous
@@ -28,8 +29,8 @@ public class Establishment {
 
     /**
      * Establishment status
-     * 0:submitted
-     * 1:accepted
+     * 0:submitted // false ** default value
+     * 1:accepted // true
      */
     @NonNull
     @Column(nullable = false)
@@ -73,10 +74,12 @@ public class Establishment {
     }
 
     public void addComment(Comment comment) {
+        if(this.comments == null) this.comments = new ArrayList<>();
         this.comments.add(comment);
     }
 
     public void addNote(Note note) {
+        if(this.notes == null) this.notes = new ArrayList<>();
         this.notes.add(note);
     }
 

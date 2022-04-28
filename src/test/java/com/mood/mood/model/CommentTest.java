@@ -90,4 +90,12 @@ class CommentTest {
         commentAllArgs.setUser(userTest);
         assertEquals(commentAllArgs.getUser(), userTest);
     }
+
+    @Test
+    void preSave() {
+        LocalDateTime now = LocalDateTime.now();
+        commentAllArgs.preSave();
+        assertTrue(now.isBefore(commentAllArgs.getCreatedDate()) || now.isEqual(commentAllArgs.getCreatedDate()));
+    }
+
 }

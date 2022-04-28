@@ -3,6 +3,7 @@ package com.mood.mood.dto.in;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
@@ -56,5 +57,4 @@ public class UserForm {
     @NotBlank(message = "Veuillez sélectionner votre préférence.")
     private int mood;
 
-    private MultipartFile image;
 }

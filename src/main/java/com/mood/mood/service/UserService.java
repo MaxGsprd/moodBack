@@ -2,6 +2,7 @@ package com.mood.mood.service;
 
 import com.mood.mood.dto.in.UserForm;
 import com.mood.mood.dto.out.GroupDetails;
+import com.mood.mood.dto.out.GroupUserDetails;
 import com.mood.mood.dto.out.InvitationEvenementDetails;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.dto.out.UserDetails;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
@@ -29,6 +31,17 @@ public class UserService implements IUserService {
     @Autowired
     RoleRepository roleRepository;
 
+    private GroupUserDetails userDtoToGroup(User userEntity) {
+        GroupUserDetails groupUserDetail = new GroupUserDetails();
+        groupUserDetail.setId(userEntity.getId());
+        groupUserDetail.setName(userEntity.getName());
+        groupUserDetail.setFirstname(userEntity.getFirstname());
+        groupUserDetail.setEmail(userEntity.getEmail());
+        groupUserDetail.setPhone(userEntity.getPhone());
+
+        return groupUserDetail;
+    }
+
     @Override
     public UserDetails find(Integer id) {
         User user = userRepository.findById(id).orElse(null);
@@ -39,7 +52,9 @@ public class UserService implements IUserService {
             groupDetailsList.add(
                     new GroupDetails(
                             group.getTitle(),
-                            group.getUsers(),
+                            group.getUsers().stream()
+                                    .map(this::userDtoToGroup)
+                                    .collect(Collectors.toList()),
                             // invitation repository findbyGroup
                             new ArrayList<InvitationEvenementDetails>()
                     )
