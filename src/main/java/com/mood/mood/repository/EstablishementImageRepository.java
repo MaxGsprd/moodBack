@@ -14,4 +14,5 @@ public interface EstablishementImageRepository extends JpaRepository<Establishme
     Optional<EstablishmentImage> findById(Integer id);
     EstablishmentImage findByDataName(String image_name);
     List<Image> findByEstablishment(Establishment establishment);
+
 }

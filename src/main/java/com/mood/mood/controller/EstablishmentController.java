@@ -31,14 +31,14 @@ public class EstablishmentController {
     @Autowired
     private LocalisationUtil localisationUtil;
 
-    @Value("${min.with.in.discance.search}")
+    @Value("${min.with.in.discance.search}") // minimun distace search
     public Double withInDistanceSearch;
 
     @GetMapping("/establishments")
     public ResponseEntity<?> getAllEstablishments() throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Establishment detail");
         try {
-            List<EstablishmentDetails> establishments = establishmentService.getAllEstablishments();
+            List<EstablishmentDetails> establishments = establishmentService.getAllEstablishmentsChecked();
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(establishments);
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class EstablishmentController {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE,"**ERROR** -  : Establishment with this id couldn't be found, " + e.getMessage(), e.getCause());
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(String.format("**ERROR ** - Impossible de récupérer l\'établissement sous l'identifiant %s!", id));
+                    .body(String.format("**ERROR ** - Impossible de récupérer l'établissement sous l'identifiant %s!", id));
         }
   }
     @GetMapping("/establishment/withindistancebygeocode")
@@ -171,7 +171,9 @@ public class EstablishmentController {
       LOGGER.log(Level.INFO, "**START** - Create new Establishment");
         try {
             Establishment createdEstablishment = establishmentService.createEstablishment(establishmentForm);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdEstablishment);
+            //return ResponseEntity.status(HttpStatus.CREATED).body(createdEstablishment);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(String.format("Proposition d'établissement créer. En attente de validation du service éditorial."));
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE,"**ERROR** - : the establishment couldn't be created " + e.getMessage(), e.getCause());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -195,7 +197,43 @@ public class EstablishmentController {
       }
   }
 
-  @PutMapping("establishment/{id}")
+    /**
+     * ************************************EDITOR********************************************************
+     */
+
+    /**
+     *
+     * Section réservé a l'éditeur des établissement
+     */
+
+    /**
+     *
+     * @return list establishment with status false
+     * @throws Exception STRING error message [checked log]
+     */
+    @GetMapping("establishment/editor/AwaitChecked")
+    @Secured("ROLE_EDITOR")
+    public ResponseEntity<?> waitingEstablishment() throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get Establishment detail");
+        try {
+            List<EstablishmentDetails> establishments = establishmentService.getAllEstablishmentsUnChecked();
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(establishments);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "**ERROR** -  getting await establishment detail to checked :" + e.getMessage(), e.getCause());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer les établissements attandant d'êtres valider!"));
+        }
+    }
+
+    /**
+     *
+     * @param id selected establishment by id
+     * @param establishmentForm for modification or validation of establishment detail
+     * @return [ENTITY - ESTABLISHMENT] insert information
+     * @throws Exception STRING error message [checked log]
+     */
+  @PutMapping("establishment/editor/{id}")
   @Secured("ROLE_EDITOR")
   public ResponseEntity<?> updateEstablishment(@PathVariable("id") int id, @RequestBody EstablishmentForm establishmentForm) throws Exception {
       LOGGER.log(Level.INFO, "**START** - Update Establishment detail");
@@ -209,6 +247,57 @@ public class EstablishmentController {
 
         }
   }
+
+    /**
+     * ************************************ADMIN********************************************************
+     */
+
+    /**
+     *
+     * Section réservé a l'administrateur des établissement
+     */
+
+    /**
+     *
+     * @return list all establishments
+     * @throws Exception STRING error message [checked log]
+     */
+    @GetMapping("establishment/admin/AwaitAll")
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<?> ALLEstablishment() throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get Establishment detail");
+        try {
+            List<EstablishmentDetails> establishments = establishmentService.getAllEstablishments();
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(establishments);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "**ERROR** -  getting all establishments detail to checked :" + e.getMessage(), e.getCause());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Impossible de récupérer les établissements!"));
+        }
+    }
+
+    /**
+     *
+     * @param id selected establushment by id
+     * @param establishmentForm for modification or validation of establishment detail
+     * @return [ENTITY - ESTABLISHMENT] insert information
+     * @throws Exception STRING error message [checked log]
+     */
+    @PutMapping("establishment/admin/{id}")
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<?> updateAllEstablishment(@PathVariable("id") int id, @RequestBody EstablishmentForm establishmentForm) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Update Establishment detail");
+        try {
+            EstablishmentDetails updateEstablishment = establishmentService.updateEstablishment(id, establishmentForm);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(updateEstablishment);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE,"**ERROR** -  updating establishment " + e.getMessage(), e.getCause());
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("**ERROR** -- Impossible de modifier ce l'établissement !");
+
+        }
+    }
 
 
 }

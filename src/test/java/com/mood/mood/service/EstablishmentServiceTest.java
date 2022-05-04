@@ -2,7 +2,6 @@ package com.mood.mood.service;
 
 import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.in.LocalisationForm;
-import com.mood.mood.dto.out.CommentDetails;
 import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.dto.out.NotesAverage;
 import com.mood.mood.model.*;
@@ -18,10 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -139,7 +136,7 @@ class EstablishmentServiceTest {
         when(repositoryMock.findAll()).thenReturn(Arrays.asList(this.establishment));
         lenient().when(noteServiceMock.notesAverage(this.establishment.getNotes())).thenReturn(new NotesAverage(3));
 
-        List<EstablishmentDetails> result = service.getAllEstablishments();
+        List<EstablishmentDetails> result = service.getAllEstablishmentsChecked();
 
         assertEquals(result.get(0).getName(), "Name");
         assertEquals(result.get(0).getNote().getNote(), 3);

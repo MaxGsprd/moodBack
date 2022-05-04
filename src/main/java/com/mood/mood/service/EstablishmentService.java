@@ -2,14 +2,14 @@ package com.mood.mood.service;
 
 import com.mood.mood.controller.ImageController;
 import com.mood.mood.controller.LocalisationController;
+import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.CommentDetails;
+import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.model.*;
 import com.mood.mood.repository.*;
-import com.mood.mood.dto.in.EstablishmentForm;
-import com.mood.mood.dto.out.EstablishmentDetails;
 import com.mood.mood.util.LocalisationUtil;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -72,6 +71,20 @@ public class EstablishmentService implements IEstablishmentService {
                 .collect(Collectors.toList());
     }
 
+    public List<EstablishmentDetails> getAllEstablishmentsChecked() {
+          return establishmentRepository.getAllEstablishmentChecked()
+                .stream()
+                .map(this::convertEstablishmentEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<EstablishmentDetails> getAllEstablishmentsUnChecked() {
+        return establishmentRepository.getAllEstablishmentUnChecked()
+                .stream()
+                .map(this::convertEstablishmentEntityToDto)
+                .collect(Collectors.toList());
+    }
+
     public List<EstablishmentDetails> getAllEstablishments() {
         return establishmentRepository.findAll()
                 .stream()
@@ -84,7 +97,7 @@ public class EstablishmentService implements IEstablishmentService {
      * Return all establishments sorted By notes average from best to last
      * */
     public List<EstablishmentDetails> getAllEstablishmentsByNotesAverages() throws Exception {
-        List<Establishment> establishments = establishmentRepository.findAll();
+        List<Establishment> establishments = establishmentRepository.getAllEstablishmentChecked();
         List<EstablishmentDetails> establishmentDetails = establishments.stream().map(this::convertEstablishmentEntityToDto).collect(Collectors.toList());
         List<EstablishmentDetails> sortedEstablishmentDetails = establishmentDetails.stream()
                 .sorted((o1,o2) -> (int) (o2.getNote().getNote() - o1.getNote().getNote())).collect(Collectors.toList());
@@ -244,11 +257,7 @@ public class EstablishmentService implements IEstablishmentService {
         LocalisationDetails localisationDetails;
         List<Image> img;
 
-        EstablishmentDetails establishmentDetails = null;
-
-
-        if(establishment.getStatus()){
-        establishmentDetails = new EstablishmentDetails();
+        EstablishmentDetails establishmentDetails = new EstablishmentDetails();
         establishmentDetails.setName(establishment.getName());
         establishmentDetails.setDescription(establishment.getDescription());
         Localisation localisation = establishment.getLocalisation();
@@ -272,10 +281,6 @@ public class EstablishmentService implements IEstablishmentService {
         establishmentDetails.setComments(commentDetails);
         establishmentDetails.setCategory(establishment.getCategory());
 
-        }
-        /*else {
-            establishmentDetails.setDescription("L'établisement : <<" + establishment.getName() + ">> est en attente de vérification!");
-        }*/
 
         return establishmentDetails;
     }

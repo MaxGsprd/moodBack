@@ -3,25 +3,38 @@ package com.mood.mood.repository;
 import com.mood.mood.model.Establishment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface EstablishmentRepository extends JpaRepository<Establishment, Integer> {
+
+    @Query(
+            value = "SELECT * FROM Establishment e WHERE e.status = true",
+            nativeQuery = true)
+    List<Establishment> getAllEstablishmentChecked();
+
+    @Query(
+            value = "SELECT * FROM Establishment e WHERE e.status = false",
+            nativeQuery = true)
+    List<Establishment> getAllEstablishmentUnChecked();
     Establishment findById(int id);
     List<Establishment> findAll();
+    @Query(
+            value = "SELECT * FROM Establishment e WHERE e.status = true",
+            nativeQuery = true)
     List<Establishment> findByNameLikeIgnoreCase(String name); //like + ignoreCase query allows finding name like arg with case insensitivity
+    @Query(
+            value = "SELECT * FROM Establishment e WHERE e.status = true",
+            nativeQuery = true)
     List<Establishment> findByCategoryId(int categoryId);
+    @Query(
+            value = "SELECT * FROM Establishment e WHERE e.status = true",
+            nativeQuery = true)
     Establishment findByNameContaining(String name);
     void deleteById(int id);
     List<Establishment> findByStatus(Boolean status);
-
-
-    /*@Query(value = "SELECT e.id, e.description, e.name, e.status, l.latitude, l.longitude FROM Establishment e join  e.localisation l," ,nativeQuery = true)
-    List<Establishment> findEstablishmentLocalisation();*/
 
 
 

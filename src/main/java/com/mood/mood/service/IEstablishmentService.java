@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
 
 public interface IEstablishmentService {
-    List<EstablishmentDetails> getAllEstablishments() throws Exception;
+
+    List<EstablishmentDetails> getAllEstablishmentsChecked() throws Exception;
+    List<EstablishmentDetails> getAllEstablishmentsUnChecked() throws Exception;
     List<EstablishmentDetails> getAllEstablishmentsByNotesAverages() throws Exception;
     EstablishmentDetails getEstablishmentById(final int id) throws Exception;
     List<EstablishmentDetails> getEstablishmentByNameLike(String name) throws Exception;
@@ -21,4 +23,6 @@ public interface IEstablishmentService {
     List<Establishment> getEstablishmentWithInDisatance(double lat, double lon, double km) throws Exception;
 
     List<Establishment> getEstablishmentWithLocalisation() throws Exception;
+
+    List<EstablishmentDetails> getAllEstablishments();
 }
