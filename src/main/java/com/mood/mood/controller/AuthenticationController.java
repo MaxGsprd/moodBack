@@ -3,7 +3,6 @@ package com.mood.mood.controller;
 import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
-import com.mood.mood.model.Image;
 import com.mood.mood.model.User;
 import com.mood.mood.service.IAuthenticationService;
 import com.mood.mood.util.LocalisationUtil;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,7 +51,7 @@ public class AuthenticationController {
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(String.format("**ERROR ** -Impossible d'enregistrer l'utilisateur! :" + ex.getMessage()));
+                    .body(String.format("**ERROR ** -Impossible d'enregistrer l'utilisateur! : %s", ex.getMessage()));
         }
     }
 
@@ -66,7 +64,7 @@ public class AuthenticationController {
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(String.format("**ERROR ** -Impossible de réinitialiser le mot de passe! :" + ex.getMessage()));
+                    .body(String.format("**ERROR ** -Impossible de réinitialiser le mot de passe! : %s" , ex.getMessage()));
         }
     }
 }

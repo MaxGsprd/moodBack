@@ -4,7 +4,6 @@ import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.RegisterUser;
 import com.mood.mood.dto.out.LocalisationCoordinates;
-import com.mood.mood.model.GeoCoordinates;
 import com.mood.mood.model.Localisation;
 import com.mood.mood.model.User;
 import com.mood.mood.repository.CategoryRepository;
