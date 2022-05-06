@@ -29,9 +29,9 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, In
             value = "SELECT * FROM Establishment e WHERE e.status = true",
             nativeQuery = true)
     List<Establishment> findByCategoryId(int categoryId);
-    @Query(
+    /*@Query(
             value = "SELECT * FROM Establishment e WHERE e.status = true",
-            nativeQuery = true)
+            nativeQuery = true)*/
     Establishment findByNameContaining(String name);
     void deleteById(int id);
     List<Establishment> findByStatus(Boolean status);

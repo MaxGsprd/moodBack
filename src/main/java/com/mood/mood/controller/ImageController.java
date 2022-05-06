@@ -1,6 +1,5 @@
 package com.mood.mood.controller;
 
-import com.mood.mood.config.InsertDataBDD;
 import com.mood.mood.model.Image;
 import com.mood.mood.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
-import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -134,14 +132,14 @@ public class ImageController {
         ResponseEntity<String> result = null;
         try {
             if (files == null || files.length == 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                result = ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(String.format("You must select a file for uploading"));
             }
 
             imageService.saveMultipleFile(establishementName, files);
             for (MultipartFile file : files) {
                 result =  ResponseEntity.status(HttpStatus.CREATED).body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
-                return result;
+                //eturn result;
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
@@ -199,7 +197,7 @@ public class ImageController {
 
             System.out.println(images);
 
-            return (List<Image>) images;
+            return images;
 
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);

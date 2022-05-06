@@ -121,7 +121,12 @@ public class EstablishmentController {
     public ResponseEntity<?> getEstablishmentWithinDistance(@RequestParam("latitude") double lat, @RequestParam("longitude") double lon, @RequestParam("distance") double km) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Establishment with in selected distance");
         try {
-            List<Establishment> establishment = establishmentService.getEstablishmentWithInDisatance(lat, lon, km);
+            /**
+             * Set minimum distacnce search
+             */
+            double setDefaultDistance = km == 0  ? withInDistanceSearch : km + .0;
+
+            List<Establishment> establishment = establishmentService.getEstablishmentWithInDisatance(lat, lon, setDefaultDistance);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(establishment);
         } catch (Exception e) {
@@ -181,21 +186,7 @@ public class EstablishmentController {
         }
   }
 
-  @DeleteMapping("establishment/{id}")
-  @Secured("ROLE_EDITOR")
-  public  ResponseEntity<?> deleteEstablishment(@PathVariable int id) throws Exception {
-      LOGGER.log(Level.INFO, "**START** - Delete Establishment by id ");
-      try {
-          establishmentService.deleteEstablishmentById(id);
-          HttpHeaders header = new HttpHeaders();
-          return ResponseEntity.status(HttpStatus.ACCEPTED)
-                  .body(String.format("L'établissement a été supprimer"));
-      } catch (Exception ex) {
-          LOGGER.log(Level.SEVERE,"**ERROR** - : this establishment deletion request couldn't be executed. " + ex.getMessage(), ex.getCause());
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                  .body(String.format("**ERROR ** - Impossible de supprimer ce l'établissement!"));
-      }
-  }
+
 
     /**
      * ************************************EDITOR********************************************************
@@ -211,7 +202,7 @@ public class EstablishmentController {
      * @return list establishment with status false
      * @throws Exception STRING error message [checked log]
      */
-    @GetMapping("establishment/editor/AwaitChecked")
+    @GetMapping("editor/establishment/AwaitChecked")
     @Secured("ROLE_EDITOR")
     public ResponseEntity<?> waitingEstablishment() throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Establishment detail");
@@ -233,7 +224,7 @@ public class EstablishmentController {
      * @return [ENTITY - ESTABLISHMENT] insert information
      * @throws Exception STRING error message [checked log]
      */
-  @PutMapping("establishment/editor/{id}")
+  @PutMapping("editor/establishment/{id}")
   @Secured("ROLE_EDITOR")
   public ResponseEntity<?> updateEstablishment(@PathVariable("id") int id, @RequestBody EstablishmentForm establishmentForm) throws Exception {
       LOGGER.log(Level.INFO, "**START** - Update Establishment detail");
@@ -247,6 +238,21 @@ public class EstablishmentController {
 
         }
   }
+    @DeleteMapping("editor/establishment/{id}")
+    @Secured({"ROLE_EDITOR","ROLE_ADMIN"})
+    public  ResponseEntity<?> deleteEstablishment(@PathVariable int id) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Delete Establishment by id ");
+        try {
+            establishmentService.deleteEstablishmentById(id);
+            HttpHeaders header = new HttpHeaders();
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(String.format("L'établissement a été supprimer"));
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"**ERROR** - : this establishment deletion request couldn't be executed. " + ex.getMessage(), ex.getCause());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("**ERROR ** - Impossible de supprimer ce l'établissement!"));
+        }
+    }
 
     /**
      * ************************************ADMIN********************************************************
@@ -262,8 +268,8 @@ public class EstablishmentController {
      * @return list all establishments
      * @throws Exception STRING error message [checked log]
      */
-    @GetMapping("establishment/admin/AwaitAll")
-    @Secured("ROLE_ADMIN")
+    @GetMapping("admin/establishment/AwaitAll")
+    @Secured({"ROLE_EDITOR","ROLE_ADMIN"})
     public ResponseEntity<?> ALLEstablishment() throws Exception {
         LOGGER.log(Level.INFO, "**START** - Get Establishment detail");
         try {
@@ -284,7 +290,7 @@ public class EstablishmentController {
      * @return [ENTITY - ESTABLISHMENT] insert information
      * @throws Exception STRING error message [checked log]
      */
-    @PutMapping("establishment/admin/{id}")
+    @PutMapping("admin/establishment/{id}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<?> updateAllEstablishment(@PathVariable("id") int id, @RequestBody EstablishmentForm establishmentForm) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update Establishment detail");
