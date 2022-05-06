@@ -56,9 +56,9 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account already exist");
         }
 
-        /*if(user.getPassword() != user.getConfirmPassword()) {
+        if(!user.getPassword().equals(user.getConfirmPassword())) {
             throw new IllegalArgumentException("Confirm password doesn't match");
-        }*/
+        }
 
        Localisation loc = null;
         if(user.getLocalisationForm() != null) {
@@ -80,7 +80,7 @@ public class AuthenticationService implements IAuthenticationService {
                 user.getPhone(),
                 loc,
                 roleRepository.findByTitle("ROLE_USER"),
-                categoryRepository.findById(user.getMood())
+                categoryRepository.getById(user.getMood())
         );
 
         try {
@@ -97,7 +97,7 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Account doesn't exist");
         }
 
-        if(forgotPasswordForm.getPassword() == forgotPasswordForm.getConfirmPassword()) {
+        if(!forgotPasswordForm.getPassword().equals(forgotPasswordForm.getConfirmPassword())) {
             throw new IllegalArgumentException("Confirm password doesn't match");
         }
 

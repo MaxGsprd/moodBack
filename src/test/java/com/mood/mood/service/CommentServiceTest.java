@@ -13,10 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.*;
@@ -58,8 +59,9 @@ class CommentServiceTest {
         this.comment.setTitle("title");
         this.comment.setStatus(true);
         this.comment.setGroupType(1);
+        this.comment.setCreatedDate(LocalDateTime.of(2022,04,02,12,30));
 
-        this.commentDetails = new CommentDetails(this.comment.getTitle(), this.comment.getContent(), "","");
+        this.commentDetails = new CommentDetails(this.comment.getTitle(), this.comment.getContent(), "",this.comment.getCreatedDate().toString());
 
         this.user = new User();
         this.user.setId(1);
@@ -218,5 +220,75 @@ class CommentServiceTest {
     @Test
     void getModelMapper() {
         assertEquals(service.getModelMapper(), this.modelMapper);
+    }
+
+    @Test
+    void getAllCommentsByCreatedDateLatest() {
+        Comment latestComment = new Comment();
+        latestComment = new Comment();
+        latestComment.setId(1);
+        latestComment.setContent("content");
+        latestComment.setTitle("title latest");
+        latestComment.setStatus(true);
+        latestComment.setGroupType(1);
+        latestComment.setCreatedDate(LocalDateTime.of(2022,04,02,15,30));
+
+
+        CommentDetails latestCommentDetails = new CommentDetails(latestComment.getTitle(), latestComment.getContent(), "",latestComment.getCreatedDate().toString());
+
+        this.comments.add(latestComment);
+
+        this.comments.sort(new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                return o2.getCreatedDate().compareTo(o1.getCreatedDate());
+            }
+        });
+
+        when(repositoryMock.findAll(Sort.by(Sort.Direction.DESC, "createdDate"))).thenReturn(comments);
+        lenient().when(modelMapper.map(this.comment, CommentDetails.class)).thenReturn(this.commentDetails);
+        lenient().when(modelMapper.map(latestComment, CommentDetails.class)).thenReturn(latestCommentDetails);
+
+
+
+        List<CommentDetails> result = service.getAllCommentsByCreatedDateLatest();
+
+        assertEquals(result.size(), 2);
+        assertEquals(result.get(0).getTitle(), latestCommentDetails.getTitle());
+    }
+
+    @Test
+    void getAllCommentsByCreatedDateOldest() {
+        Comment oldestComment = new Comment();
+        oldestComment.setId(1);
+        oldestComment.setContent("content");
+        oldestComment.setTitle("title latest");
+        oldestComment.setStatus(true);
+        oldestComment.setGroupType(1);
+        oldestComment.setCreatedDate(LocalDateTime.of(2022,04,02,10,30));
+
+
+        CommentDetails oldestCommentDetails = new CommentDetails(oldestComment.getTitle(), oldestComment.getContent(), "",oldestComment.getCreatedDate().toString());
+
+        this.comments.add(oldestComment);
+
+        this.comments.sort(new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                return o1.getCreatedDate().compareTo(o2.getCreatedDate());
+            }
+        });
+
+        when(repositoryMock.findAll(Sort.by(Sort.Direction.DESC, "createdDate"))).thenReturn(comments);
+        lenient().when(modelMapper.map(this.comment, CommentDetails.class)).thenReturn(this.commentDetails);
+        lenient().when(modelMapper.map(oldestComment, CommentDetails.class)).thenReturn(oldestCommentDetails);
+
+
+
+        List<CommentDetails> result = service.getAllCommentsByCreatedDateLatest();
+
+        assertEquals(result.size(), 2);
+        assertEquals(result.get(0).getTitle(), oldestCommentDetails.getTitle());
+
     }
 }

@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -88,7 +89,7 @@ class UserServiceTest {
 
     @Test
     void find() {
-        when(this.repositoryMock.findById(0)).thenReturn(Optional.of(this.user));
+        when(this.repositoryMock.findById(0)).thenReturn(of(this.user));
 
         UserDetails result = service.find(0);
 
@@ -108,7 +109,7 @@ class UserServiceTest {
 
     @Test
     void update() throws Exception {
-        when(this.repositoryMock.findById(0)).thenReturn(Optional.of(this.user));
+        when(this.repositoryMock.findById(0)).thenReturn(of(this.user));
 
         this.user.setFirstname(form.getFirstname());
         this.user.setName(form.getName());
@@ -125,11 +126,12 @@ class UserServiceTest {
 
     @Test
     void updateMood() {
-        when(this.repositoryMock.findById(0)).thenReturn(Optional.of(this.user));
+        when(this.repositoryMock.findById(0)).thenReturn(of(this.user));
 
         this.user.setMood(this.category);
 
-        lenient().when(this.categoryRepositoryMock.findById(2)).thenReturn(this.category);
+        lenient().when(this.categoryRepositoryMock.findById(2)).thenReturn(Optional.of(this.category));
+        this.user.setMood(this.category);
         when(this.repositoryMock.save(this.user)).thenReturn(this.user);
 
         User result = service.updateMood(0, 2);
@@ -141,11 +143,11 @@ class UserServiceTest {
 
     @Test
     void updateRole() {
-        when(this.repositoryMock.findById(0)).thenReturn(Optional.of(this.user));
+        when(this.repositoryMock.findById(0)).thenReturn(of(this.user));
 
         this.user.setRole(this.role);
 
-        lenient().when(this.roleRepositoryMock.findById(3)).thenReturn(Optional.of(this.role));
+        lenient().when(this.roleRepositoryMock.findById(3)).thenReturn(of(this.role));
         when(this.repositoryMock.save(this.user)).thenReturn(this.user);
 
         User result = service.updateRole(0, 3);
@@ -157,7 +159,7 @@ class UserServiceTest {
 
     @Test
     void delete() {
-        when(this.repositoryMock.findById(0)).thenReturn(Optional.of(this.user));
+        when(this.repositoryMock.findById(0)).thenReturn(of(this.user));
 
         assertTrue(service.delete(0));
     }
