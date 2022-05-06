@@ -156,7 +156,8 @@ public class EstablishmentService implements IEstablishmentService {
             establishment.setDescription(establishmentForm.getDescription());
             establishment.setDescription(establishmentForm.getDescription());
             int categoryId = establishmentForm.getCategory();
-            Category category = categoryRepository.findById(categoryId);
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            assert category != null;
             establishment.setCategory(category);
             establishmentRepository.save(establishment);
             return convertEstablishmentEntityToDto(establishment);
@@ -316,7 +317,8 @@ public class EstablishmentService implements IEstablishmentService {
                 throw new RuntimeException();
             }
             int categoryId = establishmentForm.getCategory();
-            Category category = categoryRepository.findById(categoryId);
+            Category category = categoryRepository.findById(categoryId).orElse(null);
+            assert category != null;
             establishment.setCategory(category);
             establishment.setStatus(false);
             return establishment;

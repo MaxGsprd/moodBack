@@ -5,10 +5,13 @@ import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.in.RegisterUser;
 import com.mood.mood.dto.in.UserForm;
+import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.model.Category;
+import com.mood.mood.model.Localisation;
 import com.mood.mood.model.Role;
 import com.mood.mood.model.User;
 import com.mood.mood.repository.CategoryRepository;
+import com.mood.mood.repository.LocalisationRepository;
 import com.mood.mood.repository.RoleRepository;
 import com.mood.mood.repository.UserRepository;
 import com.mood.mood.util.JwtUtil;
@@ -38,6 +41,8 @@ class AuthenticationServiceTest {
     @Mock
     private JwtUtil jwtUtil;
     @Mock
+    private LocalisationUtil localisationUtil;
+    @Mock
     private AuthenticationManager authenticationManager;
     @Mock
     private RoleRepository roleRepository;
@@ -46,9 +51,10 @@ class AuthenticationServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
     @Mock
-    private RestTemplate restTemplate;
+    private LocalisationRepository localisationRepository;
     @Mock
-    private LocalisationUtil localisationUtil;
+    private RestTemplate restTemplate;
+
 
     private String token;
     private User user;
@@ -79,7 +85,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void createUser() {
+    void createUser() throws Exception {
 
         this.localisationForm = new LocalisationForm();
         this.localisationForm.setAddressNumber("29");
@@ -126,6 +132,13 @@ class AuthenticationServiceTest {
 
         // OK CREATEUSER
         lenient().when(roleRepository.findByTitle("ROLE_USER")).thenReturn(this.role);
+
+        LocalisationCoordinates coordinates = new LocalisationCoordinates();
+        coordinates.setLatitude(1.0);
+        coordinates.setLongitude(2.0);
+        lenient().when(localisationUtil.getSearchCoordinates(this.form.getLocalisationForm())).thenReturn(coordinates);
+        //verify(localisationRepository, times(1)).save(new Localisation(coordinates.getLongitude(), coordinates.getLatitude()));
+
         lenient().when(categoryRepository.getById(1)).thenReturn(this.category);
 
         User result = null;

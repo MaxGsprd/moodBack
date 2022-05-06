@@ -97,7 +97,7 @@ class GroupServiceTest {
         verify(userRepositoryMock, times(1)).save(newUser);
         verify(repositoryMock, times(1)).save(this.group);
 
-        assertTrue(result.getUsers().contains(newUser));
+        assertEquals(result.getUsers().get(1).getName(), "Name");
         assertEquals(result.getTitle(), "title");
     }
 

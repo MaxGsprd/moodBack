@@ -1,8 +1,11 @@
 package com.mood.mood.service;
 
+import com.mood.mood.controller.ImageController;
+import com.mood.mood.controller.LocalisationController;
 import com.mood.mood.dto.in.EstablishmentForm;
 import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.EstablishmentDetails;
+import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.dto.out.NotesAverage;
 import com.mood.mood.model.*;
 import com.mood.mood.repository.CategoryRepository;
@@ -17,8 +20,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
@@ -49,6 +54,11 @@ class EstablishmentServiceTest {
     @Mock
     ModelMapper modelMapper;
 
+    @Mock
+    LocalisationController localisationController;
+    @Mock
+    ImageController imageController;
+
     private Establishment establishment;
     private Comment comment;
     private Note note;
@@ -56,6 +66,8 @@ class EstablishmentServiceTest {
     private List<Note> notes;
     private EstablishmentForm form;
     private LocalisationForm localisationForm;
+    private LocalisationDetails localisationDetails;
+    private List<Image> imageList;
 
     @BeforeEach
     public void setUp() {
@@ -63,7 +75,7 @@ class EstablishmentServiceTest {
         this.establishment.setId(1);
         this.establishment.setName("Name");
         this.establishment.setDescription("Desc");
-        this.establishment.setLocalisation(new Localisation());
+        this.establishment.setLocalisation(new Localisation(1.0, 2.0));
         this.establishment.setStatus(true);
 
         this.comment = new Comment();
@@ -107,12 +119,25 @@ class EstablishmentServiceTest {
         this.form.setDescription("description form");
         this.form.setLocalisationForm(this.localisationForm);
         this.form.setCategory(0);
+
+        this.localisationDetails = new LocalisationDetails();
+        this.localisationDetails.setCity("Itteville");
+        this.localisationDetails.setHousenumber("29");
+        this.localisationDetails.setStreet("rue Saint Germain");
+        this.localisationDetails.setPostcode("91760");
+        this.localisationDetails.setLongitude(1.0);
+        this.localisationDetails.setLatitude(2.0);
+
+        this.imageList = new ArrayList<>();
+        this.imageList.add(new Image());
     }
 
     @Test
-    void getEstablishmentById() {
+    void getEstablishmentById() throws Exception {
         when(repositoryMock.findById(1)).thenReturn(this.establishment);
         lenient().when(noteServiceMock.notesAverage(this.establishment.getNotes())).thenReturn(new NotesAverage(3));
+        when(localisationController.getAddressFromLatLon("2.0", "1.0")).thenReturn(this.localisationDetails);
+        when(imageController.getEstablishmentImage(this.establishment.getName())).thenReturn(this.imageList);
 
         EstablishmentDetails result = service.getEstablishmentById(1);
 
@@ -156,7 +181,7 @@ class EstablishmentServiceTest {
     @Test
     void createEstablishment() throws Exception {
         lenient().when(repositoryMock.save(this.establishment)).thenReturn(this.establishment);
-        lenient().when(categoryRepository.findById(0)).thenReturn(this.category);
+        lenient().when(categoryRepository.findById(0)).thenReturn(java.util.Optional.of(this.category));
 
         Establishment result = service.createEstablishment(this.form);
 
@@ -175,7 +200,7 @@ class EstablishmentServiceTest {
     @Test
     void updateEstablishment() throws Exception {
         when(repositoryMock.findById(1)).thenReturn(this.establishment);
-        lenient().when(categoryRepository.findById(0)).thenReturn(this.category);
+        lenient().when(categoryRepository.findById(0)).thenReturn(Optional.of(this.category));
 
         this.establishment.setName(this.form.getName());
         this.establishment.setDescription(this.form.getDescription());
