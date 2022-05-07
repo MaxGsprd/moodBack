@@ -54,7 +54,7 @@ public class EstablishmentService implements IEstablishmentService {
     private EntityManager entityManager;
 
     /**
-     * Recherche etabliqhement par localisation + ou - 20 km
+     * Recherche etablishment par localisation + ou - 20 km
      *
      * @param id
      * @return
@@ -249,6 +249,7 @@ public class EstablishmentService implements IEstablishmentService {
 
         if(establishment.getStatus()){
         establishmentDetails = new EstablishmentDetails();
+        establishmentDetails.setId(establishment.getId());
         establishmentDetails.setName(establishment.getName());
         establishmentDetails.setDescription(establishment.getDescription());
         Localisation localisation = establishment.getLocalisation();

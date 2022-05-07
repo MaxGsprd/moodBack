@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class EstablishmentDetails {
 
+    private int id;
     private String name;
     private String description;
     private LocalisationDetails address;
