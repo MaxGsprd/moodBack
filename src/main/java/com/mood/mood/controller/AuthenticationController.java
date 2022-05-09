@@ -25,7 +25,7 @@ public class AuthenticationController {
     @Autowired
     private LocalisationUtil localisationUtil;
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = "text/plain;charset=UTF-8")
     public ResponseEntity<?>  login(@Valid @RequestBody AuthenticateUser user) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Post login connexion token");
         try {

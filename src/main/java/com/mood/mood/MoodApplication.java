@@ -4,15 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 public class MoodApplication {
+
+	private static final String[] ALLOWED_ORIGINS = {"http://localhost:4200", "*"};
 
 	@Bean
 	public RestTemplate getRestRemplate(){
@@ -34,7 +33,13 @@ public class MoodApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:4200")
+						.allowedMethods("PUT", "DELETE", "GET", "POST","OPTIONS","PATCH")
+						.allowCredentials(true)
+						.allowedHeaders("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token, x-refresh-token, X-HTTP-Method-Override, Authorization")
+						.exposedHeaders("Access-Control-Allow-Credentials","Access-Control-Allow-Origin")
+				;
 			}
 		};
 	}
