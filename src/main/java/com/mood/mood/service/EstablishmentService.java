@@ -259,6 +259,7 @@ public class EstablishmentService implements IEstablishmentService {
         List<Image> img;
 
         EstablishmentDetails establishmentDetails = new EstablishmentDetails();
+        establishmentDetails.setId(establishment.getId());
         establishmentDetails.setName(establishment.getName());
         establishmentDetails.setDescription(establishment.getDescription());
         Localisation localisation = establishment.getLocalisation();
