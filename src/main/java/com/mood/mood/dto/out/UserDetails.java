@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDetails {
     @NonNull
+    private int id;
+    @NonNull
     private String name;
     @NonNull
     private String firstname;
@@ -25,6 +27,8 @@ public class UserDetails {
     private String role;
     @NonNull
     private LocalisationDetails address;
+    @NonNull
+    private int imageID;
     @NonNull
     private int category;
     @NonNull

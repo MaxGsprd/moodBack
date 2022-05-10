@@ -34,6 +34,20 @@ public class UserController {
         }
     }
 
+    @GetMapping("/byemail/{email}")
+    public ResponseEntity<?> getUserDetailsByEmail(@PathVariable String email) throws Exception {
+        LOGGER.log(Level.INFO, "**START** - Get User detail by ID");
+        try {
+            UserDetails user = userService.findByEmail(email);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(user);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "**ERROR** -- Couldn't get user detail " + ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("**ERROR ** - Aucun utilisateur trouvé " ));
+        }
+    }
+
     @PutMapping("/{id}/updateMood/{mood}")
     public ResponseEntity<?> updateMood(@PathVariable Integer id, @PathVariable Integer mood) throws Exception {
         LOGGER.log(Level.INFO, "**START** - Update User mood");

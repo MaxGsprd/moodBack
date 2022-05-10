@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Grâce au combo .and().exceptionHandling()
         // .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         // on active le mécanisme d'authification "stateless" car notre filtre JWT suit ce mécanisme
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/authentication/register").permitAll()
                 .antMatchers("/authentication/login").permitAll()
@@ -104,6 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 
         // On ajoute notre filtre
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

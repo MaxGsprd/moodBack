@@ -1,18 +1,14 @@
 package com.mood.mood.service;
 
+import com.mood.mood.controller.ImageController;
+import com.mood.mood.controller.LocalisationController;
 import com.mood.mood.dto.in.UserForm;
-import com.mood.mood.dto.out.GroupDetails;
-import com.mood.mood.dto.out.GroupUserDetails;
-import com.mood.mood.dto.out.InvitationEvenementDetails;
-import com.mood.mood.dto.out.LocalisationDetails;
-import com.mood.mood.dto.out.UserDetails;
-import com.mood.mood.model.Category;
-import com.mood.mood.model.Group;
-import com.mood.mood.model.Role;
-import com.mood.mood.model.User;
+import com.mood.mood.dto.out.*;
+import com.mood.mood.model.*;
 import com.mood.mood.repository.CategoryRepository;
 import com.mood.mood.repository.RoleRepository;
 import com.mood.mood.repository.UserRepository;
+import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +27,13 @@ public class UserService implements IUserService {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    private LocalisationController localisationController;
+    @Autowired
+    private LocalisationUtil localisationUtil;
+    @Autowired
+    private ImageController imageController;
+
     private GroupUserDetails userDtoToGroup(User userEntity) {
         GroupUserDetails groupUserDetail = new GroupUserDetails();
         groupUserDetail.setId(userEntity.getId());
@@ -45,6 +48,8 @@ public class UserService implements IUserService {
     @Override
     public UserDetails find(Integer id) {
         User user = userRepository.findById(id).orElse(null);
+
+        LocalisationDetails localisationDetails;
 
         List<GroupDetails> groupDetailsList = new ArrayList<>();
         assert user != null;
@@ -61,18 +66,72 @@ public class UserService implements IUserService {
             );
         }
 
-        UserDetails userDetails = new UserDetails(
-                user.getName(),
-                user.getFirstname(),
-                user.getBirthdate().toString(),
-                user.getEmail(),
-                user.getPhone(),
-                user.getRole().getTitle(),
+        Localisation localisation = user.getLocalisation();
+        UserDetails userDetails = new UserDetails();
+        userDetails.setId(user.getId());
+        userDetails.setName(user.getName());
+        userDetails.setFirstname(user.getFirstname());
+        userDetails.setBirthDate(user.getBirthdate().toString());
+        userDetails.setEmail(user.getEmail());
+        userDetails.setPhone(user.getPhone());
+        userDetails.setRole(user.getRole().getTitle());
+        // args in api response
+        try {
+            localisationDetails = localisationController.getAddressFromLatLon(String.valueOf(localisation.getLatitude()), String.valueOf(localisation.getLongitude()));
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        userDetails.setAddress(localisationDetails);
+        userDetails.setImageID(user.getImage().getId());
+        userDetails.setCategory(user.getMood().getId());
+        userDetails.setGroup(groupDetailsList);
+
+        return userDetails;
+    }
+
+    @Override
+    public UserDetails findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+
+        LocalisationDetails localisationDetails;
+
+        List<GroupDetails> groupDetailsList = new ArrayList<>();
+        assert user != null;
+        for (Group group : user.getGroups()) {
+            groupDetailsList.add(
+                    new GroupDetails(
+                            group.getTitle(),
+                            group.getUsers().stream()
+                                    .map(this::userDtoToGroup)
+                                    .collect(Collectors.toList()),
+                            // invitation repository findbyGroup
+                            new ArrayList<InvitationEvenementDetails>()
+                    )
+            );
+        }
+
+        Localisation localisation = user.getLocalisation();
+
+
+        UserDetails userDetails = new UserDetails();
+                userDetails.setId(user.getId());
+                userDetails.setName(user.getName());
+                userDetails.setFirstname(user.getFirstname());
+                userDetails.setBirthDate(user.getBirthdate().toString());
+                userDetails.setEmail(user.getEmail());
+                userDetails.setPhone(user.getPhone());
+                userDetails.setRole(user.getRole().getTitle());
                 // args in api response
-                new LocalisationDetails(),
-                user.getMood().getId(),
-                groupDetailsList
-        );
+                try {
+                    localisationDetails = localisationController.getAddressFromLatLon(String.valueOf(localisation.getLatitude()), String.valueOf(localisation.getLongitude()));
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+                userDetails.setAddress(localisationDetails);
+                userDetails.setImageID(user.getImage().getId());
+                userDetails.setCategory(user.getMood().getId());
+                userDetails.setGroup(groupDetailsList);
+
 
         return userDetails;
     }

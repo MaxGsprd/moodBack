@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -139,7 +140,7 @@ public class ImageController {
             imageService.saveMultipleFile(establishementName, files);
             for (MultipartFile file : files) {
                 result =  ResponseEntity.status(HttpStatus.CREATED).body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
-                //eturn result;
+                //return result;
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
@@ -236,6 +237,7 @@ public class ImageController {
      */
 
     @DeleteMapping("/establishment/delete/{name}")
+    @Secured({"ROLE_EDITOR","ROLE_ADMIN"})
     public ResponseEntity<String> deleteEstablishmentFile(@RequestParam int[] id, @PathVariable String name)
             throws Exception {
         LOGGER.log(Level.INFO, "**START** - Delete establishment images");

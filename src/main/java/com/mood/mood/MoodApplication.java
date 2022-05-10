@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class MoodApplication {
 
-	private static final String[] ALLOWED_ORIGINS = {"http://localhost:4200", "*"};
+	private static final String[] ALLOWED_ORIGINS = {"http://localhost:4200", "http://localhost", "http://localhost:8080", "*"};
 
 	@Bean
 	public RestTemplate getRestRemplate(){
@@ -34,11 +34,12 @@ public class MoodApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:4200")
-						.allowedMethods("PUT", "DELETE", "GET", "POST","OPTIONS","PATCH")
-						.allowCredentials(true)
-						.allowedHeaders("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, x-access-token, x-refresh-token, X-HTTP-Method-Override, Authorization")
-						.exposedHeaders("Access-Control-Allow-Credentials","Access-Control-Allow-Origin")
+						.allowedOrigins(ALLOWED_ORIGINS)
+						.allowedMethods("*")
+						.allowedHeaders("*")
+						.allowCredentials(false)
+						.exposedHeaders("Authorization","Access-Control-Allow-Origin")
+						.maxAge(-1)
 				;
 			}
 		};

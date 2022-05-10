@@ -306,6 +306,7 @@ public class EstablishmentService implements IEstablishmentService {
                 } catch (Exception e) {
                     throw new RuntimeException();
                 }
+
                 loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
 
                 localisationRepository.save(loc);

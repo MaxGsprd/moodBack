@@ -60,28 +60,46 @@ public class AuthenticationService implements IAuthenticationService {
             throw new IllegalArgumentException("Confirm password doesn't match");
         }
 
-       Localisation loc = null;
+        User createdUser;
+       Localisation loc;
         if(user.getLocalisationForm() != null) {
 
             LocalisationCoordinates coordinates = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
 
+            long coutId = localisationRepository.count();
+
             loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
 
-            localisationRepository.save(loc);
-        }
+            try {
+                localisationRepository.save(loc);
+            } catch (Exception ex){
+                throw new Exception(ex.getMessage(), ex.getCause());
+            }
+            createdUser = new User(
+                    user.getName(),
+                    user.getFirstname(),
+                    user.getBirthdate(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    user.getPhone(),
+                    loc,
+                    roleRepository.findByTitle("ROLE_USER"),
+                    categoryRepository.getById(user.getMood())
+            );
+        } else {
 
-        assert loc != null;
-        User createdUser = new User(
-                user.getName(),
-                user.getFirstname(),
-                user.getBirthdate(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getPhone(),
-                loc,
-                roleRepository.findByTitle("ROLE_USER"),
-                categoryRepository.getById(user.getMood())
-        );
+            createdUser = new User(
+                    user.getName(),
+                    user.getFirstname(),
+                    user.getBirthdate(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    user.getPhone(),
+                    new Localisation(),
+                    roleRepository.findByTitle("ROLE_USER"),
+                    categoryRepository.getById(user.getMood())
+            );
+        }
 
         try {
             userRepository.save(createdUser);

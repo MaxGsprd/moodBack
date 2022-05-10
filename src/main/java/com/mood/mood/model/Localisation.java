@@ -1,13 +1,13 @@
 package com.mood.mood.model;
 
-import com.mood.mood.dto.in.LocalisationForm;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 @Data
 @Entity
@@ -16,7 +16,8 @@ import java.util.Arrays;
 public class Localisation implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private int id;
 
     @NonNull
@@ -28,10 +29,8 @@ public class Localisation implements Serializable {
     private Double latitude; //second parameters or [1]
 
 
-
     public Localisation(@NonNull Double longitude, @NonNull Double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
-
 }
