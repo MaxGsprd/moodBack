@@ -20,5 +20,5 @@ public class CommentDetails {
     @NonNull
     private String createdDate;
     @NonNull
-    private User userId;
+    private User user;
 }
