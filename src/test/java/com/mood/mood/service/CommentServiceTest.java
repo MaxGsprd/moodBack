@@ -61,7 +61,6 @@ class CommentServiceTest {
         this.comment.setGroupType(1);
         this.comment.setCreatedDate(LocalDateTime.of(2022,04,02,12,30));
 
-        this.commentDetails = new CommentDetails(this.comment.getTitle(), this.comment.getContent(), "",this.comment.getCreatedDate().toString());
 
         this.user = new User();
         this.user.setId(1);
@@ -74,6 +73,9 @@ class CommentServiceTest {
         this.user.setMood(new Category());
         this.user.addComment(this.comment);
         this.comment.setUser(this.user);
+
+        this.commentDetails = new CommentDetails(this.comment.getTitle(), this.comment.getContent(), "",this.comment.getCreatedDate().toString(), this.user);
+
 
         this.establishment = new Establishment();
         this.establishment.setId(1);
@@ -231,10 +233,11 @@ class CommentServiceTest {
         latestComment.setTitle("title latest");
         latestComment.setStatus(true);
         latestComment.setGroupType(1);
+        latestComment.setUser(new User());
         latestComment.setCreatedDate(LocalDateTime.of(2022,04,02,15,30));
 
 
-        CommentDetails latestCommentDetails = new CommentDetails(latestComment.getTitle(), latestComment.getContent(), "",latestComment.getCreatedDate().toString());
+        CommentDetails latestCommentDetails = new CommentDetails(latestComment.getTitle(), latestComment.getContent(), "",latestComment.getCreatedDate().toString(), latestComment.getUser());
 
         this.comments.add(latestComment);
 
@@ -265,10 +268,11 @@ class CommentServiceTest {
         oldestComment.setTitle("title latest");
         oldestComment.setStatus(true);
         oldestComment.setGroupType(1);
+        oldestComment.setUser(new User());
         oldestComment.setCreatedDate(LocalDateTime.of(2022,04,02,10,30));
 
 
-        CommentDetails oldestCommentDetails = new CommentDetails(oldestComment.getTitle(), oldestComment.getContent(), "",oldestComment.getCreatedDate().toString());
+        CommentDetails oldestCommentDetails = new CommentDetails(oldestComment.getTitle(), oldestComment.getContent(), "",oldestComment.getCreatedDate().toString(), oldestComment.getUser());
 
         this.comments.add(oldestComment);
 
