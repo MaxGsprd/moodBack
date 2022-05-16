@@ -2,9 +2,12 @@ package com.mood.mood.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
@@ -12,7 +15,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvitationEvenement extends Invitation {
+public class InvitationEvenement extends Invitation implements Serializable {
 
     @Column
     private LocalDate invitationDate;

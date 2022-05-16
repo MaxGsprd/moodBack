@@ -10,7 +10,7 @@ import java.util.*;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Integer> {
-    Group findByTitle(String Title);
+    Group findByTitle(String title);
     Group findByUpdatedDate(LocalDateTime updateDate);
     List<Group> findByUsers(User user);
 }

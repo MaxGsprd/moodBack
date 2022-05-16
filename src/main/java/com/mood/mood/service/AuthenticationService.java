@@ -15,12 +15,16 @@ import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService implements IAuthenticationService {
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -33,6 +37,8 @@ public class AuthenticationService implements IAuthenticationService {
     private LocalisationRepository localisationRepository;
     @Autowired
     private LocalisationUtil localisationUtil;
+
+
 
     @Override
     public String generateToken(AuthenticateUser authenticateUser) throws Exception {
@@ -61,44 +67,48 @@ public class AuthenticationService implements IAuthenticationService {
         }
 
         User createdUser;
-       Localisation loc;
+       Localisation loc = new Localisation();
         if(user.getLocalisationForm() != null) {
 
             LocalisationCoordinates coordinates = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
 
             long coutId = localisationRepository.count();
 
-            loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
+            //loc = new Localisation(Integer.parseInt(String.valueOf(coutId+1)),coordinates.getLongitude(), coordinates.getLatitude());
+
+            int newID = Integer.parseInt(String.valueOf(coutId + 1));
+            loc.setId(newID);
+            loc.setLongitude(coordinates.getLongitude());
+            loc.setLatitude(coordinates.getLatitude());
 
             try {
                 localisationRepository.save(loc);
             } catch (Exception ex){
                 throw new Exception(ex.getMessage(), ex.getCause());
             }
-            createdUser = new User(
-                    user.getName(),
-                    user.getFirstname(),
-                    user.getBirthdate(),
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.getPhone(),
-                    loc,
-                    roleRepository.findByTitle("ROLE_USER"),
-                    categoryRepository.getById(user.getMood())
-            );
+
+            createdUser = new User();
+            createdUser.setName(user.getName());
+            createdUser.setFirstname(user.getFirstname());
+            createdUser.setBirthdate(user.getBirthdate());
+            createdUser.setEmail(user.getEmail());
+            createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            createdUser.setPhone(user.getPhone());
+            createdUser.setLocalisation(loc);
+            createdUser.setRole(roleRepository.findByTitle("ROLE_USER"));
+            createdUser.setMood(categoryRepository.getById(user.getMood()));
         } else {
 
-            createdUser = new User(
-                    user.getName(),
-                    user.getFirstname(),
-                    user.getBirthdate(),
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.getPhone(),
-                    new Localisation(),
-                    roleRepository.findByTitle("ROLE_USER"),
-                    categoryRepository.getById(user.getMood())
-            );
+            createdUser = new User();
+            createdUser.setName(user.getName());
+            createdUser.setFirstname(user.getFirstname());
+            createdUser.setBirthdate(user.getBirthdate());
+            createdUser.setEmail(user.getEmail());
+            createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            createdUser.setPhone(user.getPhone());
+            createdUser.setLocalisation(loc);
+            createdUser.setRole(roleRepository.findByTitle("ROLE_USER"));
+            createdUser.setMood(categoryRepository.getById(user.getMood()));
         }
 
         try {

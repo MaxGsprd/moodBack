@@ -49,7 +49,7 @@ public class RegisterUser {
     private MultipartFile image;
 
     public boolean checkPassword() {
-        return this.password == this.confirmPassword;
+        return this.password.equals(this.confirmPassword);
     }
 
 }

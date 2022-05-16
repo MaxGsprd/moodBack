@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface EstablishementImageRepository extends JpaRepository<EstablishmentImage, Integer> {
     Optional<EstablishmentImage> findById(Integer id);
-    EstablishmentImage findByDataName(String image_name);
+    EstablishmentImage findByDataName(String imageName);
     List<Image> findByEstablishment(Establishment establishment);
 
 }

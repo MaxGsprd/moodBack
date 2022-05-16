@@ -1,6 +1,11 @@
 package com.mood.mood.config;
 
-import java.io.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,10 +19,13 @@ public class InsertDataBDD {
     public static String Url = "jdbc:postgresql://localhost:5432/mood?createDatabaseIfNotExit=true";
 
     //@Value("${datasource.username}")
-    public static String Username = "mood_PROD_developper";
+    public static String Username = "root";
 
     //@Value("${datasource.password}")
-    public static String Password = "moodPROD";
+    public static String Password = "root";
+
+
+    private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); ;
 
     public static void main(String[] args) {
 
@@ -345,7 +353,7 @@ public class InsertDataBDD {
             pst.setString(3, "titi");
             pst.setDate(4, Date.valueOf(date));
             pst.setString(5, "toto@gmail.com");
-            pst.setString(6, "1234");
+            pst.setString(6, passwordEncoder.encode("1234"));
             pst.setString(7,"0625252525");
             pst.setInt(8,1);
             pst.setInt(9,1);
@@ -369,7 +377,7 @@ public class InsertDataBDD {
             pst.setString(3, "Monkey D.");
             pst.setDate(4, Date.valueOf(date));
             pst.setString(5, "luffy@taro.jp");
-            pst.setString(6, "mugiwara");
+            pst.setString(6, passwordEncoder.encode("mugiwara"));
             pst.setString(7,"0629834546");
             pst.setInt(8,12);
             pst.setInt(9,1);
@@ -392,7 +400,7 @@ public class InsertDataBDD {
             pst.setString(3, "Vegeta");
             pst.setDate(4, Date.valueOf(date));
             pst.setString(5, "dragonb@ll.lz");
-            pst.setString(6, "chichi");
+            pst.setString(6, passwordEncoder.encode("chichi"));
             pst.setString(7,"0629834946");
             pst.setInt(8,7);
             pst.setInt(9,2);
@@ -415,7 +423,7 @@ public class InsertDataBDD {
             pst.setString(3, "kurosaki");
             pst.setDate(4, Date.valueOf(date));
             pst.setString(5, "bleach@shinigami.jm");
-            pst.setString(6, "Rukia");
+            pst.setString(6, passwordEncoder.encode("Rukia"));
             pst.setString(7,"0629467985");
             pst.setInt(8,2);
             pst.setInt(9,3);

@@ -292,7 +292,7 @@ public class EstablishmentService implements IEstablishmentService {
      */
     private Establishment establishmentDtoToEntity(EstablishmentForm establishmentForm) {
         Establishment establishment = null;
-        Localisation loc = null;
+        Localisation loc = new Localisation();
         LocalisationCoordinates coordinates = null;
 
         try {
@@ -307,8 +307,16 @@ public class EstablishmentService implements IEstablishmentService {
                 } catch (Exception e) {
                     throw new RuntimeException();
                 }
+                long coutId = localisationRepository.count();
 
-                loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
+                //loc = new Localisation(Integer.parseInt(String.valueOf(coutId+1)),coordinates.getLongitude(), coordinates.getLatitude());
+
+                int newID = Integer.parseInt(String.valueOf(coutId + 1));
+                loc.setId(newID);
+                loc.setLongitude(coordinates.getLongitude());
+                loc.setLatitude(coordinates.getLatitude());
+
+                //loc = new Localisation(coordinates.getLongitude(), coordinates.getLatitude());
 
                 localisationRepository.save(loc);
                 establishment.setLocalisation(loc);

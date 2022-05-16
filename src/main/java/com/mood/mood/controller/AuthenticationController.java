@@ -25,6 +25,8 @@ public class AuthenticationController {
     @Autowired
     private LocalisationUtil localisationUtil;
 
+
+
     //@PostMapping(value = "/login", consumes = "text/plain;charset=UTF-8")
     @PostMapping("/login")
     public ResponseEntity<?>  login(@Valid @RequestBody AuthenticateUser user) throws Exception {

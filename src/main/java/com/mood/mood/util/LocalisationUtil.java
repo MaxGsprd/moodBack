@@ -6,15 +6,15 @@ import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
 import com.mood.mood.model.GeoCoordinates;
-import com.mood.mood.model.Localisation;
 import com.mood.mood.repository.LocalisationRepository;
 import com.mood.mood.service.LocalisationService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 public class LocalisationUtil {
@@ -68,7 +68,7 @@ public class LocalisationUtil {
      * @return Coordinates{Lat, Lon} fom DTO.out LocalisationCoordinates
      * @throws Exception
      */
-    public LocalisationCoordinates getSearchCoordinatesFromRequest(Object response) throws Exception {
+    public LocalisationCoordinates getSearchCoordinatesFromRequest(Object response)  {
         /**
          * Remove first array of response
          */
