@@ -21,6 +21,7 @@ public class InsertDataBDD {
 
     public static void main(String[] args) {
 
+
         /**
          * **************************ROLES*****************************************
          */
@@ -291,7 +292,7 @@ public class InsertDataBDD {
 
 
         /**
-         * **************************IMAGES*****************************************
+         * **************************IMAGES USER*****************************************
          */
 
         String queryDefaultImage =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
@@ -428,6 +429,7 @@ public class InsertDataBDD {
         /**
          * ****************************INSERT USER IMAGE***********************************
          */
+
         try (Connection con = DriverManager.getConnection(Url, Username, Password);
              Statement st = con.createStatement()) {
 
@@ -455,7 +457,7 @@ public class InsertDataBDD {
 
             con.setAutoCommit(false);
 
-            st.addBatch("INSERT INTO user_image (id,  user_id)  values (1,1)");
+            st.addBatch("INSERT INTO user_image (id,  user_id)  values (1,2)");
 
             //int counts[] = st.executeBatch();
 
@@ -474,7 +476,7 @@ public class InsertDataBDD {
 
             con.setAutoCommit(false);
 
-            st.addBatch("INSERT INTO user_image (id,  user_id)  values (1,1)");
+            st.addBatch("INSERT INTO user_image (id,  user_id)  values (1,3)");
 
             //int counts[] = st.executeBatch();
 
@@ -492,7 +494,7 @@ public class InsertDataBDD {
 
             con.setAutoCommit(false);
 
-            st.addBatch("INSERT INTO user_image (id,  user_id)  values (1,1)");
+            st.addBatch("INSERT INTO user_image (id,  user_id)  values (1,4)");
 
             //int counts[] = st.executeBatch();
 
@@ -561,7 +563,7 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentBluebird)) {
 
             pst.setInt(1, 4);
-            pst.setString(2, "Dans une ambiance feutr├⌐e, les barmen vous servent au bar des cocktails singuliers ainsi que des classiques revisit├⌐s, que vous d├⌐gusterez ├á la lueur des bougies. Le gin est mis ├á lΓÇÖhonneur au Bluebird mais vous trouverez aussi une liste de cocktails revisit├⌐s pour plaire ├á tous les go├╗ts et ├á tous les m├⌐langes de saveurs. Ainsi vous rencontrerez aussi sur la carte des cocktails ├á base de rhum, tequila, vodka, alcools d├⌐licatement associ├⌐s et incorpor├⌐s dans chacun des cocktails issus dΓÇÖune cr├⌐ation unique.");
+            pst.setString(2, "Dans une ambiance feutrée, les barmen vous servent au bar des cocktails singuliers ainsi que des classiques revisités, que vous dégusterez à la lueur des bougies. Le gin est mis à l’honneur au Bluebird mais vous trouverez aussi une liste de cocktails revisités pour plaire à tous les goûts et à tous les mélanges de saveurs. Ainsi vous rencontrerez aussi sur la carte des cocktails à base de rhum, tequila, vodka, alcools délicatement associés et incorporés dans chacun des cocktails issus d’une création unique.");
             pst.setString(3, "Bluebird");
             pst.setBoolean(4, true);
             pst.setInt(5, 1);
@@ -576,7 +578,7 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentLeGloster)) {
 
             pst.setInt(1, 5);
-            pst.setString(2, "Ouvert r├⌐cemment, Le Gloster est le tout premier bar ├á cocktails 100% digitalis├⌐. Les propri├⌐taires proposent ainsi un concept original o├╣ vous payez vos consommations sans monnaie, gr├óce ├á un syst├¿me de cashless, un paiement 100% d├⌐mat├⌐rialis├⌐. Comment ├ºa marche ? Avec votre smartphone, gr├óce ├á lΓÇÖapplication Barnaby, laquelle permet, si vous ne la connaissez pas encore, de d├⌐nicher les meilleures adresses o├╣ boire un verre ├á Paris, Lyon et Bruxelles.");
+            pst.setString(2, "Ouvert récemment, Le Gloster est le tout premier bar à cocktails 100% digitalisé. Les propriétaires proposent ainsi un concept original où vous payez vos consommations sans monnaie, grâce à un système de cashless, un paiement 100% dématérialisé. Comment ça marche ? Avec votre smartphone, grâce à l’application Barnaby, laquelle permet, si vous ne la connaissez pas encore, de dénicher les meilleures adresses où boire un verre à Paris, Lyon et Bruxelles.");
             pst.setString(3, "Le Gloster");
             pst.setBoolean(4, true);
             pst.setInt(5, 2);
@@ -591,7 +593,9 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentPinkMama)) {
 
             pst.setInt(1, 6);
-            pst.setString(2, "LΓÇÖ├⌐quipe du Big Mamma a encore frapp├⌐ ! Cette fois, cΓÇÖest ├á Pigalle quΓÇÖun nouvel ├⌐tablissement sΓÇÖinstalle, dans un superbe immeuble de briques roses.\\nLe groupe Big Mamma poss├¿de plusieurs ├⌐tablissements parisiens dont la notori├⌐t├⌐ nΓÇÖest plus ├á faire : East Mamma, Ober Mamma, Mamma Primi, Big Love Caff├¿, PopolareΓÇª tant de noms qui sont bien connus du public. La nouvelle enseigne baptis├⌐e Pink Mamma est situ├⌐e dans le quartier de Pigalle. Cette fois-ci lΓÇÖ├⌐quipe a vis├⌐ haut, puisque le restaurant se d├⌐ploie sur quatre ├⌐tages !");
+            pst.setString(2, "L’équipe du Big Mamma a encore frappé ! Cette fois, c’est à Pigalle qu’un nouvel établissement s’installe, dans un superbe immeuble de briques roses.\n" +
+                    "\n" +
+                    "Le groupe Big Mamma possède plusieurs établissements parisiens dont la notoriété n’est plus à faire : East Mamma, Ober Mamma, Mamma Primi, Big Love Caffè, Popolare… tant de noms qui sont bien connus du public. La nouvelle enseigne baptisée Pink Mamma est située dans le quartier de Pigalle. Cette fois-ci l’équipe a visé haut, puisque le restaurant se déploie sur quatre étages !");
             pst.setString(3, "Pink Mama");
             pst.setBoolean(4, true);
             pst.setInt(5, 1);
@@ -601,13 +605,13 @@ public class InsertDataBDD {
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
-        String queryEstablishmentDragonPheonix =  "INSERT INTO establishment (id, description, name, status, category_id, localisation_id)  values (?, ?, ?, ?, ?, ?)";
+        String queryEstablishmentDragonPhenix =  "INSERT INTO establishment (id, description, name, status, category_id, localisation_id)  values (?, ?, ?, ?, ?, ?)";
         try (Connection con = DriverManager.getConnection(Url, Username, Password);
-             PreparedStatement pst = con.prepareStatement(queryEstablishmentCreteilSoleil)) {
+             PreparedStatement pst = con.prepareStatement(queryEstablishmentDragonPhenix)) {
 
             pst.setInt(1, 7);
-            pst.setString(2, "Form├⌐ au Long Bar du Sanderson ├á Londres, puis ├á lΓÇÖH├┤tel Jules & Jim ├á Paris, le bartender portugais Ricardo Vicente a ouvert son propre ├⌐tablissement en mars dernier quΓÇÖil a baptis├⌐ le Dragon et Ph├⌐nix. Situ├⌐ dans le quartier des Arts-et-M├⌐tiers, ce bar ├á cocktails marie ├á la perfection mets sucr├⌐s/sal├⌐s et savants breuvages, le tout dans une ambiance relaxante.");
-            pst.setString(3, "Dragon & Phéonix");
+            pst.setString(2, "Formé au Long Bar du Sanderson à Londres, puis à l’Hôtel Jules & Jim à Paris, le bartender portugais Ricardo Vicente a ouvert son propre établissement en mars dernier qu’il a baptisé le Dragon et Phénix. Situé dans le quartier des Arts-et-Métiers, ce bar à cocktails marie à la perfection mets sucrés/salés et savants breuvages, le tout dans une ambiance relaxante.");
+            pst.setString(3, "Dragon & Phénix");
             pst.setBoolean(4, true);
             pst.setInt(5, 3);
             pst.setInt(6, 8);
@@ -621,7 +625,7 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentCrocodileVert)) {
 
             pst.setInt(1, 8);
-            pst.setString(2, "Au Crocodile Vert, la carte refl├¿te ├⌐galement les saveurs dΓÇÖun autre continent. Les tapas restent certainement lΓÇÖune des plus embl├⌐matiques pr├⌐parations concoct├⌐es par lΓÇÖ├⌐tablissement, mais dΓÇÖautres sp├⌐cialit├⌐s cubaines sont ├⌐galement ├á d├⌐guster sans mod├⌐ration. Tortillas, accras de morue et calamars grill├⌐s sont entre autres des assiettes fortement recommand├⌐es apr├¿s avoir sirot├⌐ en ap├⌐ritif un des nombreux cocktails maison, avec en chef de file lΓÇÖexcellent mojito ainsi quΓÇÖune large vari├⌐t├⌐ de rhums arrang├⌐s. Ouvert tous les jours de la semaine, le Crocodile Vert accueille m├¬me les novices chaque dimanche, pour sΓÇÖimpr├⌐gner des pas de salsa.");
+            pst.setString(2, "Au Crocodile Vert, la carte reflète également les saveurs d’un autre continent. Les tapas restent certainement l’une des plus emblématiques préparations concoctées par l’établissement, mais d’autres spécialités cubaines sont également à déguster sans modération. Tortillas, accras de morue et calamars grillés sont entre autres des assiettes fortement recommandées après avoir siroté en apéritif un des nombreux cocktails maison, avec en chef de file l’excellent mojito ainsi qu’une large variété de rhums arrangés. Ouvert tous les jours de la semaine, le Crocodile Vert accueille même les novices chaque dimanche, pour s’imprégner des pas de salsa.");
             pst.setString(3, "Crocodile Vert");
             pst.setBoolean(4, true);
             pst.setInt(5, 1);
@@ -651,7 +655,7 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentCafeEsplanade)) {
 
             pst.setInt(1, 10);
-            pst.setString(2, "Le Caf├⌐ de lΓÇÖEsplanade figure parmi les ├⌐tablissements incontournables ├á ne surtout pas rater lors dΓÇÖun s├⌐jour ├á Paris. Install├⌐ au 52 Rue Fabert 75007 Paris, il ouvre ses portes tous les jours de la semaine, sans exception d├¿s 8 h du matin, pour ne fermer quΓÇÖ├á 2 h du matin. Le Bar du Caf├⌐ de lΓÇÖEsplanade est ├⌐galement un ├⌐tablissement souvent fr├⌐quent├⌐ par de hautes personnalit├⌐s en qu├¬te dΓÇÖun endroit simple, calme et sympathique pour se d├⌐tendre entre amis.");
+            pst.setString(2, "Le Café de l’Esplanade figure parmi les établissements incontournables à ne surtout pas rater lors d’un séjour à Paris. Installé au 52 Rue Fabert 75007 Paris, il ouvre ses portes tous les jours de la semaine, sans exception dès 8 h du matin, pour ne fermer qu’à 2 h du matin. Le Bar du Café de l’Esplanade est également un établissement souvent fréquenté par de hautes personnalités en quête d’un endroit simple, calme et sympathique pour se détendre entre amis.");
             pst.setString(3, "Le Café de l'Esplanade");
             pst.setBoolean(4, true);
             pst.setInt(5, 3);
@@ -667,7 +671,7 @@ public class InsertDataBDD {
              PreparedStatement pst = con.prepareStatement(queryEstablishmentBarTribeca)) {
 
             pst.setInt(1, 11);
-            pst.setString(2, "Id├⌐alement plac├⌐ dans un quartier parisien du septi├¿me arrondissement, le Bar Tribeca accueille une client├¿le tr├¿s ├⌐clectique de son ouverture ├á 11 heures jusquΓÇÖ├á la fin des services ├á 23 heures. Le personnel ne ch├┤me pas non plus le dimanche, lΓÇÖ├⌐tablissement ├⌐tant ouvert de 11 heures ├á 17 heures. En plus de se trouver dans une rue pi├⌐tonne, ce bar ├á cocktails est tr├¿s accessible. LΓÇÖenseigne se trouve ├á quelques pas de deux stations de m├⌐tro ├á savoir La Tour Maubourg et ├ëcole Militaire.");
+            pst.setString(2, "Idéalement placé dans un quartier parisien du septième arrondissement, le Bar Tribeca accueille une clientèle très éclectique de son ouverture à 11 heures jusqu’à la fin des services à 23 heures. Le personnel ne chôme pas non plus le dimanche, l’établissement étant ouvert de 11 heures à 17 heures. En plus de se trouver dans une rue piétonne, ce bar à cocktails est très accessible. L’enseigne se trouve à quelques pas de deux stations de métro à savoir La Tour Maubourg et École Militaire.");
             pst.setString(3, "Bar Tribeca");
             pst.setBoolean(4, true);
             pst.setInt(5, 3);
@@ -679,8 +683,269 @@ public class InsertDataBDD {
         }
 
         /**
-         * **************************Comment*****************************************
+         * **************************IMAGES ESTABLISHMENT*****************************************
          */
+
+        String queryImageBluebird =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImageBluebird)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE establishment");
+
+            File img = new File("src/main/resources/image/establishment_image/bluebird.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 2);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "bluebird.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImageBluebird =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImageBluebird)) {
+
+            LOGGER.log(Level.INFO, "Insert IMAGE establishment image bluebird");
+
+            pst.setInt(1, 2);
+            pst.setInt(2, 4);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryImageGloster =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImageGloster)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE Default image");
+
+            File img = new File("src/main/resources/image/establishment_image/le-gloster.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 3);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "le-gloster.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImageGloster =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImageGloster)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE establishment image gloster");
+            pst.setInt(1, 3);
+            pst.setInt(2, 5);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        String queryImagepinkMama =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImagepinkMama)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE Default image");
+
+            File img = new File("src/main/resources/image/establishment_image/pink-mamma.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 4);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "pink-mamma.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImagepinkMama =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImagepinkMama)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE establishment image pink mamma");
+            pst.setInt(1, 4);
+            pst.setInt(2, 6);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryImageDragonPhenix =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImageDragonPhenix)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE Default image");
+
+            File img = new File("src/main/resources/image/establishment_image/dragon-phenix.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 5);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "dragon-phenix.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImageDragonPhenix =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImageDragonPhenix)) {
+            pst.setInt(1, 5);
+            pst.setInt(2, 7);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryImageCrocodile =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImageCrocodile)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE Default image");
+
+            File img = new File("src/main/resources/image/establishment_image/bar-crocodile-vert.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 6);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "crocodile-vert.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImageCrocodile =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImageCrocodile)) {
+            pst.setInt(1, 6);
+            pst.setInt(2, 8);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryImageEsplanade =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImageEsplanade)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE Default image");
+
+            File img = new File("src/main/resources/image/establishment_image/bar-cafe-de-l-esplanade.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 7);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "cafe-de-l-esplanade.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImageEsplanade =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImageEsplanade)) {
+            pst.setInt(1, 7);
+            pst.setInt(2, 10);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryImageTribeca =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryImageTribeca)) {
+            LOGGER.log(Level.INFO, "Insert IMAGE Default image");
+
+            File img = new File("src/main/resources/image/establishment_image/bar-tribeca.jpg");
+
+            try (FileInputStream fin = new FileInputStream(img)) {
+
+                pst.setInt(1, 8);
+                pst.setBinaryStream(2, fin,(int) img.length());
+                pst.setString(3, "bar-tribeca.jpg");
+                pst.setString(4, "image/jpg");
+                pst.setInt(5, 10);
+
+                pst.executeUpdate();
+            } catch (IOException ex) {
+                LOGGER.log(
+                        Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        String queryUpdateImageTribeca =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             PreparedStatement pst = con.prepareStatement(queryUpdateImageTribeca)) {
+            pst.setInt(1, 8);
+            pst.setInt(2, 11);
+
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+
+            /**
+             * **************************Comment*****************************************
+             */
         String queryCommentPinkMama =  "INSERT INTO comment (id, content, created_date, group_type, status, title, establishment_id, user_id)  values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DriverManager.getConnection(Url, Username, Password);
              PreparedStatement pst = con.prepareStatement(queryCommentPinkMama)) {
@@ -1061,15 +1326,52 @@ public class InsertDataBDD {
              Statement st = con.createStatement()) {
 
             LOGGER.log(Level.INFO, "CREATE TRIGGER");
+            LOGGER.log(Level.INFO, "TRIGGER DEFAULT IMAGE");
 
             con.setAutoCommit(false);
 
-            st.addBatch("DROP PROCEDURE IF EXISTS prc_default_image;");
+            //st.addBatch("DROP PROCEDURE IF EXISTS prc_default_image;");
+            /*st.executeUpdate(
+                    "CREATE OR REPLACE PROCEDURE sp_delete_image ( " +
+                            "   imageId IN NUMBER ) " +
+                            "AS  " +
+                            "BEGIN " +
+                            "    DELETE images FOR " +
+                            "    UPDATE users SET image_id = 1 WHERE id = imageId; " +
+                            "END;"
+            );*/
+
+            con.commit();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        try (Connection con = DriverManager.getConnection(Url, Username, Password);
+             Statement st = con.createStatement()) {
+
+            LOGGER.log(Level.INFO, "CREATE TRIGGER");
+            LOGGER.log(Level.INFO, "TRIGGER USER DETAIL");
+
+            con.setAutoCommit(false);
+
+            //st.addBatch("DROP PROCEDURE IF EXISTS prc_default_image;");
+            /*st.executeUpdate(
+                    "CREATE OR REPLACE PROCEDURE pr_without_pwd_collumn ( " +
+                            ")" +
+                            "BEGIN " +
+                            "    SELECT id integer,  name character, firstname character, birthdate date, email character,  phone integer, localisation_id integer, mood_id integer, role_id integer; " +
+                            "    FROM users u " +
+                            "    WHERE u.users_id = userId; " +
+                            "    RETURN id,  name, firstname, birthdate, email,  phone, localisation_id, mood_id, role_id; " +
+                            "END"
+            );*/
 
             con.commit();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
+
+
 
 }
