@@ -1,5 +1,6 @@
 package com.mood.mood.dto.out;
 
+import com.mood.mood.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,6 @@ public class CommentDetails {
     private String groupType;
     @NonNull
     private String createdDate;
+    @NonNull
+    private User user;
 }

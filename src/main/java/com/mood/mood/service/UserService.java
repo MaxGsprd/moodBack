@@ -150,7 +150,7 @@ public class UserService implements IUserService {
         updatedUser.setFirstname(user.getFirstname());
         updatedUser.setName(user.getName());
         updatedUser.setEmail(user.getEmail());
-        updatedUser.setBirthdate(user.getBirthdate());
+        //updatedUser.setBirthdate(user.getBirthdate());
 
         return userRepository.save(updatedUser);
     }
