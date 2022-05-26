@@ -19,7 +19,7 @@ public class InsertDataBDD {
     public static String Url = "jdbc:postgresql://localhost:5432/mood?createDatabaseIfNotExit=true";
 
     //@Value("${datasource.username}")
-    public static String Username = "root";
+    public static String Username = "mood";
 
     //@Value("${datasource.password}")
     public static String Password = "root";
