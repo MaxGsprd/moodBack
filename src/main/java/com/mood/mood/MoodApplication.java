@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class MoodApplication {
 
-	private static final String[] ALLOWED_ORIGINS = {"https://mood-aston-app.herokuapp.com", "http://localhost:4200", "http://localhost", "http://localhost:8080", "*"};
+	private static final String[] ALLOWED_ORIGINS = {"https://mood-aston-app.herokuapp.com", "http://localhost:4200", "http://localhost", "http://localhost:8080"};
 
 	@Bean
 	public RestTemplate getRestRemplate(){
