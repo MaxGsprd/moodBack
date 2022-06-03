@@ -1,20 +1,27 @@
 package com.mood.mood.service;
 
-import com.mood.mood.repository.*;
+import com.mood.mood.exceptions.StorageFileNotFoundException;
 import com.mood.mood.model.*;
+import com.mood.mood.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class ImageService implements IImageService {
+
 
     @Autowired
     private ImageRepository imageRepository;
@@ -114,6 +121,26 @@ public class ImageService implements IImageService {
 
             return imageRepository.findById(user.getImage().getId());
 
+    }
+
+
+    @Override
+    public Resource loadAsResource(String filename) {
+        try {
+            Image img = imageRepository.findByDataName(filename);
+            Path file = (Path) img;
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            }
+            else {
+                throw new StorageFileNotFoundException("Could not read file: " + filename);
+
+            }
+        }
+        catch (MalformedURLException e) {
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
     }
 
     @Override

@@ -10,6 +10,6 @@ import java.util.*;
 @Repository
 public interface UserImageRepository extends JpaRepository<UserImage, Integer> {
     Optional<UserImage> findById(Integer id);
-    UserImage findByDataName(String image_name);
+    UserImage findByDataName(String imageName);
     UserImage findByUser(User user);
 }

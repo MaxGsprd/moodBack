@@ -1,6 +1,5 @@
 package com.mood.mood.dto.in;
 
-import com.mood.mood.model.Comment;
 import com.mood.mood.model.Note;
 import lombok.AllArgsConstructor;
 import lombok.Data;

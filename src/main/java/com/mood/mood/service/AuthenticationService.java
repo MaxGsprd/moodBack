@@ -48,7 +48,7 @@ public class AuthenticationService implements IAuthenticationService {
                     new UsernamePasswordAuthenticationToken(authenticateUser.getEmail(), authenticateUser.getPassword())
             );
         } catch (Exception ex) {
-            throw new Exception("Invalid email/password");
+            throw new Exception("Invalid email/password" + ex.getMessage(), ex.getCause());
         }
 
         // Une fois l'utilisateur authentifé, on génère et retourne le token
@@ -68,48 +68,33 @@ public class AuthenticationService implements IAuthenticationService {
 
         User createdUser;
        Localisation loc = new Localisation();
-        if(user.getLocalisationForm() != null) {
 
-            LocalisationCoordinates coordinates = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
+        LocalisationCoordinates coordinates = localisationUtil.getSearchCoordinates(user.getLocalisationForm());
 
-            long coutId = localisationRepository.count();
+        long coutId = localisationRepository.count();
 
-            //loc = new Localisation(Integer.parseInt(String.valueOf(coutId+1)),coordinates.getLongitude(), coordinates.getLatitude());
+        int newID = Integer.parseInt(String.valueOf(coutId + 1));
+        loc.setId(newID);
+        loc.setLongitude(coordinates.getLongitude());
+        loc.setLatitude(coordinates.getLatitude());
 
-            int newID = Integer.parseInt(String.valueOf(coutId + 1));
-            loc.setId(newID);
-            loc.setLongitude(coordinates.getLongitude());
-            loc.setLatitude(coordinates.getLatitude());
-
-            try {
-                localisationRepository.save(loc);
-            } catch (Exception ex){
-                throw new Exception(ex.getMessage(), ex.getCause());
-            }
-
-            createdUser = new User();
-            createdUser.setName(user.getName());
-            createdUser.setFirstname(user.getFirstname());
-            createdUser.setBirthdate(user.getBirthdate());
-            createdUser.setEmail(user.getEmail());
-            createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            createdUser.setPhone(user.getPhone());
-            createdUser.setLocalisation(loc);
-            createdUser.setRole(roleRepository.findByTitle("ROLE_USER"));
-            createdUser.setMood(categoryRepository.getById(user.getMood()));
-        } else {
-
-            createdUser = new User();
-            createdUser.setName(user.getName());
-            createdUser.setFirstname(user.getFirstname());
-            createdUser.setBirthdate(user.getBirthdate());
-            createdUser.setEmail(user.getEmail());
-            createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            createdUser.setPhone(user.getPhone());
-            createdUser.setLocalisation(loc);
-            createdUser.setRole(roleRepository.findByTitle("ROLE_USER"));
-            createdUser.setMood(categoryRepository.getById(user.getMood()));
+        try {
+            localisationRepository.save(loc);
+        } catch (Exception ex){
+            throw new Exception(ex.getMessage(), ex.getCause());
         }
+
+        createdUser = new User();
+        createdUser.setName(user.getName());
+        createdUser.setFirstname(user.getFirstname());
+        createdUser.setBirthdate(user.getBirthdate());
+        createdUser.setEmail(user.getEmail());
+        createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        createdUser.setPhone(user.getPhone());
+        createdUser.setLocalisation(loc);
+        createdUser.setRole(roleRepository.findByTitle("ROLE_USER"));
+        createdUser.setMood(categoryRepository.getById(user.getMood()));
+
 
         try {
             userRepository.save(createdUser);

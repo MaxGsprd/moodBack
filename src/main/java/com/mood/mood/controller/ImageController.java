@@ -4,6 +4,7 @@ import com.mood.mood.model.Image;
 import com.mood.mood.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,6 +44,7 @@ public class ImageController {
                 .toUriString();
         Image fileResponse = new Image();
         fileResponse.setId(imageEntity.getId());
+        fileResponse.setData64(imageEntity.getData64());
         fileResponse.setDataName(imageEntity.getDataName());
         fileResponse.setMimeType(imageEntity.getMimeType());
         fileResponse.setSizeImage(imageEntity.getSizeImage());
@@ -85,6 +87,30 @@ public class ImageController {
                     .header(HttpHeaders.CONTENT_DISPOSITION
                             , "attachment:filename=\"" + image.getDataName() + "\"")
                     .body(new ByteArrayResource(image.getData64()));
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(String.format("Could not download the file: %s!", image.getDataName()));
+        }
+
+    }
+
+    @GetMapping("/show/resource/{id}")
+    public ResponseEntity<?> displayImageResource(@PathVariable int id)
+            throws Exception {
+        LOGGER.log(Level.INFO, "start show image by id");
+        Image image = null;
+        try {
+            image = imageService.getImageById(id).get();
+
+            Resource file = imageService.loadAsResource(image.getDataName());
+            //Resource fi = new UrlResource(image.toUri());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(image.getMimeType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION
+                            , "attachment:filename=\"" + image.getDataName() + "\"")
+                    .body(file);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "**ERROR**  --  image! : " +ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
