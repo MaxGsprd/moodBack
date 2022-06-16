@@ -693,7 +693,6 @@ public class InsertDataBDD {
         /**
          * **************************IMAGES ESTABLISHMENT*****************************************
          */
-
         String queryImageBluebird =  "INSERT INTO images (id, data64, data_name, mime_type, size_image)  values (?, ?, ?, ?, ?)";
         try (Connection con = DriverManager.getConnection(Url, Username, Password);
              PreparedStatement pst = con.prepareStatement(queryImageBluebird)) {
@@ -702,7 +701,6 @@ public class InsertDataBDD {
             File img = new File("src/main/resources/image/establishment_image/bluebird.jpg");
 
             try (FileInputStream fin = new FileInputStream(img)) {
-
                 pst.setInt(1, 2);
                 pst.setBinaryStream(2, fin,(int) img.length());
                 pst.setString(3, "bluebird.jpg");
@@ -711,20 +709,15 @@ public class InsertDataBDD {
 
                 pst.executeUpdate();
             } catch (IOException ex) {
-                LOGGER.log(
-                        Level.SEVERE, ex.getMessage(), ex);
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             }
-
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
         String queryUpdateImageBluebird =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
         try (Connection con = DriverManager.getConnection(Url, Username, Password);
              PreparedStatement pst = con.prepareStatement(queryUpdateImageBluebird)) {
-
             LOGGER.log(Level.INFO, "Insert IMAGE establishment image bluebird");
-
             pst.setInt(1, 2);
             pst.setInt(2, 4);
 
@@ -862,11 +855,9 @@ public class InsertDataBDD {
                 LOGGER.log(
                         Level.SEVERE, ex.getMessage(), ex);
             }
-
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
         String queryUpdateImageCrocodile =  "INSERT INTO establishment_image (id,  establishment_id)  values (?,?)";
         try (Connection con = DriverManager.getConnection(Url, Username, Password);
              PreparedStatement pst = con.prepareStatement(queryUpdateImageCrocodile)) {

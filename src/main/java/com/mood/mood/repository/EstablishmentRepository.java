@@ -37,5 +37,11 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, In
     List<Establishment> findByStatus(Boolean status);
 
 
+    @Query(
+            value = "SELECT e.id as establishmentID, e.description as establishmentDescrip, e.name, e.status, c.id as categoryId, c.description as categoryDescrip, c.title, l.id as localisationID, l.latitude, l.longitude FROM Establishment e join  e.localisation l join e.category c WHERE e.status = ?1",
+            nativeQuery = true)
+
+    List<Establishment> findAllEstablishmentsByStatus(Boolean status);
+
 
 }

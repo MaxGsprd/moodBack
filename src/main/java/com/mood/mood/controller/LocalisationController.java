@@ -3,7 +3,6 @@ package com.mood.mood.controller;
 import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.dto.out.LocalisationDetails;
-import com.mood.mood.model.Image;
 import com.mood.mood.service.LocalisationService;
 import com.mood.mood.util.LocalisationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,7 +40,6 @@ public class LocalisationController {
             String full_address = localisationUtil.formatToSendRequest(address);
 
             Object result = restTemplate.getForObject(BASE_URI_STRING+"/search/?q="+full_address+"&limit=5", Object.class);
-            //assert result != null;
             return Arrays.asList(result) ;
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);

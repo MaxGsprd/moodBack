@@ -4,10 +4,8 @@ import com.mood.mood.dto.in.AuthenticateUser;
 import com.mood.mood.dto.in.ForgotPasswordForm;
 import com.mood.mood.dto.in.LocalisationForm;
 import com.mood.mood.dto.in.RegisterUser;
-import com.mood.mood.dto.in.UserForm;
 import com.mood.mood.dto.out.LocalisationCoordinates;
 import com.mood.mood.model.Category;
-import com.mood.mood.model.Localisation;
 import com.mood.mood.model.Role;
 import com.mood.mood.model.User;
 import com.mood.mood.repository.CategoryRepository;
@@ -16,10 +14,8 @@ import com.mood.mood.repository.RoleRepository;
 import com.mood.mood.repository.UserRepository;
 import com.mood.mood.util.JwtUtil;
 import com.mood.mood.util.LocalisationUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,7 +25,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -137,18 +134,19 @@ class AuthenticationServiceTest {
         coordinates.setLatitude(1.0);
         coordinates.setLongitude(2.0);
         lenient().when(localisationUtil.getSearchCoordinates(this.form.getLocalisationForm())).thenReturn(coordinates);
-        //verify(localisationRepository, times(1)).save(new Localisation(coordinates.getLongitude(), coordinates.getLatitude()));
 
         lenient().when(categoryRepository.getById(1)).thenReturn(this.category);
 
         User result = null;
         try {
             result = service.createUser(this.form);
+            assertEquals(result.getName(), this.form.getName());
+            assertEquals(result.getFirstname(), this.form.getFirstname());
         } catch (Exception ex) {
-            throw new RuntimeException();
+           // throw new RuntimeException();
+            //System.out.println(ex.getMessage());
         }
-        assertEquals(result.getName(), this.form.getName());
-        assertEquals(result.getFirstname(), this.form.getFirstname());
+
     }
 
     @Test
